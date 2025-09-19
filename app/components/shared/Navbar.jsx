@@ -43,7 +43,7 @@ export default function Navbar() {
 
             <Link href="/cart" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full">
                 2
               </span>
             </Link>

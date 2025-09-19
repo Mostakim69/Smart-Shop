@@ -67,7 +67,7 @@ export default function Categories() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <motion.h2
-          className="text-4xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
           initial={{ scale: 0.9 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
