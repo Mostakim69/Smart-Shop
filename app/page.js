@@ -7,6 +7,7 @@ import PopularProduct from "./components/home/PopularProduct";
 import Catagories from "./components/home/catagories/Catagories";
 import FeaturedProducts from "./components/home/featuredProducts/FeaturedProducts";
 import Banner from "./components/home/banner/Banner";
+import SpecialOffers from "./components/home/SpecialOffers";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Catagories />
       <FeaturedProducts />
       <PopularProduct />
+      <SpecialOffers/>
       <Testimonial />
       <Newsletter />
       <Footer />
