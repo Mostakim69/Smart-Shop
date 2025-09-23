@@ -2,6 +2,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import Link from "next/link";
 import SignUpButton from "../signup/components/SignUpButton";
+import SocialButton from "../signup/components/SocialButton";
 
 
 export default function SignInPage() {
