@@ -31,7 +31,7 @@ export default function WhyChooseUs() {
   ];
   return (
     <section className="py-20">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="container mx-auto px-4">
         {/* Section Heading */}
         <motion.div
           className="text-center mb-16"
@@ -73,7 +73,7 @@ export default function WhyChooseUs() {
           transition={{ duration: 0.7, delay: 0.8 }}
           viewport={{ once: true }}
         >
-          <button className="px-4 py-2 text-black font-semibold bg-yellow-400  rounded hover:bg-yellow-300 shadow  transition cursor-pointer">
+          <button className="px-4 py-3 text-black font-semibold bg-yellow-400 rounded hover:bg-yellow-300 shadow  transition cursor-pointer">
             Get Started
           </button>
         </motion.div>
