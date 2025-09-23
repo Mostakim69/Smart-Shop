@@ -11,13 +11,13 @@ import Count from "./components/Count";
 export default function AboutPage() {
   return (
     <div className="bg-gray-50 text-gray-800">
-    <Navbar />
-    <Hero />
-    <Count />
-    <WhyChooseUse />
-    <Stories />
-    <Team />
-    <Footer />
+      <Navbar />
+      <Hero />
+      <Count />
+      <Stories />
+      <WhyChooseUse />
+      <Team />
+      <Footer />
     </div>
   );
 }
