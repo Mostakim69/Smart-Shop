@@ -9,18 +9,18 @@ export default function OurTeam() {
       name: "Sarmin Akter",
       role: "Frontend Developer",
       bio: "Passionate about building responsive user interfaces.",
-      image: "https://i.ibb.co/album/Alice.jpg",
+      image: "https://i.ibb.co.com/s9GfQRKd/photo.jpg",
     },
     {
       id: 2,
       name: "Md Mustakim Hosen",
       role: "Backend Developer",
       bio: "Expert in Node.js and database management.",
-      image: "https://i.ibb.co/album/Bob.jpg",
+      image: "https://i.postimg.cc/SxJkjV5Y/IMG-20241224-232711-1.png",
     },
     {
       id: 3,
-      name: "Maimina Tabbasum",
+      name: "Maimuna Tabassum",
       role: "UI/UX Designer",
       bio: "Designs intuitive and beautiful web experiences.",
       image: "https://i.ibb.co/album/Charlie.jpg",
@@ -77,7 +77,7 @@ export default function OurTeam() {
               whileHover={{ scale: 1.05 }}
             >
               {/* Member Image */}
-              <div className="w-32 h-32 mx-auto mb-4 overflow-hidden rounded-full border-4 border-yellow-400">
+              <div className="w-32 h-32 mx-auto mb-4 overflow-hidden rounded-full border-2 border-yellow-400">
                 <img
                   src={member.image}
                   alt={member.name}
@@ -86,7 +86,7 @@ export default function OurTeam() {
               </div>
               {/* Member Info */}
               <h3 className="text-xl font-semibold">{member.name}</h3>
-              <p className="text-yellow-400 font-medium">{member.role}</p>
+              <p className="text-primary font-semibold">{member.role}</p>
               <p className="mt-2 text-sm">{member.bio}</p>
               {/* Social Icons */}
               <div className="flex justify-center gap-4 mt-4">

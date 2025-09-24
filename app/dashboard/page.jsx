@@ -1,7 +1,9 @@
+"use client";
+
 import React from 'react'
 
 export default function DashboardPage() {
   return (
-    <div>page</div>
+    <div>this overview page</div>
   )
 }
