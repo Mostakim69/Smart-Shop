@@ -22,6 +22,7 @@ export default function Navbar() {
             <Link href="/products" className="hover:text-blue-600">Products</Link>
             <Link href="/about" className="hover:text-blue-600">About</Link>
             <Link href="/contact" className="hover:text-blue-600">Contact</Link>
+            <Link href="/dashboard" className="block hover:text-blue-600">Dashboard</Link>
             <Link href="/login" className="hover:text-blue-600">Login</Link>
           </div>
 
@@ -74,6 +75,7 @@ export default function Navbar() {
           <Link href="/products" className="block hover:text-blue-600">Products</Link>
           <Link href="/about" className="block hover:text-blue-600">About</Link>
           <Link href="/contact" className="block hover:text-blue-600">Contact</Link>
+          <Link href="/dashboard" className="block hover:text-blue-600">Dashboard</Link>
 
           {/* Search Bar */}
           <input
