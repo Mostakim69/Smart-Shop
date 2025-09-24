@@ -6,7 +6,7 @@ export default function DashboardLayout({children}) {
      <div className="flex">
       <Sidebar />
       <div className="flex-1 p-4">
-        {children}   {/* এখানে children না থাকলে addproduct দেখাবে না */}
+        {children}
       </div>
     </div>
   )
