@@ -67,7 +67,7 @@ export default function Categories() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <motion.h2
-          className="text-4xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
           initial={{ scale: 0.9 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -75,7 +75,7 @@ export default function Categories() {
           Featured Categories
         </motion.h2>
         <motion.p
-          className="text-lg text-gray-600 max-w-md mx-auto"
+          className="text-lg mx-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}

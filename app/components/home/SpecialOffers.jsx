@@ -23,36 +23,44 @@ export default function SpecialOffers() {
   ];
 
   return (
-    <section className="py-12 bg-gray-100">
+    <section className="py-12">
       <div className="container mx-auto px-4">
         {/* Section Title */}
-        <h2 className="text-2xl font-bold mb-2">Special Offers & Coupons</h2>
-        <p className="text-gray-600 mb-6">
-          Grab the best deals and discounts available for a limited time!
-        </p>
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Special Offers & Coupons
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg max-w-md mx-auto">
+            Grab the best deals and discounts available for a limited time!
+          </p>
+        </div>
 
         {/* Offers Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {offers.map((offer) => (
             <div
               key={offer.id}
-              className="bg-orange-50 p-6 rounded-lg shadow hover:shadow-lg transition relative"
+              className="bg-yellow-50 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg transition relative"
             >
               {/* Ribbon / Badge */}
-              <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+              <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
                 Hot Deal
               </span>
 
               {/* Offer Info */}
-              <h3 className="text-lg font-semibold mb-2 mt-1">{offer.title}</h3>
-              <p className="text-gray-700 mb-4">{offer.condition}</p>
+              <h3 className="text-base sm:text-lg font-semibold mb-2 mt-2">
+                {offer.title}
+              </h3>
+              <p className="text-gray-700 text-sm sm:text-base mb-4">
+                {offer.condition}
+              </p>
 
               {/* Coupon & Button */}
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-orange-600 border border-orange-400 px-2 py-1 rounded cursor-pointer hover:bg-orange-100 transition">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                <span className="font-bold text-yellow-400 border border-yellow-400 px-2 py-1 rounded cursor-pointer hover:bg-yellow-100 transition text-center sm:text-left">
                   {offer.code}
                 </span>
-                <button className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600 cursor-pointer transition">
+                <button className="px-3 py-1 sm:px-4 sm:py-2 bg-yellow-400 text-white rounded hover:bg-yellow-300 cursor-pointer transition w-full sm:w-auto">
                   Grab Offer
                 </button>
               </div>
@@ -63,4 +71,3 @@ export default function SpecialOffers() {
     </section>
   );
 }
-

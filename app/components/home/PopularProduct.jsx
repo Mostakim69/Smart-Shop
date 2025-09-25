@@ -44,26 +44,34 @@ export default function PopularProduct() {
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-2">Popular Products</h2>
-        <p className="text-gray-600 mb-6">
-          Explore our most popular picks loved by thousands of happy customers.
-        </p>
-        <div className="flex gap-3 mb-8">
-          <button className="px-4 py-2 rounded text-sm font-medium bg-orange-500 text-white shadow hover:bg-orange-600 transition">
+        {/* Title */}
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Popular Products
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg max-w-md mx-auto">
+            Explore our most popular picks loved by thousands of happy customers.
+          </p>
+        </div>
+
+        {/* Category Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <button className="px-4 py-2 rounded bg-yellow-400 text-black shadow hover:bg-yellow-300 transition cursor-pointer">
             All
           </button>
-          <button className="px-4 py-2 rounded text-sm font-medium border border-orange-400 text-orange-500 hover:bg-orange-100 transition">
+          <button className="px-4 py-2 rounded border border-yellow-400 text-yellow-500 hover:bg-yellow-100 transition cursor-pointer">
             Electronics
           </button>
-          <button className="px-4 py-2 rounded text-sm font-medium border border-orange-400 text-orange-500 hover:bg-orange-100 transition">
+          <button className="px-4 py-2 rounded border border-yellow-400 text-yellow-500 hover:bg-yellow-100 transition cursor-pointer">
             Fashion
           </button>
-          <button className="px-4 py-2 rounded text-sm font-medium border border-orange-400 text-orange-500 hover:bg-orange-100 transition">
+          <button className="px-4 py-2 rounded border border-yellow-400 text-yellow-500 hover:bg-yellow-100 transition cursor-pointer">
             Grocery
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <div
               key={product.id}
@@ -88,7 +96,7 @@ export default function PopularProduct() {
 
               {/* Price */}
               <p className="text-gray-600">
-                <span className="text-red-500 font-bold">${product.price}</span>{" "}
+                <span className="text-blue-600 font-bold">${product.price}</span>{" "}
                 <span className="line-through text-sm text-gray-400">
                   ${product.oldPrice}
                 </span>
@@ -104,11 +112,11 @@ export default function PopularProduct() {
               </p>
 
               {/* Buttons */}
-              <div className="mt-4 flex gap-2">
-                <button className="flex-1 px-4 py-2 bg-orange-500 text-white rounded shadow hover:bg-orange-600 cursor-pointer">
+              <div className="mt-4 flex flex-col sm:flex-row gap-2">
+                <button className="w-full sm:flex-1 px-4 py-2 bg-yellow-400 text-black rounded shadow hover:bg-yellow-300 cursor-pointer">
                   Buy Now
                 </button>
-                <button className="flex-1 px-4 py-2 border border-orange-500 text-orange-500 rounded hover:bg-orange-100 cursor-pointer">
+                <button className="w-full sm:flex-1 px-4 py-2 border rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
                   Add to Cart
                 </button>
               </div>
