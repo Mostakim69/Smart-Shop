@@ -12,6 +12,7 @@ export default function Sidebar() {
     { name: "Overview", href: "/dashboard", icon: <FaChartPie /> },
     { name: "Add Product", href: "/dashboard/addproduct", icon: <FaPlus /> },
     { name: "My Products", href: "/dashboard/myproduct", icon: <FaBox /> },
+    { name: "All Products", href: "/dashboard/allproduct", icon: <FaBox /> },
   ];
 
   return (

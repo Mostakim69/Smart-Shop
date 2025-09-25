@@ -1,10 +1,13 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   ShoppingBagIcon,
   ArrowPathIcon,
   CalendarDaysIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { motion, useAnimation } from "framer-motion";
 import OverviewChart from "./overviewchart";
 
 export default function DashboardPage() {
@@ -48,38 +51,95 @@ export default function DashboardPage() {
     { title: "Orders Delivered", value: 418, color: "text-green-600" },
   ];
 
+  // Custom Hook for Count Animation
+  const useCountUp = (target, duration = 1500) => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+      let start = 0;
+      const end = parseInt(target);
+      if (start === end) return;
+
+      let incrementTime = 15; // ms
+      let step = (end / (duration / incrementTime));
+
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= end) {
+          start = end;
+          clearInterval(timer);
+        }
+        setCount(Math.floor(start));
+      }, incrementTime);
+
+      return () => clearInterval(timer);
+    }, [target, duration]);
+
+    return count;
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-6">Dashboard Overview</h1>
+    <div className="p-6 space-y-8">
+      <motion.h1
+        className="text-2xl font-bold mb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Dashboard Overview
+      </motion.h1>
 
       {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {stats.map((item, index) => (
-          <div
+          <motion.div
             key={index}
-            className={`${item.color} rounded-lg p-4 text-white flex flex-col items-center shadow-lg`}
+            className={`${item.color} rounded-2xl p-5 text-white flex flex-col items-center shadow-lg`}
+            whileHover={{ scale: 1.05 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <div className="mb-2">{item.icon}</div>
-            <h2 className="text-sm font-semibold">{item.title}</h2>
-            <p className="text-lg font-bold">{item.value}</p>
-          </div>
+            <div className="mb-3">{item.icon}</div>
+            <h2 className="text-sm font-medium opacity-80">{item.title}</h2>
+            <p className="text-xl font-bold mt-1">{item.value}</p>
+          </motion.div>
         ))}
       </div>
 
-      {/* Orders Section */}
+      {/* Orders Section with Count Animation */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {orders.map((item, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center"
-          >
-            <h2 className="text-sm font-semibold">{item.title}</h2>
-            <p className={`text-2xl font-bold ${item.color}`}>{item.value}</p>
-          </div>
-        ))}
+        {orders.map((item, index) => {
+          const count = useCountUp(item.value, 2000);
+          return (
+            <motion.div
+              key={index}
+              className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center border border-gray-100"
+              whileHover={{ y: -5, scale: 1.02 }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+            >
+              <h2 className="text-sm font-medium text-gray-500">
+                {item.title}
+              </h2>
+              <p className={`text-3xl font-bold mt-2 ${item.color}`}>
+                {count}
+              </p>
+            </motion.div>
+          );
+        })}
       </div>
 
-      <OverviewChart />
+      {/* Chart Section */}
+      <motion.div
+        className="bg-white rounded-2xl shadow-lg p-6 mt-8"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
+        <OverviewChart />
+      </motion.div>
     </div>
   );
 }
