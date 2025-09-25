@@ -67,7 +67,7 @@ export default function Categories() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <motion.h2
-          className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text "
           initial={{ scale: 0.9 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -75,7 +75,7 @@ export default function Categories() {
           Featured Categories
         </motion.h2>
         <motion.p
-          className="text-lg mx-auto"
+          className="text-lg mx-auto text-gray-700"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -94,7 +94,7 @@ export default function Categories() {
         {categories.map((category, index) => (
           <motion.div
             key={index}
-            className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 overflow-hidden group"
+            className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg  hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
             variants={itemVariants}
             whileHover="hover"
             whileTap={{ scale: 0.98 }}
