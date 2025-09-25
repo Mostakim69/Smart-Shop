@@ -2,7 +2,7 @@
 export default function Banner() {
   return (
     // <section className="relative bg-gradient-to-r from-blue-600 to-green-500 text-white">
-    <section className="relative bg-gradient-to-r from-[#111827] to-primary text-[#f59e0b]">
+    <section className="relative bg-gradient-to-r from-[#111827] to-secondary text-white">
       <div className="container mx-auto px-6 lg:px-12 py-20 flex flex-col md:flex-row items-center gap-10">
         
         {/* Left Content */}
