@@ -3,9 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ShoppingCart, Heart, User, Menu, X } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -23,7 +26,6 @@ export default function Navbar() {
             <Link href="/about" className="hover:text-blue-600">About</Link>
             <Link href="/contact" className="hover:text-blue-600">Contact</Link>
             <Link href="/dashboard" className="block hover:text-blue-600">Dashboard</Link>
-            <Link href="/login" className="hover:text-blue-600">Login</Link>
           </div>
 
           {/* Right Side */}
@@ -49,9 +51,35 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <Link href="/account">
-              <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
-            </Link>
+            {/* User / Profile */}
+            {!user ? (
+              <Link href="/login">
+                <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+              </Link>
+            ) : (
+              <div className="relative">
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-8 h-8 rounded-full cursor-pointer border"
+                  onClick={() => setOpenUserMenu(!openUserMenu)}
+                />
+
+                {openUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border z-50">
+                    <div className="px-4 py-2 text-sm text-gray-800">
+                      {user.displayName || "User"}
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -85,10 +113,38 @@ export default function Navbar() {
           />
 
           {/* Icons */}
-          <div className="flex space-x-6 pt-2">
+          <div className="flex items-center space-x-6 pt-2">
             <Heart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
             <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
-            <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+
+            {!user ? (
+              <Link href="/login">
+                <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+              </Link>
+            ) : (
+              <div className="relative">
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-8 h-8 rounded-full cursor-pointer border"
+                  onClick={() => setOpenUserMenu(!openUserMenu)}
+                />
+
+                {openUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border z-50">
+                    <div className="px-4 py-2 text-sm text-gray-800">
+                      {user.displayName || "User"}
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
