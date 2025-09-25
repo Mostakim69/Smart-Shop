@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "firebase": "^12.3.0",
     "framer-motion": "^12.23.15",
     "lucide-react": "^0.544.0",
@@ -17,7 +18,8 @@
     "react-countup": "^6.5.3",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
-    "react-intersection-observer": "^9.16.0"
+    "react-intersection-observer": "^9.16.0",
+    "recharts": "^3.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
