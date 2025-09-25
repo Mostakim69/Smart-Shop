@@ -1,15 +1,20 @@
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaApple } from "react-icons/fa";
+// app/signin/page.jsx (Server Component by default in Next.js 13+)
 import Link from "next/link";
-import SignUpButton from "../signup/components/SignUpButton";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+
+import SignInButton from "./components/signinButton";
 import SocialButton from "../signup/components/SocialButton";
+import PasswordInput from "../signup/components/PasswordInput";
+import Navbar from "@/app/components/shared/Navbar";
 
 
 export default function SignInPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center pt-20 pb-20 bg-gradient-to-b from-sky-200 to-white px-4">
+    <section>
+      <Navbar/>
+      <div className="min-h-screen flex items-center justify-center pt-20 pb-20 bg-gradient-to-b from-sky-200 to-white px-4">
       <div className="w-full max-w-md bg-white/80 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
-        {/* Form Section */}
         <div className="p-6 flex flex-col justify-center">
           {/* Icon */}
           <div className="flex justify-center mb-4">
@@ -28,25 +33,29 @@ export default function SignInPage() {
           <form className="mt-6 space-y-3">
             <input
               type="email"
+              name="email"
               placeholder="Email Address"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
               required
             />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-              required
-              minLength={6}
-            />
 
-            {/* Sign In Button */}
-            <SignUpButton>Sign In</SignUpButton>
+            {/* Password with Eye Toggle */}
+            <PasswordInput name="password" />
+
+            {/* Forgot Password */}
+            <div className="text-right text-sm">
+              <Link href="login/passwordReset" className="text-sky-500 hover:underline">
+                Forgot Password?
+              </Link>
+            </div>
+
+            {/* Sign In Button (Client Component) */}
+            <SignInButton />
           </form>
 
-          {/* Forgot password / Sign up */}
+          {/* Sign Up Link */}
           <p className="text-center text-sm mt-4 text-gray-500">
-            Don't have an account?{" "}
+            Don’t have an account?{" "}
             <Link href="/signup" className="text-sky-500 hover:underline">
               Sign Up
             </Link>
@@ -61,14 +70,15 @@ export default function SignInPage() {
 
           {/* Social Buttons */}
           <div className="flex justify-center gap-4">
-            <SocialButton icon={<FcGoogle size={22} />} />
+            <SocialButton icon={<FcGoogle size={22} />} provider="google" />
             <SocialButton
-              icon={<FaFacebook size={22} />}
-              className="text-blue-600"
+              icon={<FaFacebook size={22} className="text-blue-600" />}
+              provider="facebook"
             />
           </div>
         </div>
       </div>
     </div>
+    </section>
   );
 }
