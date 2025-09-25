@@ -5,7 +5,7 @@
   name: "light";
   default: true;
   --color-primary: #111827;
-  --color-secondary: #f59e0b;
+  --color-secondary: #5682B1;
 }
 @plugin "daisyui/theme" {
   name: "dark";
@@ -17,6 +17,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
 }
 
 @theme inline {
@@ -28,7 +29,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* --background: #0a0a0a; */
+    --background: #ffffff;
+
     --foreground: #ededed;
   }
 }
