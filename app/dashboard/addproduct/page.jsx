@@ -15,15 +15,21 @@ export default function AddProductPage() {
 
     const formData = new FormData();
 
-    files.forEach((file, index) => {
-      if (file) formData.append(`image${index}`, file);
-    });
-    
+    // files.forEach((file, index) => {
+    //   if (file) formData.append(`image${index}`, file);
+    // });
+
     formData.append("name", name);
     formData.append("description", description);
     formData.append("category", category);
     formData.append("price", price);
     formData.append("offerPrice", offerPrice);
+
+    for (let i = 0; i < files.length; i++) {
+      if (files[i]) {
+        formData.append(`image${i}`, files[i]);
+      }
+    }
 
     const res = await fetch("/api/products", {
       method: "POST",
@@ -55,7 +61,7 @@ export default function AddProductPage() {
                 />
                 <img key={index}
                   className="max-w-24 cursor-pointer"
-                   src={files[index] ? URL.createObjectURL(files[index]) : "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/e-commerce/uploadArea.png"}
+                  src={files[index] ? URL.createObjectURL(files[index]) : "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/e-commerce/uploadArea.png"}
                   alt="uploadArea"
                   width={100}
                   height={100}
