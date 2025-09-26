@@ -24,7 +24,7 @@ export default function SignInPage() {
           </div>
 
           {/* Title */}
-          <h2 className="text-center text-xl font-semibold">Sign In</h2>
+          <h2 className="text-center text-xl font-semibold text-primary">Sign In</h2>
           <p className="text-center text-gray-500 text-sm mt-1">
             Sign in to access your account
           </p>
@@ -35,7 +35,7 @@ export default function SignInPage() {
               type="email"
               name="email"
               placeholder="Email Address"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              className="w-full text-black px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
               required
             />
 

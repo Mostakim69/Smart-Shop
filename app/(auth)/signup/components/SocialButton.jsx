@@ -1,10 +1,10 @@
-
 "use client";
-
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SocialButton({ icon, provider }) {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const router = useRouter(); 
 
   const handleClick = async () => {
     try {
@@ -13,6 +13,8 @@ export default function SocialButton({ icon, provider }) {
       } else if (provider === "facebook") {
         await loginWithFacebook();
       }
+      // Redirect to home page after login
+      router.push("/"); 
     } catch (err) {
       console.error(err);
       alert(err.message);
