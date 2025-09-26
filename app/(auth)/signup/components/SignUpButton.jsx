@@ -19,18 +19,30 @@ export default function SignUpButton() {
     const password = form.password.value;
 
     try {
-      setLoading(true); 
+      setLoading(true);
+
+      //  Firebase signup
       const result = await signup(email, password);
 
-      // update profile (name + photo)
+      //  Update  profile
       await updateUserProfile(name, photo);
+
+      //  Send data to your database
+      // const userData = { name, email, photo };
+      // await fetch("/api/users", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(userData),
+      // });
 
       alert("Signup successful!");
       router.push("/");
     } catch (err) {
       alert(err.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
