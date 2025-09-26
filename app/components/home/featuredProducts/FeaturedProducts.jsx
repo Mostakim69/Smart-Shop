@@ -123,7 +123,7 @@ export default function FeaturedProducts() {
                 <span className="text-gray-500 line-through text-xs">{product.origPrice}</span>
               </div>
               <div className="flex space-x-2">
-                <button className="flex-1 cursor-pointer bg-primary py-2 rounded ">
+                <button className="flex-1 cursor-pointer bg-primary text-white py-2 rounded ">
                   Add to Cart
                 </button>
                 <button className="flex-1 cursor-pointer bg-secondary text-white py-2 rounded ">
