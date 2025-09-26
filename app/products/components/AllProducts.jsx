@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { GrCart } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
+import Link from "next/link";
 
 
 export default function AllProducts() {
@@ -15,8 +16,15 @@ export default function AllProducts() {
       })
   }, [products])
 
-  console.log(products);
-
+  const handleSearch = async (e) => {
+    const name = e.target.value;
+    const res = await axios.get(`https://smart-shop-server-three.vercel.app/products?name=${name}`)
+    .then(res=>{
+      setProducts(res.data)
+    }).catch(err=>{
+      alert(err)
+    })
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -26,9 +34,9 @@ export default function AllProducts() {
           All Products
         </h2>
         {/* Search Box */}
-        <input
+        <input onChange={handleSearch}
           type="text"
-          placeholder="Search products..."
+          placeholder="Search by name"
           className="w-full sm:w-1/2 md:w-1/3 border border-gray-300 rounded px-4 py-2 mt-4 focus:outline-none focus:ring-1 focus:ring-blue-600"
         />
       </div>
@@ -36,7 +44,8 @@ export default function AllProducts() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {
           products?.map((product) => (
-            <div
+            <Link
+            href={`products/${product._id}`}
               key={product._id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
             >
@@ -73,7 +82,7 @@ export default function AllProducts() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         }
       </div>
