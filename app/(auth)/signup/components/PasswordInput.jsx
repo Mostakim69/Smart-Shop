@@ -12,7 +12,7 @@ export default function PasswordInput({ name }) {
         type={showPassword ? "text" : "password"}
         name={name}
         placeholder="Password"
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+        className="w-full px-4 py-3 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
         required
         minLength={6}
       />
