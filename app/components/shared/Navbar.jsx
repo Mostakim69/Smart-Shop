@@ -181,22 +181,24 @@ export default function Navbar() {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-gray-300 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
+            
             <Link href="/">SmartShop</Link>
+
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden text-black md:flex items-center space-x-6">
-            <Link href="/" className="hover:text-primary">Home</Link>
-            <Link href="/products" className="hover:text-primary">Products</Link>
-            <Link href="/about" className="hover:text-primary">About</Link>
-            <Link href="/contact" className="hover:text-primary">Contact</Link>
-            <Link href="/dashboard" className="block hover:text-primary">Dashboard</Link>
-            <Link href="/login" className="hover:text-primary">Login</Link>
+          <div className="hidden text-gray-600 md:flex items-center space-x-6">
+            <Link href="/" className="hover:text-primary hover:underline">Home</Link>
+            <Link href="/products" className="hover:text-primary hover:underline">Products</Link>
+            <Link href="/about" className="hover:text-primary hover:underline">About</Link>
+            <Link href="/contact" className="hover:text-primary hover:underline">Contact</Link>
+            <Link href="/dashboard" className="block hover:text-primary hover:underline">Dashboard</Link>
+            <Link href="/login" className="hover:text-primary hover:underline">Login</Link>
           </div>
 
           {/* Right Side */}
