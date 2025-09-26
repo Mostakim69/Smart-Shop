@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
+  
 
   useState(() => {
     axios.get('https://smart-shop-server-three.vercel.app/products')
@@ -46,19 +47,16 @@ export default function AllProducts() {
                   alt={product.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                  {product.save}
-                </div>
               </div>
               <div className="p-4">
-                <h3 className="text-gray-500 font-medium text-sm mb-1">
+                <h3 className="text-gray-500 font-bold text-sm mb-1">
                   {product.name}
                 </h3>
+                <div>
+                  <p className="text-gray-500 font-medium text-sm mb-1">{product.description}</p>
+                </div>
                 <div className="text-blue-600 font-bold text-sm mb-2">
-                  {product.price}{" "}
-                  <span className="text-gray-500 line-through text-xs">
-                    {product.origPrice}
-                  </span>
+                  {product.price}
                 </div>
                 <div className="flex justify-between items-center">
                   <button className="flex space-x-2">
