@@ -1,9 +1,19 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, Heart, User, Menu, X } from "lucide-react";
+import {
+  ShoppingCart,
+  Heart,
+  User,
+  Menu,
+  X,
+  Home,
+  Info,
+  Phone,
+  LayoutDashboard,
+  Package,
+} from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
@@ -17,19 +27,47 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
-            
             <Link href="/">SmartShop</Link>
-
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden text-gray-600 md:flex items-center space-x-6">
-            <Link href="/" className="hover:text-primary hover:underline">Home</Link>
-            <Link href="/products" className="hover:text-primary hover:underline">Products</Link>
-            <Link href="/about" className="hover:text-primary hover:underline">About</Link>
-            <Link href="/contact" className="hover:text-primary hover:underline">Contact</Link>
-            <Link href="/dashboard" className="block hover:text-primary hover:underline">Dashboard</Link>
-            <Link href="/login" className="hover:text-primary hover:underline">Login</Link>
+            <Link
+              href="/"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <Home className="w-4 h-4" /> Home
+            </Link>
+            <Link
+              href="/products"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <Package className="w-4 h-4" /> Products
+            </Link>
+            <Link
+              href="/about"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <Info className="w-4 h-4" /> About
+            </Link>
+            <Link
+              href="/contact"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <Phone className="w-4 h-4" /> Contact
+            </Link>
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <LayoutDashboard className="w-4 h-4" /> Dashboard
+            </Link>
+            <Link
+              href="/login"
+              className="flex items-center gap-1 hover:text-primary hover:underline"
+            >
+              <User className="w-4 h-4" /> Login
+            </Link>
           </div>
 
           {/* Right Side */}
@@ -103,11 +141,33 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden text-black bg-white shadow-lg px-6 pt-4 pb-6 space-y-4">
           {/* Links */}
-          <Link href="/" className="block hover:text-primary">Home</Link>
-          <Link href="/products" className="block hover:text-primary">Products</Link>
-          <Link href="/about" className="block hover:text-primary">About</Link>
-          <Link href="/contact" className="block hover:text-primary">Contact</Link>
-          <Link href="/dashboard" className="block hover:text-primary">Dashboard</Link>
+          <Link href="/" className="flex items-center gap-2 hover:text-primary">
+            <Home className="w-4 h-4" /> Home
+          </Link>
+          <Link
+            href="/products"
+            className="flex items-center gap-2 hover:text-primary"
+          >
+            <Package className="w-4 h-4" /> Products
+          </Link>
+          <Link
+            href="/about"
+            className="flex items-center gap-2 hover:text-primary"
+          >
+            <Info className="w-4 h-4" /> About
+          </Link>
+          <Link
+            href="/contact"
+            className="flex items-center gap-2 hover:text-primary"
+          >
+            <Phone className="w-4 h-4" /> Contact
+          </Link>
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 hover:text-primary"
+          >
+            <LayoutDashboard className="w-4 h-4" /> Dashboard
+          </Link>
 
           {/* Search Bar */}
           <input
@@ -155,4 +215,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
