@@ -1,22 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GrCart } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
+import Link from "next/link";
 
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
 
-  useState(() => {
+  const indexOfLast = currentPage * productsPerPage;
+  const indexOfFirst = indexOfLast - productsPerPage;
+  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+
+
+  useEffect(() => {
     axios.get('https://smart-shop-server-three.vercel.app/products')
       .then(res => {
         setProducts(res.data);
       })
-  }, [products])
+  }, []);
 
-  console.log(products);
 
+  const handleSearch = async (e) => {
+    const name = e.target.value;
+    const res = await axios.get(`https://smart-shop-server-three.vercel.app/products?name=${name}`)
+      .then(res => {
+        setProducts(res.data);
+        setCurrentPage(1);
+      }).catch(err => {
+        alert(err)
+      })
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -26,17 +43,18 @@ export default function AllProducts() {
           All Products
         </h2>
         {/* Search Box */}
-        <input
+        <input onChange={handleSearch}
           type="text"
-          placeholder="Search products..."
+          placeholder="Search by name"
           className="w-full sm:w-1/2 md:w-1/3 border border-gray-300 rounded px-4 py-2 mt-4 focus:outline-none focus:ring-1 focus:ring-blue-600"
         />
       </div>
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {
-          products?.map((product) => (
-            <div
+          currentProducts?.map((product) => (
+            <Link
+              href={`products/${product._id}`}
               key={product._id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
             >
@@ -73,9 +91,40 @@ export default function AllProducts() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         }
+      </div>
+      <div className="flex justify-center mt-6 space-x-2">
+        {/* Prev Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        >
+          Prev
+        </button>
+
+        {/* Page Numbers */}
+        {[...Array(Math.ceil(products.length / productsPerPage))].map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-3 py-1 rounded ${currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200"
+              }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
