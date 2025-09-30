@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { GrCart } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -99,7 +98,7 @@ export default function AllProducts() {
         <button 
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          className="px-3 py-1  rounded disabled:opacity-50 hover:cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
         >
           Prev
         </button>
@@ -108,7 +107,7 @@ export default function AllProducts() {
           <button 
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            className={`px-3 py-1 rounded ${currentPage === i + 1 ? "border text-black" : "bg-purple-200 text-black"}`}
           >
             {i + 1}
           </button>
@@ -117,7 +116,7 @@ export default function AllProducts() {
         <button 
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          className="px-3 py-1  rounded disabled:opacity-50 hover:cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
         >
           Next
         </button>
