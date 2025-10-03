@@ -5,12 +5,12 @@ import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { useCart } from "@/context/CartContext"; // ✅
+import { useCart } from "@/context/CartContext";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const router = useRouter();
-  const { addToCart } = useCart(); // ✅ use global cart
+  const { addToCart } = useCart(); // use global cart
 
   useEffect(() => {
     axios
@@ -32,7 +32,7 @@ export default function AllProducts() {
   };
 
   const handleAddToCart = (product) => {
-    addToCart(product); // ✅ Context এর ফাংশন কল করো
+    addToCart(product); 
     toast.success(`${product.name} added to cart!`);
 
     setTimeout(() => {
