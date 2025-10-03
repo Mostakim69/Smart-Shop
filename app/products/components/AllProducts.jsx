@@ -5,31 +5,37 @@ import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
+  const router = useRouter();
+  const { addToCart } = useCart(); 
+
+  // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
   const currentProducts = products.slice(indexOfFirst, indexOfLast);
 
-  const router = useRouter();
-  const [cart, setCart] = useState([]);
-
   // Load products
   useEffect(() => {
-    axios.get("https://smart-shop-server-three.vercel.app/products")
-      .then(res => setProducts(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get("https://smart-shop-server-three.vercel.app/products")
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   // Search
   const handleSearch = async (e) => {
     const name = e.target.value;
     try {
-      const res = await axios.get(`https://smart-shop-server-three.vercel.app/products?name=${name}`);
+      const res = await axios.get(
+        `https://smart-shop-server-three.vercel.app/products?name=${name}`
+      );
       setProducts(res.data);
       setCurrentPage(1);
     } catch (err) {
@@ -39,7 +45,7 @@ export default function AllProducts() {
 
   // Add to cart
   const handleAddToCart = (product) => {
-    setCart([...cart, product]);
+    addToCart(product);
     toast.success(`${product.name} added to cart!`);
     setTimeout(() => {
       router.push("/cart");
@@ -52,10 +58,10 @@ export default function AllProducts() {
 
       {/* Section Title */}
       <div className="text-center mb-6">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
           All Products
         </h2>
-        <input 
+        <input
           onChange={handleSearch}
           type="text"
           placeholder="Search by name"
@@ -66,57 +72,77 @@ export default function AllProducts() {
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {currentProducts.map((product) => (
-          <div key={product._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+          <Link
+            href={`/products/${product._id}`}
+            key={product._id}
+            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
+          >
             <div className="relative">
-              <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover"
+              />
               <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
                 {product.save}
               </div>
             </div>
             <div className="p-4">
-              <h3 className="text-gray-500 font-medium text-sm mb-1">{product.name}</h3>
+              <h3 className="text-gray-500 font-medium text-sm mb-1">
+                {product.name}
+              </h3>
               <div className="text-blue-600 font-bold text-sm mb-2">
                 {product.price}{" "}
-                <span className="text-gray-500 line-through text-xs">{product.origPrice}</span>
+                <span className="text-gray-500 line-through text-xs">
+                  {product.origPrice}
+                </span>
               </div>
               <div className="flex justify-between items-center">
-                <button onClick={() => handleAddToCart(product)} className="flex space-x-2">
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="flex space-x-2"
+                >
                   <GrCart className="w-6 h-6 text-blue-600" />
                   <FaRegHeart className="w-6 h-6 text-purple-500" />
                 </button>
-                <button className="text-md py-1 px-3 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded">
+                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
                   Buy Now
                 </button>
               </div>
             </div>
-          </div>
+          </Link>
+         
         ))}
       </div>
 
       {/* Pagination */}
       <div className="flex justify-center mt-6 space-x-2">
-        <button 
+        <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1  rounded disabled:opacity-50 hover:cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
+          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
         >
           Prev
         </button>
 
         {[...Array(Math.ceil(products.length / productsPerPage))].map((_, i) => (
-          <button 
+          <button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${currentPage === i + 1 ? "border text-black" : "bg-purple-200 text-black"}`}
+            className={`px-3 py-1 rounded ${
+              currentPage === i + 1
+                ? "border text-black"
+                : "bg-purple-200 text-black"
+            }`}
           >
             {i + 1}
           </button>
         ))}
 
-        <button 
+        <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-          className="px-3 py-1  rounded disabled:opacity-50 hover:cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
+          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
         >
           Next
         </button>
@@ -124,6 +150,7 @@ export default function AllProducts() {
     </div>
   );
 }
+
 
 
 

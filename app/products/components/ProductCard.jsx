@@ -6,13 +6,25 @@ export default function ProductCard({ product }) {
     <div className="max-w-sm mx-auto my-8 bg-base-100 shadow-lg rounded-2xl overflow-hidden border border-gray-200">
       {/* Image */}
       <div className="relative w-full h-64">
-        <img
-        referrerPolicy="no"
+        {/* <Image
+        // referrerPolicy="no-referrer"
           src={product?.image}
           alt={product?.name}
           fill
           className=" hover:scale-105 transition-transform h-56 w-full duration-300"
-        />
+        /> */}
+        {product?.image ? (
+          <Image
+            src={product.image}
+            alt={product?.name || "No image"}
+            fill
+            className="object-cover rounded"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-500">
+            No Image
+          </div>
+        )}
       </div>
 
       {/* Content */}
