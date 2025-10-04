@@ -1,27 +1,24 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion'; 
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import axios from 'axios';
+import Link from "next/link";
 
 export default function Categories() {
-  const categories = [
-    { name: 'Gaming Console', icon: '🎮' },
-    { name: 'Mobile Devices', icon: '📱' },
-    { name: 'Earbuds', icon: '🎧' },
-    { name: 'Portable SSD', icon: '💾' },
-    { name: 'Headphones', icon: '🔊' },
-    { name: 'Smartphones', icon: '📞' },
-    { name: 'Action Cameras', icon: '📷' },
-    { name: 'Portable Cameras', icon: '🌄' },
-    { name: 'Charger Fans', icon: '🔋' },
-    { name: 'Refrigerators', icon: '❄️' },
-    { name: 'Televisions', icon: '📺' },
-    { name: 'Smart Watches', icon: '⌚' },
-    { name: 'Trimmers', icon: '✂️' },
-    { name: 'Drones', icon: '🚁' },
-    { name: 'Bluetooth Devices', icon: '🔗' },
-    { name: 'Others', icon: '🌐' },
-  ];
+  const [products, setProducts] = useState([]);
+
+
+  useEffect(() => {
+    axios
+      .get('https://smart-shop-server-three.vercel.app/products?category')
+      .then(res => {
+        setProducts(res.data);
+      })
+      .catch(err => {
+        console.error("Error fetching products:", err);
+      });
+  }, []);
 
   // Staggered animation variants for the grid
   const containerVariants = {
@@ -60,6 +57,7 @@ export default function Categories() {
 
   return (
     <div className="container mx-auto py-12 px-4">
+      {/* Heading */}
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: -20 }}
@@ -67,7 +65,7 @@ export default function Categories() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <motion.h2
-          className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text "
+          className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text"
           initial={{ scale: 0.9 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -83,7 +81,8 @@ export default function Categories() {
           Discover and shop from our curated selection of products.
         </motion.p>
       </motion.div>
-      
+
+      {/* Grid with animation */}
       <motion.div
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 cursor-pointer gap-6"
         variants={containerVariants}
@@ -91,33 +90,41 @@ export default function Categories() {
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
       >
-        {categories.map((category, index) => (
+        {products.map((product, index) => (
           <motion.div
-            key={index}
-            className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg  hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
+            key={product._id}
+            className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
             variants={itemVariants}
             whileHover="hover"
             whileTap={{ scale: 0.98 }}
           >
-            <motion.span
-              className="text-5xl mb-4 text-gray-800 group-hover:text-blue-600 transition-colors duration-300"
-              initial={{ rotate: -180 }}
-              animate={{ rotate: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
+
+            <Link
+              key={product._id}
+              href={`/products?category=${product.category}`}
             >
-              {category.icon}
-            </motion.span>
-            <motion.p
-              className="text-sm font-semibold text-gray-700 text-center capitalize tracking-wide"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5 + index * 0.05 }}
-            >
-              {category.name}
-            </motion.p>
+              <motion.img
+                src={product.image}
+                alt={product.name}
+                className="w-20 h-20 object-contain mb-4"
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+              />
+              <motion.p
+                className="text-sm font-semibold text-gray-700 text-center capitalize tracking-wide"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5 + index * 0.05 }}
+              >
+                {product.category}
+              </motion.p>
+            </Link>
+
           </motion.div>
         ))}
       </motion.div>
     </div>
   );
 }
+

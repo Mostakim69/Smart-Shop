@@ -1,17 +1,27 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GrCart } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
-  const router = useRouter();
-  const { addToCart } = useCart(); // use global cart
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
 
+  const router = useRouter();
+  const { addToCart } = useCart();
+
+  // Pagination logic
+  const indexOfLast = currentPage * productsPerPage;
+  const indexOfFirst = indexOfLast - productsPerPage;
+  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+
+  // Load products
   useEffect(() => {
     axios
       .get("https://smart-shop-server-three.vercel.app/products")
@@ -19,6 +29,7 @@ export default function AllProducts() {
       .catch((err) => console.log(err));
   }, []);
 
+  // Search
   const handleSearch = async (e) => {
     const name = e.target.value;
     try {
@@ -26,15 +37,16 @@ export default function AllProducts() {
         `https://smart-shop-server-three.vercel.app/products?name=${name}`
       );
       setProducts(res.data);
+      setCurrentPage(1);
     } catch (err) {
       alert(err);
     }
   };
 
+  // Add to cart
   const handleAddToCart = (product) => {
-    addToCart(product); 
+    addToCart(product);
     toast.success(`${product.name} added to cart!`);
-
     setTimeout(() => {
       router.push("/cart");
     }, 2000);
@@ -43,6 +55,8 @@ export default function AllProducts() {
   return (
     <div className="container mx-auto p-4">
       <Toaster position="top-right" />
+
+      {/* Section Title */}
       <div className="text-center mb-6">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
           All Products
@@ -55,38 +69,60 @@ export default function AllProducts() {
         />
       </div>
 
+      {/* Products Grid */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products?.map((product) => (
+        {currentProducts.map((product) => (
           <div
             key={product._id}
-            className="bg-white rounded-lg shadow-md hover:shadow-lg transition"
+            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
           >
-            <div className="relative">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-cover"
-              />
-            </div>
+            {/* Image  */}
+            <Link href={`/products/${product._id}`}>
+              <div className="relative cursor-pointer">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  {product.save}
+                </div>
+              </div>
+            </Link>
+
+            {/* Product Info */}
             <div className="p-4">
-              <h3 className="text-gray-500 font-medium text-sm mb-1">
-                {product.name}
-              </h3>
+              {/* Name (Clickable) */}
+              <Link href={`/products/${product._id}`}>
+                <h3
+                  // className="text-gray-500 font-medium text-sm mb-1 hover:text-black transition hover:underline"
+                  className="inline-block relative text-gray-500 font-medium text-sm mb-1 
+               hover:text-blue-600 transition-colors duration-200 
+               after:content-[''] after:absolute after:left-0 after:bottom-0 
+               after:w-0 after:h-[1px] after:bg-blue-600 
+               hover:after:w-full after:transition-all after:duration-300"
+                >
+                  {product.name}
+                </h3>
+              </Link>
+
               <div className="text-blue-600 font-bold text-sm mb-2">
                 {product.price}{" "}
                 <span className="text-gray-500 line-through text-xs">
                   {product.origPrice}
                 </span>
               </div>
+
               <div className="flex justify-between items-center">
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="flex space-x-2"
                 >
-                  <GrCart className="w-6 h-6 text-blue-600" />
-                  <FaRegHeart className="w-6 h-6 text-purple-500" />
+                  <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
+                  <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
                 </button>
-                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
+                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded hover:cursor-pointer">
                   Buy Now
                 </button>
               </div>
@@ -94,6 +130,45 @@ export default function AllProducts() {
           </div>
         ))}
       </div>
+
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6 space-x-2">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+        >
+          Prev
+        </button>
+
+        {[...Array(Math.ceil(products.length / productsPerPage))].map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-3 py-1 rounded ${currentPage === i + 1
+              ? "border text-black"
+              : "bg-purple-200 text-black"
+              }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
+
+
+
+
+
+
