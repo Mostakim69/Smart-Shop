@@ -95,7 +95,14 @@ export default function AllProducts() {
             <div className="p-4">
               {/* Name (Clickable) */}
               <Link href={`/products/${product._id}`}>
-                <h3 className="text-gray-500 font-medium text-sm mb-1 hover:text-blue-600 transition">
+                <h3
+                  // className="text-gray-500 font-medium text-sm mb-1 hover:text-black transition hover:underline"
+                  className="inline-block relative text-gray-500 font-medium text-sm mb-1 
+               hover:text-blue-600 transition-colors duration-200 
+               after:content-[''] after:absolute after:left-0 after:bottom-0 
+               after:w-0 after:h-[1px] after:bg-blue-600 
+               hover:after:w-full after:transition-all after:duration-300"
+                >
                   {product.name}
                 </h3>
               </Link>
@@ -112,10 +119,10 @@ export default function AllProducts() {
                   onClick={() => handleAddToCart(product)}
                   className="flex space-x-2"
                 >
-                  <GrCart className="w-6 h-6 text-blue-600" />
-                  <FaRegHeart className="w-6 h-6 text-purple-500" />
+                  <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
+                  <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
                 </button>
-                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
+                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded hover:cursor-pointer">
                   Buy Now
                 </button>
               </div>
@@ -140,8 +147,8 @@ export default function AllProducts() {
             key={i}
             onClick={() => setCurrentPage(i + 1)}
             className={`px-3 py-1 rounded ${currentPage === i + 1
-                ? "border text-black"
-                : "bg-purple-200 text-black"
+              ? "border text-black"
+              : "bg-purple-200 text-black"
               }`}
           >
             {i + 1}
