@@ -14,7 +14,7 @@ export default function AllProducts() {
   const productsPerPage = 8;
 
   const router = useRouter();
-  const { addToCart } = useCart(); 
+  const { addToCart } = useCart();
 
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
@@ -70,33 +70,43 @@ export default function AllProducts() {
       </div>
 
       {/* Products Grid */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {currentProducts.map((product) => (
-          <Link
-            href={`/products/${product._id}`}
+          <div
             key={product._id}
             className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
           >
-            <div className="relative">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                {product.save}
+            {/* Image  */}
+            <Link href={`/products/${product._id}`}>
+              <div className="relative cursor-pointer">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  {product.save}
+                </div>
               </div>
-            </div>
+            </Link>
+
+            {/* Product Info */}
             <div className="p-4">
-              <h3 className="text-gray-500 font-medium text-sm mb-1">
-                {product.name}
-              </h3>
+              {/* Name (Clickable) */}
+              <Link href={`/products/${product._id}`}>
+                <h3 className="text-gray-500 font-medium text-sm mb-1 hover:text-blue-600 transition">
+                  {product.name}
+                </h3>
+              </Link>
+
               <div className="text-blue-600 font-bold text-sm mb-2">
                 {product.price}{" "}
                 <span className="text-gray-500 line-through text-xs">
                   {product.origPrice}
                 </span>
               </div>
+
               <div className="flex justify-between items-center">
                 <button
                   onClick={() => handleAddToCart(product)}
@@ -110,10 +120,10 @@ export default function AllProducts() {
                 </button>
               </div>
             </div>
-          </Link>
-         
+          </div>
         ))}
       </div>
+
 
       {/* Pagination */}
       <div className="flex justify-center mt-6 space-x-2">
@@ -129,11 +139,10 @@ export default function AllProducts() {
           <button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${
-              currentPage === i + 1
+            className={`px-3 py-1 rounded ${currentPage === i + 1
                 ? "border text-black"
                 : "bg-purple-200 text-black"
-            }`}
+              }`}
           >
             {i + 1}
           </button>
