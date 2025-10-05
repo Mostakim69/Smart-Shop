@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ShoppingCart,
   Heart,
@@ -34,7 +35,13 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
-            <Link href="/">SmartShop</Link>
+            <Link href="/"><Image
+                          src="/logo (3).png"
+                          alt="Smart Shop Logo"
+                          width={60}
+                          height={60}
+                          className="rounded-xl"
+                        /></Link>
           </div>
 
           {/* Desktop Menu */}
