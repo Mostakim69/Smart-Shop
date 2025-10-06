@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ShoppingCart,
   Heart,
@@ -15,11 +16,18 @@ import {
   Package,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
   const { user, logout } = useAuth();
+  const pathname = usePathname();
+
+  const linkClass = (path) =>
+    pathname === path
+      ? "text-primary font-semibold underline" // active style
+      : "text-gray-600 hover:text-primary hover:underline"; // default style
 
   return (
     <nav className="bg-gray-300 shadow-md sticky top-0 z-50">
@@ -27,11 +35,23 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
-            <Link href="/">SmartShop</Link>
+            <Link href="/"><Image
+                          src="/logo (3).png"
+                          alt="Smart Shop Logo"
+                          width={60}
+                          height={60}
+                          className="rounded-xl"
+                        /></Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden text-gray-600 md:flex items-center space-x-6">
+            {/* <Link href="/" className={linkClass("/")}>Home</Link>
+            <Link href="/products" className={linkClass("/products")}>Products</Link>
+            <Link href="/about" className={linkClass("/about")}>About</Link>
+            <Link href="/contact" className={linkClass("/contact")}>Contact</Link>
+            <Link href="/dashboard" className={linkClass("/dashboard")}>Dashboard</Link>
+            <Link href="/login" className={linkClass("/login")}>Login</Link> */}
             <Link
               href="/"
               className="flex items-center gap-1 hover:text-primary hover:underline"
