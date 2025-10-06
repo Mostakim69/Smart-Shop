@@ -44,13 +44,13 @@ export default function AllProducts() {
   };
 
   // Add to cart
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    toast.success(`${product.name} added to cart!`);
-    setTimeout(() => {
-      router.push("/cart");
-    }, 2000);
-  };
+  // const handleAddToCart = (product) => {
+  //   addToCart(product);
+  //   toast.success(`${product.name} added to cart!`);
+  //   setTimeout(() => {
+  //     router.push("/cart");
+  //   }, 2000);
+  // };
 
   return (
     <div className="container mx-auto p-4">
@@ -113,7 +113,7 @@ export default function AllProducts() {
 
               <div className="flex justify-between items-center">
                 <button
-                  onClick={() => handleAddToCart(product)}
+                  // onClick={() => handleAddToCart(product)}
                   className="flex space-x-2"
                 >
                   <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
