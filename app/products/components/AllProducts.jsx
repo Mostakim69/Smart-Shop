@@ -14,7 +14,7 @@ export default function AllProducts() {
   const productsPerPage = 8;
 
   const router = useRouter();
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
