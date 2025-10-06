@@ -17,12 +17,14 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
+import ThemeToggler from "../ThemeToggler";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
   const { user, logout } = useAuth();
   const pathname = usePathname();
+
 
   const linkClass = (path) =>
     pathname === path
@@ -92,6 +94,7 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="hidden text-black md:flex items-center space-x-4">
+            <ThemeToggler></ThemeToggler>
             {/* Search Bar */}
             <div className="relative">
               <input
@@ -188,6 +191,8 @@ export default function Navbar() {
           >
             <LayoutDashboard className="w-4 h-4" /> Dashboard
           </Link>
+
+          <ThemeToggler></ThemeToggler>
 
           {/* Search Bar */}
           <input

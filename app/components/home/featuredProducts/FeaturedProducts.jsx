@@ -72,7 +72,7 @@ export default function FeaturedProducts() {
     <div className="container mx-auto p-4">
       <div className="text-center mb-10">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold mb-2 text-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text "
+          className="text-3xl md:text-4xl font-bold mb-2 text-primary bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text "
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
