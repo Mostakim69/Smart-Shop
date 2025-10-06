@@ -1,48 +1,41 @@
 'use client';
 
-import React from "react";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function PopularProduct() {
-  const products = [
-    {
-      id: 1,
-      name: "Smartphone",
-      price: 299,
-      oldPrice: 399,
-      discount: "-25%",
-      rating: 4.5,
-      image: "https://i.ibb.co.com/kgQHjkfB/Apple-i-Phone-17-Pro-Max.png",
-    },
-    {
-      id: 2,
-      name: "Rice Pack",
-      price: 25,
-      oldPrice: 35,
-      discount: "-30%",
-      rating: 4.2,
-      image: "https://i.ibb.co.com/T9gR2Ks/foodela-baglamoti-rice.jpg",
-    },
-    {
-      id: 3,
-      name: "Jacket",
-      price: 79,
-      oldPrice: 120,
-      discount: "-35%",
-      rating: 4.7,
-      image:
-        "https://i.ibb.co.com/GQZyX8gh/497-4972831-transparent-leather-jacket-png-cute-red-leather-jacket.png",
-    },
-    {
-      id: 4,
-      name: "Smart TV",
-      price: 499,
-      oldPrice: 599,
-      discount: "-15%",
-      rating: 4.3,
-      image: "https://i.ibb.co.com/LzdM1Qns/32-inch-android-led-tv-612.jpg",
-    },
-  ];
+
+  const [products, setProducts] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await axios.get("https://smart-shop-server-three.vercel.app/products");
+        setProducts(res.data);
+        setFiltered(res.data.slice(0, 4));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  const handleCategory = (category) => {
+    setSelectedCategory(category);
+
+    if (category === "All") {
+       setFiltered(products.slice(0, 4));
+      
+    } else {
+      const filteredItems = products
+        .filter((item) => item.category.toLowerCase() === category.toLowerCase())
+        .slice(0, 4); 
+      setFiltered(filteredItems);
+    }
+  };
 
   // Motion Variants
   const containerVariants = {
@@ -93,18 +86,18 @@ export default function PopularProduct() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <button className="px-4 py-2 rounded bg-secondary text-white shadow hover:bg-blue-300 transition cursor-pointer">
-            All
-          </button>
-          <button className="px-4 py-2 rounded border border-blue-400 text-blue-500 hover:bg-blue-100 transition cursor-pointer">
-            Electronics
-          </button>
-          <button className="px-4 py-2 rounded border border-blue-400 text-blue-500 hover:bg-blue-100 transition cursor-pointer">
-            Fashion
-          </button>
-          <button className="px-4 py-2 rounded border border-blue-400 text-blue-500 hover:bg-blue-100 transition cursor-pointer">
-            Grocery
-          </button>
+          {["All", "Electronics", "Fashion", "Grocery"].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => handleCategory(cat)}
+              className={`px-4 py-2 rounded transition cursor-pointer 
+                ${selectedCategory === cat
+                  ? "bg-secondary text-white"
+                  : "border border-blue-400 text-blue-500 hover:bg-blue-100"}`}
+            >
+              {cat}
+            </button>
+          ))}
         </motion.div>
 
         {/* Products Grid */}
@@ -115,9 +108,9 @@ export default function PopularProduct() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {products.map((product) => (
+          {filtered.map((product) => (
             <motion.div
-              key={product.id}
+              key={product._id}
               className="relative bg-white shadow-2xl rounded-lg p-4 border border-gray-200 hover:shadow-lg transition"
               variants={cardVariants}
               whileHover="hover"
@@ -155,7 +148,7 @@ export default function PopularProduct() {
                 {"⭐".repeat(Math.floor(product.rating))}
                 {product.rating % 1 !== 0 ? "⭐" : ""}
                 <span className="text-gray-500 ml-1">
-                  ({product.rating.toFixed(1)})
+                  {/* ({product.rating.toFixed(1)}) */}
                 </span>
               </p>
 
