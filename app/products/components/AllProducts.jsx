@@ -5,6 +5,7 @@ import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+// import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
 export default function AllProducts() {
@@ -13,7 +14,7 @@ export default function AllProducts() {
   const productsPerPage = 8;
 
   const router = useRouter();
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
