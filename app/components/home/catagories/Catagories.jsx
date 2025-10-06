@@ -20,6 +20,10 @@ export default function Categories() {
       });
   }, []);
 
+   const uniqueCategories = Array.from(
+    new Map(products.map(p => [p.category, p])).values()
+  );
+
   // Staggered animation variants for the grid
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -90,7 +94,7 @@ export default function Categories() {
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
       >
-        {products.map((product, index) => (
+        {uniqueCategories.map((product, index) => (
           <motion.div
             key={product._id}
             className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
