@@ -2,22 +2,22 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Star } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+// import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation"; 
 
 export default function ProductDetails({ product }) {
   const [quantity, setQuantity] = useState(1);
   const router = useRouter();
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
-  const handleAddToCart = (product) => {
-    addToCart({ ...product, quantity });
-    toast.success(`${product.name} added to cart!`);
-    setTimeout(() => {
-      router.push("/cart");
-    }, 2000);
-  };
+  // const handleAddToCart = (product) => {
+  //   addToCart({ ...product, quantity });
+  //   toast.success(`${product.name} added to cart!`);
+  //   setTimeout(() => {
+  //     router.push("/cart");
+  //   }, 2000);
+  // };
 
   return (
     <div className="max-w-6xl mx-auto py-16 px-6 grid md:grid-cols-2 gap-12 border my-6 rounded-2xl bg-gray-50 items-center">
@@ -82,7 +82,7 @@ export default function ProductDetails({ product }) {
           </div>
 
           <button
-            onClick={() => handleAddToCart(product)}
+            // onClick={() => handleAddToCart(product)}
             className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all hover:cursor-pointer"
           >
             Add to Cart
