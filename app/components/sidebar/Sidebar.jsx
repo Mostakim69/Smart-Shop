@@ -18,7 +18,7 @@ export default function Sidebar() {
     {
       name: "Categories", href: "/dashboard/categories", icon: <Layers2 className="h-5 w-5" />,
     },
-    { name: "All Products", href: "/dashboard/allproduct", icon: <PackageOpen className="h-5 w-5" />, },
+    { name: "All Products", href: "/dashboard/products", icon: <PackageOpen className="h-5 w-5" />, },
     { name: "Customers", href: "/dashboard/customers", icon: <User className="h-5 w-5" />, },
     { name: "Reviews", href: "/dashboard/reviews", icon: <Star className="h-5 w-5" />, },
     { name: "Collections", href: "/dashboard/collections", icon: <LibraryBig className="h-5 w-5" />, },
