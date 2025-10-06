@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
-  const { cart, removeFromCart } = useCart();
 
   return (
     <div className="container mx-auto p-8">
