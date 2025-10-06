@@ -4,16 +4,14 @@ import DashboardNavbar from '../components/dashNav/DashNav'
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className='bg-gray-50'>
-      <div className="flex">
-        <Sidebar />
-        <div className='grid w-full'>
+      <main className="flex">
+        <div className='hidden md:block'><Sidebar /></div>
+        <div className='flex-1 flex flex-col'>
           <DashboardNavbar></DashboardNavbar>
-          <div className="flex-1 p-4">
+          <section className="flex-1">
             {children}
-          </div>
+          </section>
         </div>
-      </div>
-    </div>
+      </main>
   )
 }
