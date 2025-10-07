@@ -17,13 +17,13 @@ export default function CheckoutPage() {
     useEffect(() => {
         if (type === "single" && productId) {
             // 1️⃣ Buy Now case
-            axios.get(`http://localhost:5000/products/${productId}`)
+            axios.get(`https://smart-shop-server-three.vercel.app/products/${productId}`)
                 .then(res => setItems([res.data]))
                 .catch(err => console.log(err));
         }
         else if (type === "cart" && email) {
             // 2️⃣ Cart Checkout case
-            axios.get(`http://localhost:5000/cartItems?email=${email}`)
+            axios.get(`https://smart-shop-server-three.vercel.app/cartItems?email=${email}`)
                 .then(res => setItems(res.data))
                 .catch(err => console.log(err));
         }
