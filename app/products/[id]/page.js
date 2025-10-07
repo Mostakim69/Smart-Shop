@@ -7,7 +7,7 @@ export default async function productDetailsPage({ params }) {
 
     const { id } = params;
 
-    const product = await fetch(`http://localhost:5000/products/${id}`)
+    const product = await fetch(`https://smart-shop-server-three.vercel.app/products/${id}`)
         .then(res => res.json())
         .catch(err => {
             console.log(err);

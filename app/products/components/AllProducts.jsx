@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
@@ -86,9 +87,9 @@ export default function AllProducts() {
                   <GrCart className="w-6 h-6 text-blue-600" />
                   <FaRegHeart className="w-6 h-6 text-purple-500" />
                 </button>
-                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
+                <Link href={`/checkout/${product._id}`} className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
                   Buy Now
-                </button>
+                </Link>
               </div>
             </div>
           </div>
