@@ -1,46 +1,47 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Navbar from "@/app/components/shared/Navbar";
 import Footer from "@/app/components/shared/footer/Footer";
+import Navbar from "../components/shared/Navbar";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function CheckoutPage() {
     const searchParams = useSearchParams();
-    const productId = searchParams.get("productId");
+    const type = searchParams.get("type");
+    const productId = searchParams.get("id");
+    const email = searchParams.get("email");
 
-    // Temporary fake data (you can replace later with API data)
-    const [items, setItems] = useState([
-        {
-            _id: "1",
-            name: "Wireless Bluetooth Headphone",
-            image: "https://i.ibb.co/3NN8rJr/headphone.jpg",
-            price: 1200,
-            quantity: 1,
-        },
-        {
-            _id: "2",
-            name: "Smart Fitness Watch",
-            image: "https://i.ibb.co/Z6JpB3m/watch.jpg",
-            price: 1800,
-            quantity: 1,
-        },
-    ]);
+    const [items, setItems] = useState([]);
 
-    // If productId found (Buy Now case), show only one product
     useEffect(() => {
-        if (productId) {
-            const singleItem = {
-                _id: productId,
-                name: "Special Product (Buy Now)",
-                image: "https://i.ibb.co/6vxW8hY/special-product.jpg",
-                price: 999,
-                quantity: 1,
-            };
-            setItems([singleItem]);
+        if (type === "single" && productId) {
+            // 1️⃣ Buy Now case
+            axios.get(`http://localhost:5000/products/${productId}`)
+                .then(res => setItems([res.data]))
+                .catch(err => console.log(err));
         }
-    }, [productId]);
+        else if (type === "cart" && email) {
+            // 2️⃣ Cart Checkout case
+            axios.get(`http://localhost:5000/cartItems?email=${email}`)
+                .then(res => setItems(res.data))
+                .catch(err => console.log(err));
+        }
+    }, [type, productId, email]);
 
-    const totalPrice = items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+    const handleOrder = (e) => {
+        e.preventDefault();
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+
+    const totalPrice = items.reduce((a, c) => a + c.price * (c.quantity || 1), 0)
+
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -50,7 +51,7 @@ export default function CheckoutPage() {
                 {/* Left side - Delivery info */}
                 <div className="flex-1 bg-base-100 p-6 rounded-xl shadow">
                     <h2 className="text-2xl font-bold text-primary mb-6">Shipping Information</h2>
-                    <form className="space-y-4">
+                    <form onSubmit={handleOrder} className="space-y-4">
                         <input
                             type="text"
                             placeholder="Full Name"
@@ -58,6 +59,7 @@ export default function CheckoutPage() {
                         />
                         <input
                             type="email"
+                            required
                             placeholder="Email Address"
                             className="input input-bordered w-full"
                         />
@@ -79,7 +81,7 @@ export default function CheckoutPage() {
                             <option>Bkash / Nagad / Rocket</option>
                             <option>Credit/Debit Card</option>
                         </select>
-                        <button type="button" className="btn btn-primary w-full mt-4">
+                        <button type="submit" className="btn btn-primary w-full mt-4">
                             Place Order
                         </button>
                     </form>

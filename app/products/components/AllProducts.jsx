@@ -133,7 +133,7 @@ export default function AllProducts() {
                     <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
                   </button>
                 </div>
-                <Link href={`/checkout/${product._id}`} className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
+                <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
                   Buy Now
                 </Link>
               </div>
