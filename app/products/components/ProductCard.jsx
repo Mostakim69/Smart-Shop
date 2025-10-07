@@ -130,14 +130,14 @@ export default function ProductDetails({ product }) {
               >
                 <div className="relative w-full h-48 overflow-hidden">
 
-                  <Image
+                  <img
                     src={
                       typeof item.image === "string" && item.image.startsWith("http")
-                        ? item.image.replace("i.ibb.co.com", "i.ibb.co")
+                        ? item.image
                         : "/placeholder.png"
                     }
                     alt={item.name || "Related Product"}
-                    fill
+                  
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
