@@ -15,6 +15,30 @@ export default function FAQSection() {
             No, our support team is available Monday to Friday, 9am - 6pm.
           </p>
         </details>
+    <details className="border rounded-lg p-4">
+      <summary className="cursor-pointer font-medium">
+        Can I track my order?
+      </summary>
+      <p className="mt-2 text-gray-600">
+        Yes, once your order is shipped, you’ll receive a tracking link via email.
+      </p>
+    </details>
+    <details className="border rounded-lg p-4">
+      <summary className="cursor-pointer font-medium">
+        What payment methods are accepted?
+      </summary>
+      <p className="mt-2 text-gray-600">
+        We accept all major credit cards, PayPal, and mobile payments.
+      </p>
+    </details>
+    <details className="border rounded-lg p-4">
+      <summary className="cursor-pointer font-medium">
+        Can I return a product?
+      </summary>
+      <p className="mt-2 text-gray-600">
+        Yes, returns are accepted within 14 days of purchase with original packaging.
+      </p>
+    </details>
       </div>
     </div>
   );
