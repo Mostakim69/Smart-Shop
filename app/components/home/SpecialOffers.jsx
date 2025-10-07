@@ -27,7 +27,7 @@ export default function SpecialOffers() {
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-black">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-primary">
             Special Offers & Coupons
           </h2>
           <p className="text-sm sm:text-base md:text-lg max-w-md mx-auto text-gray-400">
