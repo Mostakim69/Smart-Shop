@@ -5,6 +5,7 @@ import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+// import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
 export default function AllProducts() {
@@ -43,13 +44,13 @@ export default function AllProducts() {
   };
 
   // Add to cart
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    toast.success(`${product.name} added to cart!`);
-    setTimeout(() => {
-      router.push("/cart");
-    }, 2000);
-  };
+  // const handleAddToCart = (product) => {
+  //   addToCart(product);
+  //   toast.success(`${product.name} added to cart!`);
+  //   setTimeout(() => {
+  //     router.push("/cart");
+  //   }, 2000);
+  // };
 
   return (
     <div className="container mx-auto p-4">
@@ -63,7 +64,7 @@ export default function AllProducts() {
         <input
           onChange={handleSearch}
           type="text"
-          placeholder="Search by name"
+          placeholder="Search products..."
           className="w-full sm:w-1/2 md:w-1/3 border border-gray-300 rounded px-4 py-2 mt-4 focus:outline-none focus:ring-1 focus:ring-blue-600"
         />
       </div>
@@ -84,9 +85,6 @@ export default function AllProducts() {
                   alt={product.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                  {product.save}
-                </div>
               </div>
             </Link>
 
@@ -115,7 +113,7 @@ export default function AllProducts() {
 
               <div className="flex justify-between items-center">
                 <button
-                  onClick={() => handleAddToCart(product)}
+                  // onClick={() => handleAddToCart(product)}
                   className="flex space-x-2"
                 >
                   <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />

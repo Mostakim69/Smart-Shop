@@ -105,7 +105,7 @@ export default function ProductDetails({ product }) {
           </div>
 
           <button
-            onClick={() => handleAddToCart(product)}
+            // onClick={() => handleAddToCart(product)}
             className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all hover:cursor-pointer"
           >
             Add to Cart

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import GoBackButton from './components/goBackButton/page'
 
 export default function NotFound() {
   return (
@@ -15,12 +16,15 @@ export default function NotFound() {
       <p className="text-gray-600 mb-6">
         The page you’re looking for doesn’t exist or has been moved.
       </p>
-      <Link 
-        href="/" 
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200"
-      >
-        Back to Home
-      </Link>
+            <div className="flex gap-4">
+        <Link
+          href="/"
+          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+        >
+          Back to Home
+        </Link>
+        <GoBackButton label="Back to Previous Page" />
+      </div>
     </section>
   )
 }

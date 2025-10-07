@@ -3,14 +3,14 @@
 import { auth } from "@/lib/firebaseClient";
 import { signOut } from "firebase/auth";
 import { Layers2, LayoutDashboard, LibraryBig, LogOut, PackageOpen, Star, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 import { FaBox, FaHome, FaPlus } from "react-icons/fa";
 
 export default function Sidebar() {
-  const pathname = usePathname();
-
-  const links = [
+  const menuList = [
     { name: "Home", href: "/", icon: <FaHome /> },
     { name: "Overview", href: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, },
     { name: "Add Product", href: "/dashboard/addproduct", icon: <FaPlus /> },
@@ -18,7 +18,7 @@ export default function Sidebar() {
     {
       name: "Categories", href: "/dashboard/categories", icon: <Layers2 className="h-5 w-5" />,
     },
-    { name: "All Products", href: "/dashboard/allproduct", icon: <PackageOpen className="h-5 w-5" />, },
+    { name: "All Products", href: "/dashboard/products", icon: <PackageOpen className="h-5 w-5" />, },
     { name: "Customers", href: "/dashboard/customers", icon: <User className="h-5 w-5" />, },
     { name: "Reviews", href: "/dashboard/reviews", icon: <Star className="h-5 w-5" />, },
     { name: "Collections", href: "/dashboard/collections", icon: <LibraryBig className="h-5 w-5" />, },
@@ -27,12 +27,18 @@ export default function Sidebar() {
   return (
     <section className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
       <div className="flex justify-center py-4">
-        <Link href={`/`}>
-          <img className="h-8" src="/logo.png" alt="" />
-        </Link>
+        <div className="flex-shrink-0 text-2xl font-bold text-primary">
+          <Link href="/"><Image
+            src="/logo (3).png"
+            alt="Smart Shop Logo"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          /></Link>
+        </div>
       </div>
       <ul className="flex-1 h-full overflow-y-auto flex flex-col gap-4">
-        {links?.map((item, key) => {
+        {menuList?.map((item, key) => {
           return <Tab item={item} key={key} />;
         })}
       </ul>
@@ -60,7 +66,7 @@ export default function Sidebar() {
 
 function Tab({ item }) {
   const pathname = usePathname();
-  const isSelected = pathname === item?.link;
+  const isSelected = pathname === item?.href;
   return (
     <Link href={item?.href}>
       <li
