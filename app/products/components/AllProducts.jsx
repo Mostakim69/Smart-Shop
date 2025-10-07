@@ -4,14 +4,15 @@ import { GrCart } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
-// import { useCart } from "@/context/CartContext";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
+  const { user } = useAuth();
 
   const router = useRouter();
   // const { addToCart } = useCart();
@@ -44,17 +45,28 @@ export default function AllProducts() {
   };
 
   // Add to cart
-  // const handleAddToCart = (product) => {
-  //   addToCart(product);
-  //   toast.success(`${product.name} added to cart!`);
-  //   setTimeout(() => {
-  //     router.push("/cart");
-  //   }, 2000);
-  // };
+  const handleAddToCart = async (product) => {
+    const cartItem = {
+      userEmail: user?.email,
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    };
+
+    axios.post("http://localhost:5000/addToCart", cartItem)
+      .then(res => {
+        if (res.data?.insertedId) {
+          toast.success("Added to cart");
+        }
+      })
+      .catch(err => console.log(err));
+    console.log(cartItem);
+  };
 
   return (
     <div className="container mx-auto p-4">
-      <Toaster position="top-right" />
 
       {/* Section Title */}
       <div className="text-center mb-6">
@@ -112,17 +124,20 @@ export default function AllProducts() {
               </div>
 
               <div className="flex justify-between items-center">
-                <button
-                  // onClick={() => handleAddToCart(product)}
-                  className="flex space-x-2"
-                >
-                  <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
-                  <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
-                </button>
-                <button className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded hover:cursor-pointer">
+
+                <div className="flex space-x-2 items-center">
+                  <button onClick={() => handleAddToCart(product)}>
+                    <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
+                  </button>
+                  <button>
+                    <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
+                  </button>
+                </div>
+                <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
                   Buy Now
-                </button>
+                </Link>
               </div>
+
             </div>
           </div>
         ))}
@@ -160,6 +175,7 @@ export default function AllProducts() {
           Next
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }

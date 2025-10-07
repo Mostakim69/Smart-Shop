@@ -109,7 +109,7 @@ export default function Navbar() {
               <Heart className="w-6 h-6 text-gray-700 hover:text-primary" />
             </Link>
 
-            <Link href="/cart" className="relative">
+            <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />
               <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
                 2
