@@ -12,13 +12,13 @@ export default function CartPage() {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/cartItems?email=${user?.email}`)
+    axios.get(`https://smart-shop-server-three.vercel.app/cartItems?email=${user?.email}`)
       .then(res => setCartItems(res.data))
       .catch(err => console.log(err));
   }, [user?.email]);
 
   const handleDeleteToCart = async (id) => {
-    axios.delete(`http://localhost:5000/cartItems/${id}`)
+    axios.delete(`https://smart-shop-server-three.vercel.app/cartItems/${id}`)
       .then(res => {
         if (res.data?.deletedCount) {
           const remaining = cartItems.filter(item => item._id !== id);

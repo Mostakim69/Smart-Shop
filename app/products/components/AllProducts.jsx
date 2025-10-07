@@ -55,7 +55,7 @@ export default function AllProducts() {
       quantity: 1,
     };
 
-    axios.post("http://localhost:5000/addToCart", cartItem)
+    axios.post("https://smart-shop-server-three.vercel.app/addToCart", cartItem)
       .then(res => {
         if (res.data?.insertedId) {
           toast.success("Added to cart");
