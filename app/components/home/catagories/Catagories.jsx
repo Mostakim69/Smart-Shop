@@ -7,6 +7,7 @@ import Link from "next/link";
 
 export default function Categories() {
   const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -14,12 +15,21 @@ export default function Categories() {
       .get('https://smart-shop-server-three.vercel.app/products?category')
       .then(res => {
         setProducts(res.data);
+         setLoading(false);
       })
       .catch(err => {
         console.error("Error fetching products:", err);
+         setLoading(false)
       });
   }, []);
 
+   if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
    const uniqueCategories = Array.from(
     new Map(products.map(p => [p.category, p])).values()
   );
@@ -58,6 +68,9 @@ export default function Categories() {
       },
     },
   };
+
+   
+
 
   return (
     <div className="container mx-auto py-12 px-4">

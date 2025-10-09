@@ -9,6 +9,7 @@ export default function PopularProduct() {
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -16,13 +17,21 @@ export default function PopularProduct() {
         const res = await axios.get("https://smart-shop-server-three.vercel.app/products");
         setProducts(res.data);
         setFiltered(res.data.slice(0, 4));
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
+        setLoading(false);
       }
     }
     fetchProducts();
   }, []);
-
+if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40">   
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   const handleCategory = (category) => {
     setSelectedCategory(category);
 
