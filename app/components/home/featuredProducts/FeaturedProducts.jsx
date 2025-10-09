@@ -10,16 +10,30 @@ import axios from 'axios';
 export default function FeaturedProducts() {
 
   const [products, setProducts] = useState([]);
+   const [loading, setLoading] = useState(true);
   // const router = useRouter();
   // const { addToCart } = useCart();
 
   useEffect(() => {
     axios
       .get("https://smart-shop-server-three.vercel.app/products")
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.error("Error fetching products:", err));
+      .then((res) => {
+        setProducts(res.data)
+        setLoading(false);
+      })
+      .catch((err) =>{
+         console.error("Error fetching products:", err)
+         setLoading(false)
+        });
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40"> 
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   const featured = products.slice(0, 8);
 
   // const handleAddToCart = (product) => {
