@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { FaBox, FaHome, FaPlus } from "react-icons/fa";
 
 export default function Sidebar() {
+
+  
   const menuList = [
     { name: "Home", href: "/", icon: <FaHome /> },
     { name: "Overview", href: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, },

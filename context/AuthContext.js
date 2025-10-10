@@ -17,6 +17,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   // Signup with email/password
   const signup = (email, password) => {
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -70,9 +71,11 @@ export const AuthProvider = ({ children }) => {
         signup,
         login,
         loginWithGoogle,
-        loginWithFacebook, 
+        loginWithFacebook,
         logout,
         updateUserProfile,
+        setOpenSidebar,
+        openSidebar,
       }}
     >
       {children}
