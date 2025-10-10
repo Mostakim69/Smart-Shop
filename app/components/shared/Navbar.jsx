@@ -38,12 +38,12 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
             <Link href="/"><Image
-                          src="/logo (3).png"
-                          alt="Smart Shop Logo"
-                          width={60}
-                          height={60}
-                          className="rounded-xl"
-                        /></Link>
+              src="/logo (3).png"
+              alt="Smart Shop Logo"
+              width={60}
+              height={60}
+              className="rounded-xl"
+            /></Link>
           </div>
 
           {/* Desktop Menu */}
@@ -78,12 +78,14 @@ export default function Navbar() {
             >
               <Phone className="w-4 h-4" /> Contact
             </Link>
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
-            >
-              <LayoutDashboard className="w-4 h-4" /> Dashboard
-            </Link>
+            {user?.email &&
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-1 hover:text-primary hover:underline"
+              >
+                <LayoutDashboard className="w-4 h-4" /> Dashboard
+              </Link>
+            }
             <Link
               href="/login"
               className="flex items-center gap-1 hover:text-primary hover:underline"
