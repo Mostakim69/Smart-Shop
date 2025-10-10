@@ -60,7 +60,7 @@ export default function CartPage() {
                   </div>
 
                   <div className='flex flex-col items-center gap-2'>
-                    <button onClick={() => handleDeleteToCart(item?._id)} className='text-error hover:text-error-focus text-xl'>🗑️</button>
+                    <button onClick={() => handleDeleteToCart(item?._id)} className='text-error cursor-pointer hover:text-error-focus text-xl'>🗑️</button>
                     <button className='text-neutral hover:text-primary text-xl'>❤️</button>
                   </div>
                 </div>

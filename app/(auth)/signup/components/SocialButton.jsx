@@ -3,13 +3,15 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function SocialButton({ icon, provider }) {
-  const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const { loginWithGoogle, loginWithFacebook, user } = useAuth();
   const router = useRouter(); 
 
   const handleClick = async () => {
     try {
       if (provider === "google") {
         await loginWithGoogle();
+        
+
       } else if (provider === "facebook") {
         await loginWithFacebook();
       }

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
 
 export default function ProductDetails({ product }) {
   const [quantity, setQuantity] = useState(1);
@@ -114,7 +115,9 @@ export default function ProductDetails({ product }) {
             Buy Now
           </button>
         </div>
+
       </div>
+      <RatingAndReview product={product}></RatingAndReview>
       {related.length > 0 && (
         <div className="mt-20 md:col-span-2 w-full">
           <h2 className="text-2xl font-semibold mb-8 text-gray-900 text-center">
@@ -137,7 +140,7 @@ export default function ProductDetails({ product }) {
                         : "/placeholder.png"
                     }
                     alt={item.name || "Related Product"}
-                  
+
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
