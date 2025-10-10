@@ -24,6 +24,8 @@ export default function Sidebar() {
     { name: "Collections", href: "/dashboard/collections", icon: <LibraryBig className="h-5 w-5" />, },
   ];
 
+  
+
   return (
     <section className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
       <div className="flex justify-center py-4">

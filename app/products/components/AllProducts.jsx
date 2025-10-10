@@ -13,6 +13,7 @@ export default function AllProducts() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   // const { addToCart } = useCart();
@@ -26,9 +27,22 @@ export default function AllProducts() {
   useEffect(() => {
     axios
       .get("https://smart-shop-server-three.vercel.app/products")
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {setProducts(res.data)
+      setLoading(false);
+  })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false);
+  });
   }, []);
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40"> 
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   // Search
   const handleSearch = async (e) => {
@@ -70,7 +84,7 @@ export default function AllProducts() {
 
       {/* Section Title */}
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold">
           All Products
         </h2>
         <input
@@ -130,10 +144,10 @@ export default function AllProducts() {
                     <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
                   </button>
                   <button>
-                    <FaRegHeart className="w-6 h-6 text-purple-500 hover:cursor-pointer" />
+                    <FaRegHeart className="w-6 h-6 text-secondary hover:cursor-pointer" />
                   </button>
                 </div>
-                <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded">
+                <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-secondary text-white rounded">
                   Buy Now
                 </Link>
               </div>
@@ -149,7 +163,7 @@ export default function AllProducts() {
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+          className="px-3 py-1 rounded disabled:opacity-50 bg-secondary text-white cursor-pointer"
         >
           Prev
         </button>
@@ -158,7 +172,7 @@ export default function AllProducts() {
           <button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${currentPage === i + 1
+            className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1
               ? "border text-black"
               : "bg-purple-200 text-black"
               }`}
@@ -170,7 +184,7 @@ export default function AllProducts() {
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-          className="px-3 py-1 rounded disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+          className="px-3 py-1 rounded disabled:opacity-50 bg-secondary text-white"
         >
           Next
         </button>

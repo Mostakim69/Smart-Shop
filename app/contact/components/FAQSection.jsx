@@ -1,7 +1,7 @@
 export default function FAQSection() {
   return (
     <div className="mt-14">
-      <h2 className="text-2xl font-bold mb-4 text-center">FAQ</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">Frequently Asked Question (FAQ)</h2>
       <div className="space-y-4 max-w-2xl mx-auto">
         <details className="border rounded-lg p-4">
           <summary className="cursor-pointer font-medium">
