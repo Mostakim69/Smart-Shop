@@ -14,7 +14,7 @@ export default function MoreProduct({ related }) {
     const currentProducts = related.slice(indexOfFirst, indexOfLast);
 
     return (
-        <div className="mt-20 md:col-span-2 w-full">
+        <div className="md:col-span-2 w-full">
             {related?.length > 0 && (
                 <div className="mt-12 pb-10 w-full flex flex-col items-center">
                     <h2 className="text-2xl font-semibold mb-8 text-gray-900 text-center">
@@ -44,8 +44,9 @@ export default function MoreProduct({ related }) {
                                     <h3 className="text-base md:text-lg font-semibold text-gray-900 truncate">
                                         {item.name}
                                     </h3>
+                                    
                                     <p className="text-blue-600 font-medium mt-1">${item.price}</p>
-                                    <p className="text-gray-500 text-sm mt-1">{item.category}</p>
+                                    
                                 </div>
                             </Link>
                         ))}
@@ -57,7 +58,7 @@ export default function MoreProduct({ related }) {
                     <button
                         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                        className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50"
+                        className="px-4 py-2 bg-gray-900 rounded-lg hover:bg-black disabled:opacity-50"
                     >
                         Prev
                     </button>
@@ -76,7 +77,7 @@ export default function MoreProduct({ related }) {
                     <button
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                        className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50"
                     >
                         Next
                     </button>

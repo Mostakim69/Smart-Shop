@@ -13,7 +13,7 @@ export default function Quantity({ product }) {
   };
 
   return (
-    <div className="flex items-center gap-6 mt-6">
+    <div className="flex items-center gap-6 mt-4">
       <div className="flex items-center border border-gray-500 rounded-lg">
         <button
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -31,15 +31,18 @@ export default function Quantity({ product }) {
       </div>
 
       {/* Buttons */}
-      <button
-        onClick={handleAddToCart}
-        className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all"
-      >
-        Add to Cart
-      </button>
-      <button className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all">
-        Buy Now
-      </button>
+      <div className="flex  sm:flex-row justify-center lg:justify-start gap-3 w-full lg:w-auto">
+        <button
+          onClick={handleAddToCart}
+          className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all"
+        >
+          Add to Cart
+        </button>
+        <button className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all">
+          Buy Now
+        </button>
+      </div>
     </div>
+
   );
 }
