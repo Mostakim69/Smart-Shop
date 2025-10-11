@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import Quantity from './Quantity';
 import MoreProduct from './MoreProduct';
+// import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
 
 export default function ProductDetails({ product, related }) {
   return (
@@ -55,8 +56,10 @@ export default function ProductDetails({ product, related }) {
         <div className="flex items-center gap-6 mt-6">
           <Quantity product={product} />
         </div>
+
       </div>
       <MoreProduct related={related} />
+      {/* <RatingAndReview product={product}></RatingAndReview> */}
     </div>
   );
 }

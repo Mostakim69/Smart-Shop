@@ -30,7 +30,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Enter your name"
-          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-secondary  outline-none"
         />
       </div>
 
@@ -43,7 +43,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Enter your email"
-          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-secondary  outline-none"
         />
       </div>
 
@@ -55,7 +55,7 @@ export default function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           placeholder="Enter subject"
-          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-secondary outline-none"
         />
       </div>
 
@@ -68,13 +68,13 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Write your message..."
-          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border rounded-lg px-4 py-2 focus:border-none focus:ring-2 focus:ring-secondary  outline-none"
         ></textarea>
       </div>
 
       <button
         type="submit"
-        className="w-full  bg-gradient-to-r from-blue-600 to-purple-500 cursor-pointer text-white font-semibold py-2 rounded-lg transition"
+        className="w-full  bg-secondary cursor-pointer text-white font-semibold py-2 rounded-lg transition"
       >
         Send Message
       </button>

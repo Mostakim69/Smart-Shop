@@ -18,6 +18,7 @@ export default function AddProductForm() {
 
     axios.post('https://smart-shop-server-three.vercel.app/products', data)
       .then(res => {
+        console.log(res.data);
         if (res.data?.insertedId) {
           Swal.fire({
             position: "top-end",
@@ -107,7 +108,7 @@ export default function AddProductForm() {
             <option value="grocery">Grocery</option>
             <option value="home">Home & Living</option>
             <option value="toys">Gifts & Toys</option>
-            <option value="sports">Fitness & Sports</option>  
+            <option value="sports">Fitness & Sports</option>
           </select>
           {errors.category && (
             <p className="text-error text-sm">{errors.category.message}</p>

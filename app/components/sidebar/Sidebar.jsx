@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { FaBox, FaHome, FaPlus } from "react-icons/fa";
 
 export default function Sidebar() {
+
+  
   const menuList = [
     { name: "Home", href: "/", icon: <FaHome /> },
     { name: "Overview", href: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, },
@@ -23,6 +25,8 @@ export default function Sidebar() {
     { name: "Reviews", href: "/dashboard/reviews", icon: <Star className="h-5 w-5" />, },
     { name: "Collections", href: "/dashboard/collections", icon: <LibraryBig className="h-5 w-5" />, },
   ];
+
+  
 
   return (
     <section className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
