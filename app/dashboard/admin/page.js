@@ -5,8 +5,8 @@ export default function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="p-4 bg-white rounded shadow">Total Users: 120</div>
-        <div className="p-4 bg-white rounded shadow">Total Orders: 80</div>
+        <div className="p-4 bg-white rounded shadow">Total Users: 700</div>
+        <div className="p-4 bg-white rounded shadow">Total Orders: 180</div>
         <div className="p-4 bg-white rounded shadow">Total Sales: $5000</div>
         <div className="p-4 bg-white rounded shadow">Products: 45</div>
       </div>
