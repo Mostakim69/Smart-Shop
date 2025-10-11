@@ -16,7 +16,6 @@ export default function AllProducts() {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  // const { addToCart } = useCart();
 
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
@@ -116,10 +115,9 @@ export default function AllProducts() {
 
             {/* Product Info */}
             <div className="p-4">
-              {/* Name (Clickable) */}
+              {/* Name */}
               <Link href={`/products/${product._id}`}>
                 <h3
-                  // className="text-gray-500 font-medium text-sm mb-1 hover:text-black transition hover:underline"
                   className="inline-block relative text-gray-500 font-medium text-sm mb-1 
                hover:text-blue-600 transition-colors duration-200 
                after:content-[''] after:absolute after:left-0 after:bottom-0 
