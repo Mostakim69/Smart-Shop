@@ -8,13 +8,16 @@ export default function Sidebar() {
     const { openSidebar } = useAuth();
 
     //   role base 
-    const user = { role: "selsler" };
+    const user = { role: "admin" };
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
     // 🔸 Admin menu
     const adminMenu = (
         <>
+            <li><Link href="/">Home</Link></li>
             <li><Link href="/dashboard/admin">Admin Dashboard</Link></li>
+            <li><Link href="/dashboard/admin/manage-products">Manage Products</Link></li>
+            <li><Link href="/dashboard/admin/manage-orders">Manage Orders</Link></li>
             <li><Link href="/dashboard/admin/manage-users">Manage Users</Link></li>
             <li><Link href="/dashboard/admin/reports">Reports</Link></li>
         </>
