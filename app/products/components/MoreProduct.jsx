@@ -24,7 +24,7 @@ export default function MoreProduct({ related }) {
                         {currentProducts.map((item) => (
                             <Link
                                 key={item._id}
-                                href={`/product/${item._id}`}
+                                href={`/products/${item._id}`}
                                 className="group block bg-white rounded-2xl shadow-md border hover:shadow-xl transition-transform hover:scale-[1.02] cursor-pointer overflow-hidden"
                             >
                                 <div className="relative w-full h-48 overflow-hidden">
