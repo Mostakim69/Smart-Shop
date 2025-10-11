@@ -27,8 +27,7 @@ export default async function productDetailsPage({ params }) {
             (item) =>
                 item.category?.toLowerCase() === product?.category?.toLowerCase() &&
                 item._id !== product?._id
-        )
-        .slice(0, 4);
+        );
 
 
     return (
