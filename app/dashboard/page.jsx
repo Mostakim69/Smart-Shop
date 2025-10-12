@@ -152,7 +152,7 @@
 export default function DashboardHome() {
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4">Welcome to Dashboard</h2>
+      <h2 className="text-2xl font-semibold mb-4">Welcome to Dashboard </h2>
       <p className="text-gray-600">
         This is your dashboard home page. Sidebar is responsive.
       </p>
