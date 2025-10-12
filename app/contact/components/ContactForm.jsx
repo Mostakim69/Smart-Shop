@@ -20,7 +20,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 border border-gray-300 shadow-md rounded-lg p-6">
       <div>
         <label className="block text-sm font-medium mb-1">Full Name</label>
         <input

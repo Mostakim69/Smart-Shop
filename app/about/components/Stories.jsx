@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export default function Stories() {
     return (
         <section className="py-20">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center border border-gray-300 rounded-2xl">
                 <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="space-y-5">
                     <h2 className="text-4xl font-extrabold text-primary mb-6">Our Story</h2>
                     <p className="text-gray-700 leading-relaxed text-lg"> 🌱 Founded in 2019, Smart Shop Shopping began with a simple mission: to make quality products accessible to everyone, everywhere. </p>

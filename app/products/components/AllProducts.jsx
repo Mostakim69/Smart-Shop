@@ -100,7 +100,7 @@ export default function AllProducts() {
         {currentProducts.map((product) => (
           <div
             key={product._id}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
+            className="border border-gray-300 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
           >
             {/* Image  */}
             <Link href={`/products/${product._id}`}>

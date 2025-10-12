@@ -4,7 +4,7 @@ import { Instagram, Twitter, Facebook, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 py-10">
+    <footer className=" border-t border-gray-200 py-10">
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
         {/* Brand Section */}
         <div>

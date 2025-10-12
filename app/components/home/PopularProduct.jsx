@@ -120,13 +120,13 @@ if (loading) {
           {filtered.map((product) => (
             <motion.div
               key={product._id}
-              className="relative bg-white shadow-2xl rounded-lg p-4 border border-gray-200 hover:shadow-lg transition"
+              className="relative  shadow-2xl rounded-lg p-4 border border-gray-200 hover:shadow-lg transition"
               variants={cardVariants}
               whileHover="hover"
               whileTap={{ scale: 0.97 }}
             >
               {/* Discount Badge */}
-              <span className="absolute z-10 top-2 left-2 bg-yellow-400 text-black border-1 text-xs px-2 py-1 rounded">
+              <span className="absolute z-10 top-2 left-2 bg-yellow-400  border-1 text-xs px-2 py-1 rounded">
                 {product.discount}
               </span>
 

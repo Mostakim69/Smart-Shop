@@ -68,7 +68,7 @@ const Testimonial = () => {
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="bg-white p-6 rounded-xl shadow-2xl flex flex-col items-center text-center hover:shadow-lg transition"
+              className=" p-6 rounded-xl shadow-2xl flex flex-col items-center text-center hover:shadow-lg transition"
             >
               <img
                 src={review.image}
