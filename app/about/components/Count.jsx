@@ -28,7 +28,7 @@ export default function Count() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"> {stats.map((stat, index) => (
                     <div
-                        key={index} className="p-6 sm:p-8 bg-white rounded-3xl shadow-md hover:shadow-xl transition duration-500 transform hover:-translate-y-2 flex flex-col items-center"
+                        key={index} className="p-6 sm:p-8  rounded-3xl shadow-md hover:shadow-xl transition duration-500 transform hover:-translate-y-2 flex flex-col items-center border border-gray-300"
                     >
                         {/* Icon */}
                         <div className={`text-4xl sm:text-5xl mb-3 sm:mb-4 ${stat.color}`}> {stat.icon}

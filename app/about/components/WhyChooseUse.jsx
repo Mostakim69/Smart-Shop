@@ -50,7 +50,7 @@ export default function WhyChooseUs() {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition duration-300 text-center"
+              className=" border border-gray-300 p-8 rounded-2xl shadow hover:shadow-xl transition duration-300 text-center"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}

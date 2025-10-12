@@ -70,7 +70,7 @@ export default function OurTeam() {
           {teamMembers.map((member, index) => (
             <motion.div
               key={member.id}
-              className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition relative text-center"
+              className=" border border-gray-300 p-6 rounded-xl shadow hover:shadow-lg transition relative text-center"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2, duration: 0.6 }}

@@ -97,7 +97,7 @@ export default function Categories() {
         {uniqueCategories.map((product, index) => (
           <motion.div
             key={product._id}
-            className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
+            className="flex flex-col items-center justify-center p-6  rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-300 overflow-hidden group"
             variants={itemVariants}
             whileHover="hover"
             whileTap={{ scale: 0.98 }}

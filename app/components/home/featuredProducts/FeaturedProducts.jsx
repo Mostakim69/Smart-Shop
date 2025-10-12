@@ -83,7 +83,7 @@ export default function FeaturedProducts() {
         {featured.map(product => (
           <motion.div
             key={product._id}
-            className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-xl transition"
+            className=" rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-xl transition"
             variants={itemVariants}
             whileHover="hover"
             whileTap={{ scale: 0.97 }}

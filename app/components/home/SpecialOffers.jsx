@@ -40,7 +40,7 @@ export default function SpecialOffers() {
           {offers.map((offer) => (
             <div
               key={offer.id}
-              className="bg-blue-100 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg transition relative"
+              className="bg-gray-300 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg transition relative"
             >
               {/* Ribbon / Badge */}
               <span className="absolute top-2 left-6 bg-blue-600 text-white text-xs px-2 py-1 rounded">

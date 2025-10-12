@@ -25,7 +25,7 @@ export default function ThemeToggler() {
     >
       <input type="checkbox" checked={theme === "dark"} readOnly />
       <Sun className="swap-off fill-current w-5 h-5 text-yellow-400" />
-      <Moon className="swap-on fill-current w-5 h-5 text-gray-800" />
+      <Moon className="swap-on fill-current w-5 h-5 text-gray-300" />
     </button>
   );
 }
