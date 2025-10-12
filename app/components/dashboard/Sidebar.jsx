@@ -3,11 +3,22 @@
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import React from "react";
+import {
+  HomeIcon,
+  ChartBarIcon,
+  ShoppingBagIcon,
+  HeartIcon,
+  ShoppingCartIcon,
+  UserCircleIcon,
+  ArrowRightOnRectangleIcon,
+  ChatBubbleBottomCenterTextIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Sidebar() {
     const { openSidebar } = useAuth();
 
     //   role base 
+    const user = { role: "user" };
     const user = { role: "admin" };
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
@@ -34,15 +45,92 @@ export default function Sidebar() {
         </>
     );
 
-    // akhane newaz vai kaj korben ja ja link lage add korben 
-    // 🔸 User menu
-    const userMenu = (
-        <>
-            <li><Link href="/dashboard/user">User Dashboard</Link></li>
-            <li><Link href="/dashboard/user/orders">My Orders</Link></li>
-            <li><Link href="/dashboard/user/profile">Profile</Link></li>
-        </>
-    );
+      // 🔸 User menu (Newaz Vai)
+  const userMenu = (
+    <>
+      {/* Top section */}
+      <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
+        <li>
+          <Link
+            href="/"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <HomeIcon className="w-5 h-5 text-gray-600" />
+            <span>Home</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/dashboard/user"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <ChartBarIcon className="w-5 h-5 text-gray-600" />
+            <span>Overview</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/dashboard/user/orders"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <ShoppingBagIcon className="w-5 h-5 text-gray-600" />
+            <span>My Orders</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/dashboard/user/wishlist"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <HeartIcon className="w-5 h-5 text-gray-600" />
+            <span>Wishlist</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/dashboard/user/cart"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <ShoppingCartIcon className="w-5 h-5 text-gray-600" />
+            <span>Cart</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/dashboard/user/reviews"
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-gray-600" />
+            <span>My Reviews</span>
+          </Link>
+        </li>
+      </ul>
+
+      {/* Bottom section */}
+      <div className="mt-auto border-t pt-4 space-y-2">
+        <Link
+          href="/dashboard/user/profile"
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
+        >
+          <UserCircleIcon className="w-5 h-5 text-gray-600" />
+          <span>Profile</span>
+        </Link>
+
+        <Link
+          href="dashboard/user/logout"
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
+        >
+          <ArrowRightOnRectangleIcon className="w-5 h-5" />
+          <span>Logout</span>
+        </Link>
+      </div>
+    </>
+  );
 
     // 🔸 Choose menu based on role
     let menuItems;
@@ -52,16 +140,15 @@ export default function Sidebar() {
 
     return (
         <div
-            className={`bg-white col-span-3 h-screen p-4 border-r 
-        ${openSidebar ? "block" : "hidden"} md:block`}
-        >
-            <h1 className="text-2xl font-bold text-primary text-center mb-6">
-                Smart Shop
-            </h1>
+      className={`bg-white text-black col-span-3 h-screen p-4 border-r shadow-sm flex flex-col 
+      transition-all duration-300 ${openSidebar ? "block" : "hidden"} md:flex`}
+    >
+      <h1 className="text-2xl font-bold text-primary text-center mb-6">
+        Smart Shop
+      </h1>
 
-            <ul className="flex flex-col gap-3 text-gray-700 font-medium">
-                {menuItems}
-            </ul>
-        </div>
+      {/* Sidebar Menu */}
+      {menuItems}
+    </div>
     );
 }
