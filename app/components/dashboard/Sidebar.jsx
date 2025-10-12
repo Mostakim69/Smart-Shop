@@ -18,7 +18,6 @@ export default function Sidebar() {
     const { openSidebar } = useAuth();
 
     //   role base 
-    const user = { role: "user" };
     const user = { role: "admin" };
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
