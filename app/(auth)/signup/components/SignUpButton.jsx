@@ -1,63 +1,65 @@
 "use client";
-
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-export default function SignUpButton() {
-  const { signup, updateUserProfile } = useAuth();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+export default function SocialButton({ icon, provider, className }) {
+  const { loginWithGoogle, loginWithFacebook, user } = useAuth();
+  const router = useRouter(); 
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
-    const form = e.target.closest("form");
-    const name = form.name.value;
-    const photo = form.photo.value;
-    const email = form.email.value;
-    const password = form.password.value;
-
+  const handleClick = async () => {
     try {
-      setLoading(true);
+      let authResult;
+      
+      if (provider === "google") {
+        authResult = await loginWithGoogle();
+      } else if (provider === "facebook") {
+        authResult = await loginWithFacebook();
+      }
+      
+      // Get the user data from the authentication result
+      const user = authResult?.user;
+      
+      // --- START: Send user data to your backend for a database sync ---
+      
+      if (user) {
+        const res = await fetch('http://localhost:5000/social-login', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: user.displayName,
+                email: user.email,
+            }),
+        });
 
-      //  Firebase signup
-      const result = await signup(email, password);
+        const result = await res.json();
+        
+        if (res.ok) {
+            console.log('User synced with backend:', result);
+            // Redirect to home page after successful login and sync
+            router.push("/"); 
+        } else {
+            console.error('Backend sync failed:', result.message);
+            alert(`Login successful but user sync failed: ${result.message}`);
+        }
+      }
+      // --- END: Send user data to your backend for a database sync ---
 
-      //  Update  profile
-      await updateUserProfile(name, photo);
-
-      //  Send data to your database
-      // const userData = { name, email, photo };
-      // await fetch("/api/users", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(userData),
-      // });
-
-      alert("Signup successful!");
-      router.push("/");
     } catch (err) {
-      alert(err.message);
-    } finally {
-      setLoading(false);
+      console.error("Social login error:", err);
+      // Display a general error if the initial social login fails
+      alert(err.message || "An error occurred during social login.");
     }
   };
 
   return (
     <button
-      type="submit"
-      onClick={handleSignUp}
-      disabled={loading}
-      className={`w-full py-3 rounded-lg font-medium transition ${
-        loading
-          ? "bg-gray-400 text-white cursor-not-allowed"
-          : "bg-black text-white hover:opacity-90"
-      }`}
+      onClick={handleClick}
+      // Use the className prop passed from SignUpPage for styling
+      className={`flex items-center justify-center ${className}`}
     >
-      {loading ? "Signing up..." : "Sign Up"}
+      {icon}
     </button>
   );
 }

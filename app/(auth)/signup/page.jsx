@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import PasswordInput from "./components/PasswordInput";
 import SignUpButton from "./components/SignUpButton";
@@ -32,7 +34,7 @@ export default function SignUpPage() {
 
             {/* Form */}
             <form 
-            onSubmit={()=>handleEmailPassLogin}
+            onSubmit={handleEmailPassLogin}
             className="mt-4 space-y-3">
               <input
                 type="text"
@@ -41,6 +43,8 @@ export default function SignUpPage() {
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-black focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition duration-200 shadow-sm hover:shadow-md"
                 required
               />
+
+              <ImageUpload></ImageUpload>
 
               <input
                 type="email"
@@ -60,10 +64,13 @@ export default function SignUpPage() {
               >
                 <option value="user">User</option>
                 <option value="seller">Seller</option>
+                <option value="admin">Admin</option>
               </select>
 
               {/* Sign Up Button */}
-              <SignUpButton className="w-full py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-semibold shadow-lg transition duration-300" />
+              <SignUpButton className="w-full py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-semibold shadow-lg transition duration-300" >
+              Sign Up
+              </SignUpButton>
             </form>
 
             {/* Already have account */}
