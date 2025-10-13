@@ -1,55 +1,49 @@
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
-'use client';
-import React, { useState } from "react";
+export default function ProductFilters() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-export default function SearchAndFilter({ products }) {
-  const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [search, setSearch] = useState(searchParams.get("name") || ""); // <-- name
+  const [category, setCategory] = useState(searchParams.get("category") || "");
 
-  const filteredProducts = products.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchCategory = categoryFilter === "all" ? true : p.category === categoryFilter;
-    return matchSearch && matchCategory;
-  });
+  // Debounce search input
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      const params = new URLSearchParams();
+
+      // ✅ backend expects "name"
+      if (search) params.set("name", search);
+      if (category) params.set("category", category);
+
+      router.push(`?${params.toString()}`);
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [search, category, router]);
 
   return (
-    <div>
-      {/* Search & Filter */}
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="border rounded px-3 py-2 w-full"
-        />
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        >
-          <option value="all">All Categories</option>
-          <option value="electronics">Electronics</option>
-          <option value="home">Home & Living</option>
-          <option value="fitness">Workout & Fitness</option>
-          <option value="toys">Gift & Toys</option>
-        </select>
-      </div>
+    <div className="flex gap-3 items-center mb-4">
+      <input
+        type="text"
+        placeholder="Search product..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="input input-bordered w-full"
+      />
 
-      {/* Filtered Products */}
-      <div>
-        {filteredProducts.length === 0 ? (
-          <p className="text-gray-500">No products found.</p>
-        ) : (
-          <ul className="space-y-2">
-            {filteredProducts.map((p) => (
-              <li key={p._id} className="border p-2 rounded">
-                {p.name} - {p.category} - ${p.price}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        className="select select-bordered"
+      >
+        <option value="">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="fashion">Fashion</option>
+        <option value="sports">Sports</option>
+      </select>
     </div>
   );
 }
