@@ -22,6 +22,9 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+
+         // ADD THIS PROP
+        suppressHydrationWarning={true} 
       >
         <AuthProvider>
             {children}
