@@ -37,8 +37,9 @@ export default function Sidebar() {
     // 🔸 Seller menu
     const sellerMenu = (
         <>
+            <li><Link href="/">Home</Link></li>
             <li><Link href="/dashboard/seller">Seller Dashboard</Link></li>
-            <li><Link href="/dashboard/seller/products">My Products</Link></li>
+            <li><Link href="/dashboard/seller/myproducts">My Products</Link></li>
             <li><Link href="/dashboard/seller/orders">Orders</Link></li>
             <li><Link href="/dashboard/addproduct">add rpoduct</Link></li>
         </>
