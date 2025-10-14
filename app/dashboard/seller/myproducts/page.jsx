@@ -7,11 +7,10 @@ import { Trash2, Edit2 } from "lucide-react";
 import Swal from "sweetalert2";
 
 export default function MyProductsPage() {
-  const { user } = useAuth(); // লগইন করা user
+  const { user } = useAuth();
   const [myProducts, setMyProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ কেবল লগইন করা seller এর product গুলো ফেচ করা
   useEffect(() => {
     if (user?.email) {
       axios
@@ -27,7 +26,7 @@ export default function MyProductsPage() {
     }
   }, [user]);
 
-  // 🗑️ Delete function
+  // prodcut delete
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
