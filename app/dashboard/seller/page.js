@@ -1,40 +1,27 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function DashboardPage() {
-  const [stats, setStats] = useState({ totalSales: 0, orders: 0, productsListed: 0 });
-  const [orders, setOrders] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default async function DashboardPage() {
+  let stats = { totalSales: 0, orders: 0, productsListed: 0 };
+  let orders = [];
+  let products = [];
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [statsRes, ordersRes, productsRes] = await Promise.all([
-          axios.get("/api/seller/stats"),
-          axios.get("/api/seller/orders"),
-          axios.get("/api/seller/products"),
-        ]);
+  try {
+  const [statsRes, ordersRes, productsRes] = await Promise.all([
+    axios.get("https://smart-shop-server-three.vercel.app/api/seller/stats"),
+    axios.get("https://smart-shop-server-three.vercel.app/api/seller/orders"),
+    axios.get("https://smart-shop-server-three.vercel.app/api/seller/products"),
+  ]);
 
-        setStats(statsRes.data || { totalSales: 0, orders: 0, productsListed: 0 });
-        setOrders(ordersRes.data || []);
-        setProducts(productsRes.data || []);
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error);
-        setStats({ totalSales: 0, orders: 0, productsListed: 0 });
-        setOrders([]);
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  stats = statsRes.data || stats;
+  orders = ordersRes.data || [];
+  products = productsRes.data || [];
+} catch (error) {
+  console.error("Error fetching dashboard data:", error.response?.status, error.message);
+  stats = { totalSales: 0, orders: 0, productsListed: 0 };
+  orders = [];
+  products = [];
+}
 
-    fetchDashboardData();
-  }, []);
-
-  if (loading) return <p className="text-center py-10 text-gray-500 dark:text-gray-400">Loading dashboard...</p>;
 
   return (
     <div className="font-display bg-gray-50 dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
@@ -56,15 +43,15 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow">
                 <h3 className="text-base font-medium text-gray-500 dark:text-gray-400">Total Sales</h3>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">${stats.totalSales || 0}</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">${stats.totalSales}</p>
               </div>
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow">
                 <h3 className="text-base font-medium text-gray-500 dark:text-gray-400">Orders</h3>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{stats.orders || 0}</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{stats.orders}</p>
               </div>
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow">
                 <h3 className="text-base font-medium text-gray-500 dark:text-gray-400">Products Listed</h3>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{stats.productsListed || 0}</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{stats.productsListed}</p>
               </div>
             </div>
 
