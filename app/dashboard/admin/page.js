@@ -10,10 +10,10 @@ import {
 export default function AdminDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-      {/* ====== PAGE TITLE ====== */}
+      {/* PAGE TITLE */}
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Admin Dashboard</h1>
 
-      {/* ====== SUMMARY STATS CARDS ====== */}
+      {/* SUMMARY STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
         <div className="p-6 bg-white rounded-2xl shadow hover:shadow-md transition">
           <div className="flex items-center justify-between mb-2">
@@ -52,7 +52,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ====== SALES OVERVIEW CHART ====== */}
+      {/* SALES OVERVIEW CHART */}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Sales Overview</h2>
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ====== QUICK STATS ====== */}
+      {/*  QUICK STATS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div className="p-6 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-2xl shadow">
           <h3 className="text-lg font-semibold mb-2">Pending Approvals</h3>
@@ -79,7 +79,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ====== TOP SELLING PRODUCTS ====== */}
+      {/*  TOP SELLING PRODUCTS */}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Top Selling Products
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-      {/* ====== RECENT ORDERS ====== */}
+      {/* RECENT ORDERS */}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Recent Orders
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-      {/* ====== RECENT USERS ====== */}
+      {/* RECENT USERS*/}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Users</h2>
         <ul className="divide-y divide-gray-100">
@@ -144,7 +144,7 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-      {/* ====== NOTIFICATIONS ====== */}
+      {/* NOTIFICATIONS */}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Notifications</h2>
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-      {/* ====== QUICK LINKS ====== */}
+      {/* QUICK LINKS*/}
       <div className="bg-white p-6 rounded-2xl shadow">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Quick Access
