@@ -45,28 +45,12 @@ export default function Sidebar() {
   //   fetchRole();
   // }, [user?.email]);
 
-  // 🔸 Admin menu
-  const adminMenu = (
-    <>
-      <li><Link href="/dashboard/admin">Admin Dashboard</Link></li>
-      <li><Link href="/dashboard/admin/manage-users">Manage Users</Link></li>
-      <li><Link href="/dashboard/admin/reports">Reports</Link></li>
-    </>
-  );
+ 
 
-  // 🔸 Seller menu
-  const sellerMenu = (
-    <>
-      <li><Link href="/dashboard/seller">Seller Dashboard</Link></li>
-      <li><Link href="/dashboard/seller/products">My Products</Link></li>
-      <li><Link href="/dashboard/seller/orders">Orders</Link></li>
-      <li><Link href="/dashboard/addproduct">Add Product</Link></li>
-    </>
-  );
-    const { openSidebar } = useAuth();
+ 
+   
 
-    //   role base 
-    const user = { role: "seller" };
+   
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
     // 🔸 Admin menu
