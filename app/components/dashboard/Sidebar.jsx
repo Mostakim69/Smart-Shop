@@ -1,8 +1,8 @@
 "use client";
-
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   HomeIcon,
   ChartBarIcon,
@@ -15,40 +15,58 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function Sidebar() {
-    const { openSidebar } = useAuth();
+  const { openSidebar, user, logout } = useAuth();
+  const router = useRouter();
+  const [role, setRole] = useState("admin"); // hardcoded default role
 
-    //   role base 
-    const user = { role: "user" };
-    const user = { role: "admin" };
+  //  Handle Logout
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
-    // akhane sharmin apu kaj korben ja ja link lage add korben 
-    // 🔸 Admin menu
-    const adminMenu = (
-        <>
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/dashboard/admin">Admin Dashboard</Link></li>
-            <li><Link href="/dashboard/admin/manage-products">Manage Products</Link></li>
-            <li><Link href="/dashboard/admin/manage-orders">Manage Orders</Link></li>
-            <li><Link href="/dashboard/admin/manage-users">Manage Users</Link></li>
-            <li><Link href="/dashboard/admin/reports">Reports</Link></li>
-        </>
-    );
+  //  Fetch role dynamically
+  // useEffect(() => {
+  //   const fetchRole = async () => {
+  //     if (!user?.email) return;
 
-    // akhane mostakim vai kaj korben ja ja link lage add korben 
-    // 🔸 Seller menu
-    const sellerMenu = (
-        <>
-            <li><Link href="/dashboard/seller">Seller Dashboard</Link></li>
-            <li><Link href="/dashboard/seller/products">My Products</Link></li>
-            <li><Link href="/dashboard/seller/orders">Orders</Link></li>
-            <li><Link href="/dashboard/addproduct">add rpoduct</Link></li>
-        </>
-    );
+  //     try {
+  //       const res = await fetch(`http://localhost:5000/users/${user.email}/role`);
+  //       const data = await res.json();
 
-      // 🔸 User menu (Newaz Vai)
+  //       if (data?.role) {
+  //         setRole(data.role);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching role:", err);
+  //     }
+  //   };
+
+  //   fetchRole();
+  // }, [user?.email]);
+
+  // 🔸 Admin menu
+  const adminMenu = (
+    <>
+      <li><Link href="/dashboard/admin">Admin Dashboard</Link></li>
+      <li><Link href="/dashboard/admin/manage-users">Manage Users</Link></li>
+      <li><Link href="/dashboard/admin/reports">Reports</Link></li>
+    </>
+  );
+
+  // 🔸 Seller menu
+  const sellerMenu = (
+    <>
+      <li><Link href="/dashboard/seller">Seller Dashboard</Link></li>
+      <li><Link href="/dashboard/seller/products">My Products</Link></li>
+      <li><Link href="/dashboard/seller/orders">Orders</Link></li>
+      <li><Link href="/dashboard/addproduct">Add Product</Link></li>
+    </>
+  );
+
+  // 🔸 User menu (Newaz bhai)
   const userMenu = (
     <>
-      {/* Top section */}
       <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
         <li>
           <Link
@@ -59,7 +77,6 @@ export default function Sidebar() {
             <span>Home</span>
           </Link>
         </li>
-
         <li>
           <Link
             href="/dashboard/user"
@@ -69,7 +86,6 @@ export default function Sidebar() {
             <span>Overview</span>
           </Link>
         </li>
-
         <li>
           <Link
             href="/dashboard/user/orders"
@@ -79,7 +95,6 @@ export default function Sidebar() {
             <span>My Orders</span>
           </Link>
         </li>
-
         <li>
           <Link
             href="/dashboard/user/wishlist"
@@ -89,7 +104,6 @@ export default function Sidebar() {
             <span>Wishlist</span>
           </Link>
         </li>
-
         <li>
           <Link
             href="/dashboard/user/cart"
@@ -99,7 +113,6 @@ export default function Sidebar() {
             <span>Cart</span>
           </Link>
         </li>
-
         <li>
           <Link
             href="/dashboard/user/reviews"
@@ -121,27 +134,29 @@ export default function Sidebar() {
           <span>Profile</span>
         </Link>
 
-        <Link
-          href="dashboard/user/logout"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
+        {/* 🔴 Logout button */}
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
         >
           <ArrowRightOnRectangleIcon className="w-5 h-5" />
           <span>Logout</span>
-        </Link>
+        </button>
       </div>
     </>
   );
 
-    // 🔸 Choose menu based on role
-    let menuItems;
-    if (user?.role === "admin") menuItems = adminMenu;
-    else if (user?.role === "seller") menuItems = sellerMenu;
-    else menuItems = userMenu;
+  // 🔸 Choose menu based on role
+  let menuItems;
+  if (role === "admin") menuItems = adminMenu;
+  else if (role === "seller") menuItems = sellerMenu;
+  else menuItems = userMenu;
 
-    return (
-        <div
-      className={`bg-white text-black col-span-3 h-screen p-4 border-r shadow-sm flex flex-col 
-      transition-all duration-300 ${openSidebar ? "block" : "hidden"} md:flex`}
+  return (
+    <div
+      className={`bg-white text-black col-span-3 h-screen p-4 border-r shadow-sm flex flex-col transition-all duration-300 ${
+        openSidebar ? "block" : "hidden"
+      } md:flex`}
     >
       <h1 className="text-2xl font-bold text-primary text-center mb-6">
         Smart Shop
@@ -150,5 +165,5 @@ export default function Sidebar() {
       {/* Sidebar Menu */}
       {menuItems}
     </div>
-    );
+  );
 }
