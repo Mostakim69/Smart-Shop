@@ -1,36 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import PasswordInput from "./components/PasswordInput";
-import SignUpButton from "./components/SignUpButton";
-import ImageUpload from "./components/ImageUpload";
-import SocialButton from "./components/SocialButton";
+import Navbar from "@/app/components/shared/Navbar";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import Navbar from "@/app/components/shared/Navbar";
-import { handleEmailPassLogin } from "./components/emailPassLogin";
+import SocialButton from "./components/SocialButton";
+import SignUpForm from "./components/SignUpButton";
 
 export default function SignUpPage() {
   return (
     <section className="bg-sky-100 min-h-screen">
       <Navbar />
-
       <div className="flex items-center justify-center py-16 px-4">
         <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden">
           <div className="p-6 flex flex-col justify-center space-y-4">
-
-            {/* Icon */}
-            <div className="flex justify-center mb-2">
-              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-sky-200 shadow-inner">
-                <span className="text-3xl">📝</span>
-              </div>
-            </div>
-
-            {/* Title */}
             <h2 className="text-center text-2xl font-bold text-sky-700">Create an Account</h2>
             <p className="text-center text-gray-500 text-sm">
               Sign up to get started on your journey
             </p>
+
+            {/* ✅ Client Component handles all interactivity */}
+            <SignUpForm />
 
             {/* Form */}
             <form 
@@ -81,31 +72,19 @@ export default function SignUpPage() {
               </Link>
             </p>
 
-            {/* Divider */}
             <div className="flex items-center my-4">
               <hr className="flex-1 border-gray-300" />
               <span className="mx-3 text-sm text-gray-400">Or sign in with</span>
               <hr className="flex-1 border-gray-300" />
             </div>
 
-            {/* Social Buttons */}
             <div className="flex justify-center gap-4">
-              <SocialButton
-                icon={<FcGoogle size={22} />}
-                provider="google"
-                className="w-12 h-12 rounded-xl border border-gray-300 hover:bg-gray-100 transition shadow-sm"
-              />
-              <SocialButton
-                icon={<FaFacebook size={22} className="text-blue-600" />}
-                provider="facebook"
-                className="w-12 h-12 rounded-xl border border-gray-300 hover:bg-gray-100 transition shadow-sm"
-              />
+              <SocialButton icon={<FcGoogle size={22} />} provider="google" />
+              <SocialButton icon={<FaFacebook size={22} className="text-blue-600" />} provider="facebook" />
             </div>
-
           </div>
         </div>
       </div>
     </section>
-
   );
 }
