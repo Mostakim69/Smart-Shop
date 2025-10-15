@@ -117,8 +117,7 @@ export default function FeaturedProducts() {
             <div className="p-4">
               <h3 className="text-gray-900 font-semibold text-sm mb-1">{product.name}</h3>
               <div className="text-blue-600 font-bold text-sm mb-2">
-                {product.price}{' '}
-                <span className="text-gray-500 line-through text-xs">{product.price}</span>
+                ${product.price}{' '}
               </div>
               <div className="flex space-x-2">
                 <button
