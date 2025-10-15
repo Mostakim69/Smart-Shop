@@ -3,14 +3,18 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import SearchAndFilter from "./SearchAndFilter";
 
-export default async function ManageProducts() {
-  let products = [];
+export default async function ManageProducts({searchParams}) {
+  const search = searchParams?.name || "";
+  const category = searchParams?.category || "";
 
+  let products = [];
   try {
-    const res = await axios.get("https://smart-shop-server-three.vercel.app/products");
+    const res = await axios.get("https://smart-shop-server-three.vercel.app/products", {
+      params: { name: search, category },
+    });
     products = res.data;
   } catch (err) {
-    console.error("Error fetching products:", err);
+    console.error(err);
   }
 
   return (
@@ -18,7 +22,7 @@ export default async function ManageProducts() {
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Manage Products</h2>
 
       {/* Search & Filter */}
-      <SearchAndFilter products={products} />
+      <SearchAndFilter initialSearch={search} initialCategory={category} />
 
       <div className="overflow-x-auto bg-white shadow rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">

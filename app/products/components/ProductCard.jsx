@@ -19,7 +19,7 @@ export default function ProductDetails({ product, related }) {
           alt={product?.name || "Product Image"}
           width={600}
           height={300}
-          className="object-cover"
+          className="object-cover w-full"
         />
       </div>
 
