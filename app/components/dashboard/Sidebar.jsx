@@ -26,6 +26,7 @@ import {
 export default function Sidebar() {
   const { openSidebar, user, logout } = useAuth();
   const router = useRouter();
+  //set default role in the useState("admin")
   const [role, setRole] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +35,7 @@ export default function Sidebar() {
     await logout();
     router.push("/");
   };
-
+//if you want to set default role comment useEffect and set default in the useState
   // ✅ Fetch role dynamically
   useEffect(() => {
     const fetchRole = async () => {
