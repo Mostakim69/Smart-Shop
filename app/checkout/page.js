@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Footer from "@/app/components/shared/footer/Footer";
@@ -13,7 +13,7 @@ export default function CheckoutPage() {
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  
+
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -31,7 +31,7 @@ export default function CheckoutPage() {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/products/${productId}`
           );
-          setItems([{ ...res.data, quantity: 1 }]); 
+          setItems([{ ...res.data, quantity: 1 }]);
         } else if (type === "cart" && email) {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/cartItems?email=${email}`
@@ -93,14 +93,15 @@ export default function CheckoutPage() {
               className="textarea textarea-bordered w-full"
               rows="3"
             ></textarea>
-            <select className="select select-bordered w-full">
-              <option disabled selected>
+            <select className="select select-bordered w-full" defaultValue="">
+              <option value="" disabled>
                 Select Payment Method
               </option>
-              <option>Cash on Delivery</option>
-              <option>Bkash / Nagad / Rocket</option>
-              <option>Credit/Debit Card</option>
+              <option value="cod">Cash on Delivery</option>
+              <option value="mobile">Bkash / Nagad / Rocket</option>
+              <option value="card">Credit/Debit Card</option>
             </select>
+
             <button type="submit" className="btn btn-primary w-full mt-4">
               Place Order
             </button>
