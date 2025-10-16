@@ -19,14 +19,14 @@ export default function MoreProduct({ related }) {
             {related?.length > 0 && (
                 <div className="mt-12 pb-10 w-full flex flex-col items-center">
                     <h2 className="text-2xl font-semibold mb-8 text-gray-900 text-center">
-                        More Products
+                        Recommended Products
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                         {currentProducts.map((item) => (
                             <Link
                                 key={item._id}
                                 href={`/products/${item._id}`}
-                                className="group block bg-white rounded-2xl shadow-md border hover:shadow-xl transition-transform hover:scale-[1.02] cursor-pointer overflow-hidden"
+                                className="group block bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform hover:scale-[1.02] cursor-pointer overflow-hidden"
                             >
                                 <div className="relative w-full h-48 overflow-hidden">
                                     <Image

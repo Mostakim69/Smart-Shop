@@ -86,12 +86,7 @@ export default function Navbar() {
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             }
-            <Link
-              href="/login"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
-            >
-              <User className="w-4 h-4" /> Login
-            </Link>
+            
           </div>
 
           {/* Right Side */}

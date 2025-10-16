@@ -8,7 +8,7 @@ import ProductForDetailsPage from "./ProductsForDetailsPage";
 
 export default function ProductDetails({ product, related }) {
   return (
-    <div className="container mx-auto py-16 px-6 grid md:grid-cols-2 gap-12 border my-6 rounded-2xl bg-gray-50 items-center">
+    <div className="container mx-auto py-16 px-6 grid md:grid-cols-2 gap-12  my-6 rounded-2xl bg-gray-50 items-center">
       {/* Image Section */}
       <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
         <Image

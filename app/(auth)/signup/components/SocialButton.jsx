@@ -2,54 +2,53 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-export default function SocialButton({ icon, provider }) {
+export default function SocialButton({ icon, provider, className }) {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleClick = async () => {
     try {
-      let result;
+      let authResult;
+      if (provider === "google") authResult = await loginWithGoogle();
+      else if (provider === "facebook") authResult = await loginWithFacebook();
 
-      if (provider === "google") {
-        result = await loginWithGoogle();
-      } else if (provider === "facebook") {
-        result = await loginWithFacebook();
-      }
+      const user = authResult?.user;
+      if (!user) return;
 
-      //   user info
-      const user = result.user;
+      // Prepare full user data
       const userData = {
         name: user.displayName,
         email: user.email,
-        photo: user.photoURL,
-        role: "user", // default role
-        createdAt: new Date().toISOString(), 
+        photo: user.photoURL || "https://i.ibb.co/default-user.png", 
+        role: "user",
+        createdAt: new Date(),
       };
 
-      //  Send user info to backend
-      const response = await fetch("http://localhost:5000/users", {
+      // Send to backend
+      const res = await fetch("http://localhost:5000/users", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
 
-      const data = await response.json();
-      console.log("User added or existing:", data);
+      const result = await res.json();
 
-      router.push("/");
+      if (res.ok) {
+        console.log("User saved:", result);
+        router.push("/"); // redirect home
+      } else {
+        
+         router.push("/");
+      }
+
     } catch (err) {
-      console.error(err);
-      alert(err.message);
+      console.error("Social login error:", err);
+      alert(err.message || "An error occurred during social login.");
     }
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className="w-12 h-12 flex items-center justify-center rounded-lg border border-gray-300 hover:bg-gray-100"
-    >
+    <button onClick={handleClick} className={`flex items-center justify-center ${className}`}>
       {icon}
     </button>
   );

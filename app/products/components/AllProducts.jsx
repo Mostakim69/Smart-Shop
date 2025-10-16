@@ -28,6 +28,7 @@ export default function AllProducts() {
       .get("https://smart-shop-server-three.vercel.app/products")
       .then((res) => {setProducts(res.data)
       setLoading(false);
+      // console.log(res.data)
   })
       .catch((err) => {
         console.log(err)

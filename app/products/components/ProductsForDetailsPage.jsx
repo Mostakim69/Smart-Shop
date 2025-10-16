@@ -79,7 +79,7 @@ export default function ProductForDetailsPage() {
         <div className="md:col-span-2 w-full">
             {/* Section Title */}
             <div className="text-center mb-6">
-                <h2 className="text-3xl font-bold">Our Products</h2>
+                <h2 className="text-3xl font-bold">See Our Products</h2>
             </div>
 
             {/* Products Grid */}
@@ -88,7 +88,7 @@ export default function ProductForDetailsPage() {
                 {currentProducts.map((product) => (
                     <div
                         key={product._id}
-                        className="bg-white rounded-xl border shadow-md hover:shadow-xl overflow-hidden transition"
+                        className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden transition"
                     >
                         <Link href={`/products/${product._id}`}>
                             <div className="relative w-full h-48">
@@ -109,10 +109,10 @@ export default function ProductForDetailsPage() {
                             </Link>
                             <p className="text-blue-600 font-bold mt-1">${product.price}</p>
 
-                            <div className="flex justify-between mt-3">
+                            <div className="flex gap-4 mt-3 ">
                                 <button
                                     onClick={() => handleAddToCart(product)}
-                                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition"
+                                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition hover:cursor-pointer"
                                 >
                                     Add to Cart
                                 </button>
