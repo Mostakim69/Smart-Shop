@@ -32,7 +32,7 @@ export default function Navbar() {
       : "text-gray-600 hover:text-primary hover:underline"; // default style
 
   return (
-    <nav className=" shadow-md sticky top-0 z-50">
+    <nav className="bg-gray-100 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
