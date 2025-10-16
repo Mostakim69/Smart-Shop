@@ -1,15 +1,20 @@
-'use client';
+"use client";
 
-import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function PopularProduct() {
-
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -25,28 +30,58 @@ export default function PopularProduct() {
     }
     fetchProducts();
   }, []);
-if (loading) {
+
+  if (loading) {
     return (
-      <div className="flex justify-center items-center h-40">   
+      <div className="flex justify-center items-center h-40">
         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
+
   const handleCategory = (category) => {
     setSelectedCategory(category);
-
     if (category === "All") {
-       setFiltered(products.slice(0, 4));
-      
+      setFiltered(products.slice(0, 4));
     } else {
       const filteredItems = products
         .filter((item) => item.category.toLowerCase() === category.toLowerCase())
-        .slice(0, 4); 
+        .slice(0, 4);
       setFiltered(filteredItems);
     }
   };
 
-  // Motion Variants
+  //  Add to Cart
+  const handleAddToCart = async (product) => {
+    if (!user) {
+      toast.error("Please login to add to cart");
+      return;
+    }
+
+    const cartItem = {
+      userEmail: user?.email,
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    };
+
+    try {
+      const res = await axios.post(
+        "https://smart-shop-server-three.vercel.app/addToCart",
+        cartItem
+      );
+      if (res.data?.insertedId) {
+        toast.success("Product added to cart!");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add to cart");
+    }
+  };
+
+  //  Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -62,13 +97,13 @@ if (loading) {
       y: 0,
       transition: { type: "spring", stiffness: 120, damping: 20 },
     },
-    hover: { scale: 1.03, transition: { type: "spring", stiffness: 250 } },
+    hover: { scale: 1.02, transition: { type: "spring", stiffness: 300 } },
   };
 
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
-        {/* Title */}
+        {/* Section Title */}
         <div className="text-center mb-10">
           <motion.h2
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-primary"
@@ -95,14 +130,16 @@ if (loading) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {["All", "Electronics", "Fashion", "Grocery","Sports","Home","Toys"].map((cat) => (
+          {["All", "Electronics", "Fashion", "Grocery", "Sports", "Home", "Toys"].map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategory(cat)}
               className={`px-4 py-2 rounded transition cursor-pointer 
-                ${selectedCategory === cat
-                  ? "bg-secondary text-white"
-                  : "border border-blue-400 text-blue-500 hover:bg-blue-100"}`}
+                ${
+                  selectedCategory === cat
+                    ? "bg-secondary text-white"
+                    : "border border-blue-400 text-blue-500 hover:bg-blue-100"
+                }`}
             >
               {cat}
             </button>
@@ -111,7 +148,7 @@ if (loading) {
 
         {/* Products Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -120,55 +157,48 @@ if (loading) {
           {filtered.map((product) => (
             <motion.div
               key={product._id}
-              className="relative  shadow-2xl rounded-lg p-4 border border-gray-200 hover:shadow-lg transition"
+              className="bg-white rounded-xl border shadow-md hover:shadow-xl overflow-hidden transition"
               variants={cardVariants}
               whileHover="hover"
               whileTap={{ scale: 0.97 }}
             >
-              {/* Discount Badge */}
-              <span className="absolute z-10 top-2 left-2 bg-yellow-400  border-1 text-xs px-2 py-1 rounded">
-                {product.discount}
-              </span>
+              <Link href={`/products/${product._id}`}>
+                <div className="relative w-full h-48">
+                  <Image
+                    src={
+                      product.image?.startsWith("http")
+                        ? product.image
+                        : "/placeholder.png"
+                    }
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </Link>
 
-              {/* Product Image */}
-              <div className="w-full h-40 mb-4 overflow-hidden rounded">
-                <motion.img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.4 }}
-                />
-              </div>
+              <div className="p-4">
+                <Link href={`/products/${product._id}`}>
+                  <h3 className="font-medium text-gray-800 hover:text-blue-600 truncate">
+                    {product.name}
+                  </h3>
+                </Link>
+                <p className="text-blue-600 font-bold mt-1">${product.price}</p>
 
-              {/* Product Info */}
-              <h3 className="text-lg text-black font-semibold">{product.name}</h3>
-
-              {/* Price */}
-              <p className="text-gray-600">
-                <span className="text-blue-600 font-bold">${product.price}</span>{" "}
-                <span className="line-through text-sm text-gray-400">
-                  ${product.oldPrice}
-                </span>
-              </p>
-
-              {/* Rating */}
-              <p className="text-yellow-500 text-sm">
-                {"⭐".repeat(Math.floor(product.rating))}
-                {product.rating % 1 !== 0 ? "⭐" : ""}
-                <span className="text-gray-500 ml-1">
-                  {/* ({product.rating.toFixed(1)}) */}
-                </span>
-              </p>
-
-              {/* Buttons */}
-              <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                <button className="w-full sm:flex-1 px-4 py-2 bg-primary text-white rounded shadow hover:cursor-pointer hover:bg-blue-600 transition">
-                  Buy Now
-                </button>
-                <button className="w-full sm:flex-1 px-4 py-2 border rounded bg-secondary text-white hover:cursor-pointer hover:bg-yellow-500 transition">
-                  Add to Cart
-                </button>
+                <div className="flex gap-4 mt-3">
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition hover:cursor-pointer"
+                  >
+                    Add to Cart
+                  </button>
+                  <Link
+                    href={`/checkout?type=single&id=${product._id}`}
+                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition"
+                  >
+                    Buy Now
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -177,4 +207,5 @@ if (loading) {
     </section>
   );
 }
+
 
