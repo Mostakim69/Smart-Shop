@@ -95,7 +95,7 @@ if (loading) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {["All", "Electronics", "Fashion", "Grocery"].map((cat) => (
+          {["All", "Electronics", "Fashion", "Grocery","Sports","Home","Toys"].map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategory(cat)}
