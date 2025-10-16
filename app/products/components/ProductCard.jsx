@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import Quantity from './Quantity';
 import MoreProduct from './MoreProduct';
 // import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
+import ProductForDetailsPage from "./ProductsForDetailsPage";
 
 export default function ProductDetails({ product, related }) {
   return (
@@ -60,6 +61,7 @@ export default function ProductDetails({ product, related }) {
       </div>
       <MoreProduct related={related} />
       {/* <RatingAndReview product={product}></RatingAndReview> */}
+      <ProductForDetailsPage></ProductForDetailsPage>
     </div>
   );
 }

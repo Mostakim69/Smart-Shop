@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+
 export default function MoreProduct({ related }) {
     console.log(related.length)
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,36 +54,8 @@ export default function MoreProduct({ related }) {
                     </div>
                 </div>
             )}
-            {totalPages >= 1 && (
-                <div className="flex justify-center items-center mt-8 gap-3">
-                    <button
-                        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                        disabled={currentPage === 1}
-                        className="px-4 py-2 bg-gray-900 rounded-lg hover:bg-black disabled:opacity-50"
-                    >
-                        Prev
-                    </button>
-                    {[...Array(Math.ceil(related.length / productsPerPage))].map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setCurrentPage(i + 1)}
-                            className={`px-3 py-1 rounded ${currentPage === i + 1
-                                ? "border text-black"
-                                : "bg-purple-200 text-black"
-                                }`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                    <button
-                        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                        className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50"
-                    >
-                        Next
-                    </button>
-                </div>
-            )}
+
+
         </div>
     );
 }

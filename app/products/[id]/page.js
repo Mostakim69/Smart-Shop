@@ -27,14 +27,14 @@ export default async function productDetailsPage({ params }) {
             (item) =>
                 item.category?.toLowerCase() === product?.category?.toLowerCase() &&
                 item._id !== product?._id
-        );
+        ).slice(0,4);
 
 
     return (
         <div>
             <Navbar></Navbar>
             <main className='min-h-[70vh]'>
-                <ProductCard product={product} related={related}></ProductCard>
+                <ProductCard product={product} related={related} allProducts={allProducts}></ProductCard>
             </main>
 
             <Footer></Footer>
