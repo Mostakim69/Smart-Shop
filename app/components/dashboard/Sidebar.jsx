@@ -12,46 +12,95 @@ import {
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   ChatBubbleBottomCenterTextIcon,
+  CubeIcon,
+  ClipboardDocumentListIcon,
+  UsersIcon,
+  PresentationChartLineIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import { ClipboardIcon, Home, LayoutDashboard, Package, PackageIcon, PlusCircle, ShoppingBag, UsersIcon } from "lucide-react";
 
 export default function Sidebar() {
   const { openSidebar, user, logout } = useAuth();
   const router = useRouter();
-  const [role, setRole] = useState("admin"); // hardcoded default role
+  const [role, setRole] = useState(); // hardcoded default role
 
-  //  Handle Logout
+  // ✅ Handle Logout
   const handleLogout = async () => {
     await logout();
     router.push("/");
   };
 
-  //  Fetch role dynamically
-  // useEffect(() => {
-  //   const fetchRole = async () => {
-  //     if (!user?.email) return;
+  // ✅ Fetch role dynamically (optional)
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (!user?.email) return;
+      try {
+        const res = await fetch(`http://localhost:5000/users/${user.email}/role`);
+        const data = await res.json();
+        if (data?.role) setRole(data.role);
+      } catch (err) {
+        console.error("Error fetching role:", err);
+      }
+    };
+    fetchRole();
+  }, [user?.email]);
 
-  //     try {
-  //       const res = await fetch(`http://localhost:5000/users/${user.email}/role`);
-  //       const data = await res.json();
+  // akhane sharmin apu kaj korben ja ja link lage add korben 
+  // 🔸 Admin menu
+  const adminMenu = (
+    <>
+      <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
+        <li>
+          <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <HomeIcon className="w-5 h-5 text-gray-600" />
+            <span>Home</span>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/admin" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <ChartBarIcon className="w-5 h-5 text-gray-600" />
+            <span>Admin Dashboard</span>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/admin/manage-products" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <CubeIcon className="w-5 h-5 text-gray-600" />
+            <span>Manage Products</span>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/admin/manage-orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <ClipboardDocumentListIcon className="w-5 h-5 text-gray-600" />
+            <span>Manage Orders</span>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/admin/manage-users" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <UsersIcon className="w-5 h-5 text-gray-600" />
+            <span>Manage Users</span>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/admin/reports" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <PresentationChartLineIcon className="w-5 h-5 text-gray-600" />
+            <span>Reports</span>
+          </Link>
+        </li>
+      </ul>
 
-  //       if (data?.role) {
-  //         setRole(data.role);
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching role:", err);
-  //     }
-  //   };
-
-  //   fetchRole();
-  // }, [user?.email]);
-
- 
-
- 
-   
-
-   
+      {/* 🔴 Logout button (Admin) */}
+      <div className="mt-auto border-t pt-4">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
+        >
+          <ArrowRightOnRectangleIcon className="w-5 h-5" />
+          <span>Logout</span>
+        </button>
+      </div>
+    </>
+  );
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
     // 🔸 Admin menu
@@ -196,72 +245,51 @@ const sellerMenu = (
     <>
       <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
         <li>
-          <Link
-            href="/"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <HomeIcon className="w-5 h-5 text-gray-600" />
             <span>Home</span>
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard/user"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/dashboard/user" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <ChartBarIcon className="w-5 h-5 text-gray-600" />
             <span>Overview</span>
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard/user/orders"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/dashboard/user/orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <ShoppingBagIcon className="w-5 h-5 text-gray-600" />
             <span>My Orders</span>
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard/user/wishlist"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/dashboard/user/wishlist" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <HeartIcon className="w-5 h-5 text-gray-600" />
             <span>Wishlist</span>
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard/user/cart"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/dashboard/user/cart" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <ShoppingCartIcon className="w-5 h-5 text-gray-600" />
             <span>Cart</span>
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard/user/reviews"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-          >
+          <Link href="/dashboard/user/reviews" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
             <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-gray-600" />
             <span>My Reviews</span>
           </Link>
         </li>
+        <li>
+          <Link href="/dashboard/user/profile" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <UserCircleIcon className="w-5 h-5 text-gray-600" />
+            <span>Profile</span>
+          </Link>
+        </li>
       </ul>
 
-      {/* Bottom section */}
-      <div className="mt-auto border-t pt-4 space-y-2">
-        <Link
-          href="/dashboard/user/profile"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition"
-        >
-          <UserCircleIcon className="w-5 h-5 text-gray-600" />
-          <span>Profile</span>
-        </Link>
-
-        {/* 🔴 Logout button */}
+      {/* 🔴 Logout button (User) */}
+      <div className="mt-auto border-t pt-4">
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
