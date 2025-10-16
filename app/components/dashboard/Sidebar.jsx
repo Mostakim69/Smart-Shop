@@ -46,61 +46,7 @@ export default function Sidebar() {
     fetchRole();
   }, [user?.email]);
 
-  // akhane sharmin apu kaj korben ja ja link lage add korben 
-  // 🔸 Admin menu
-  const adminMenu = (
-    <>
-      <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
-        <li>
-          <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <HomeIcon className="w-5 h-5 text-gray-600" />
-            <span>Home</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/admin" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <ChartBarIcon className="w-5 h-5 text-gray-600" />
-            <span>Admin Dashboard</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/admin/manage-products" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <CubeIcon className="w-5 h-5 text-gray-600" />
-            <span>Manage Products</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/admin/manage-orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <ClipboardDocumentListIcon className="w-5 h-5 text-gray-600" />
-            <span>Manage Orders</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/admin/manage-users" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <UsersIcon className="w-5 h-5 text-gray-600" />
-            <span>Manage Users</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/admin/reports" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-            <PresentationChartLineIcon className="w-5 h-5 text-gray-600" />
-            <span>Reports</span>
-          </Link>
-        </li>
-      </ul>
-
-      {/* 🔴 Logout button (Admin) */}
-      <div className="mt-auto border-t pt-4">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
-        >
-          <ArrowRightOnRectangleIcon className="w-5 h-5" />
-          <span>Logout</span>
-        </button>
-      </div>
-    </>
-  );
+ 
 
     // akhane sharmin apu kaj korben ja ja link lage add korben 
     // 🔸 Admin menu
