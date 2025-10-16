@@ -1,16 +1,16 @@
-// app/signup/page.jsx (Server Component by default)
+// app/signup/page.jsx
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import SignUpForm from "./components/SignUpButton"; 
-import SocialButton from "./components/SocialButton"; 
+import SignUpForm from "./components/SignUpButton";
+import SocialButton from "./components/SocialButton";
 import Navbar from "@/app/components/shared/Navbar";
 
 export default function SignUpPage() {
   return (
     <section>
       <Navbar />
-      <div className="min-h-screen flex items-center justify-center pt-20 pb-20 bg-gradient-to-b from-sky-200 to-white px-4">
+      <div className="min-h-screen flex items-center justify-center pt-20 pb-20 bg-gradient-to-b  px-4">
         <div className="w-full max-w-md bg-white/80 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
           <div className="p-6 flex flex-col justify-center">
             
@@ -49,13 +49,23 @@ export default function SignUpPage() {
               <hr className="flex-1 border-gray-300" />
             </div>
 
-            {/* Social Buttons */}
-            <div className="flex justify-center gap-4">
-              <SocialButton icon={<FcGoogle size={22} />} provider="google" />
+            {/* Social Buttons (Side by side with icon + name) */}
+            <div className="flex justify-between gap-3">
               <SocialButton
-                icon={<FaFacebook size={22} className="text-blue-600" />}
+                provider="google"
+                className="flex-1 flex items-center cursor-pointer justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:border-sky-400 hover:shadow-md transition bg-white"
+                icon={<FcGoogle size={20} />}
+              >
+                <span className="text-gray-700 font-medium text-sm">Google</span>
+              </SocialButton>
+
+              <SocialButton
                 provider="facebook"
-              />
+                className="flex-1 flex items-center cursor-pointer justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:border-blue-400 hover:shadow-md transition bg-white"
+                icon={<FaFacebook size={20} className="text-blue-600" />}
+              >
+                <span className="text-gray-700 font-medium text-sm">Facebook</span>
+              </SocialButton>
             </div>
 
           </div>
