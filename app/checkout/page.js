@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Footer from "@/app/components/shared/footer/Footer";
@@ -9,12 +9,22 @@ import Swal from "sweetalert2";
 export const dynamic = "force-dynamic";
 
 export default function CheckoutPage() {
+  // ✅ Added form data state to store user input
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    payment: "",
+  });
+
+  // ✅ Existing state
   const [type, setType] = useState(null);
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  
 
+  // ✅ Get query parameters (type, id, email) from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setType(params.get("type"));
@@ -22,34 +32,56 @@ export default function CheckoutPage() {
     setEmail(params.get("email"));
   }, []);
 
+  // ✅ Fetch product/cart data from backend based on type
   useEffect(() => {
-    if (!type) return;
+    if (
+      !type ||
+      (type === "single" && !productId) ||
+      (type === "cart" && !email)
+    )
+      return;
 
     const fetchData = async () => {
       try {
-        if (type === "single" && productId) {
+        if (type === "single") {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/products/${productId}`
           );
-          setItems([{ ...res.data, quantity: 1 }]); 
-        } else if (type === "cart" && email) {
+          console.log("Fetched single product:", res.data); // 👈 You can see product data in console
+          setItems([{ ...res.data, quantity: 1 }]);
+        } else if (type === "cart") {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/cartItems?email=${email}`
           );
+          console.log("Fetched cart items:", res.data); // 👈 You can see cart data in console
           setItems(
             res.data.map((item) => ({ ...item, quantity: item.quantity || 1 }))
           );
         }
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching data:", err);
       }
     };
 
     fetchData();
   }, [type, productId, email]);
 
+  // ✅ Handle "Place Order" button click
   const handleOrder = (e) => {
     e.preventDefault();
+
+    // ✅ Create a complete order object that includes productId and items
+    const orderData = {
+      ...formData,
+      productId, // ✅ include productId here
+      // items, // ✅ include ordered items
+      totalAmount: items.reduce((a, c) => a + c.price * (c.quantity || 1), 0),
+      orderDate: new Date(),
+    };
+
+    // ✅ Log order data in console
+    console.log("Order Data:", orderData);
+
     Swal.fire({
       position: "center",
       icon: "success",
@@ -57,8 +89,21 @@ export default function CheckoutPage() {
       showConfirmButton: false,
       timer: 1500,
     });
+
+    // ✅ Send orderData instead of only formData
+    fetch("http://localhost:5000/orders", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(orderData),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        window.location.replace(result.url)
+        console.log(result);
+      });
   };
 
+  // ✅ Calculate total order amount
   const totalPrice = items.reduce((a, c) => a + c.price * (c.quantity || 1), 0);
 
   return (
@@ -66,41 +111,70 @@ export default function CheckoutPage() {
       <Navbar />
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 p-6 mt-10 mb-10 bg-base-200 rounded-2xl shadow-md w-full">
-        {/* Left side - Delivery info */}
+        {/* Left side - Shipping form */}
         <div className="flex-1 bg-base-100 p-6 rounded-xl shadow">
           <h2 className="text-2xl font-bold text-primary mb-6">
             Shipping Information
           </h2>
+
+          {/* ✅ Connected form to handleOrder */}
           <form onSubmit={handleOrder} className="space-y-4">
+            {/* ✅ Input fields connected to formData state */}
             <input
               type="text"
               placeholder="Full Name"
               className="input input-bordered w-full"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
+
             <input
               type="email"
               required
               placeholder="Email Address"
               className="input input-bordered w-full"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
+
             <input
               type="text"
               placeholder="Phone Number"
               className="input input-bordered w-full"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
             />
+
             <textarea
               placeholder="Full Address"
               className="textarea textarea-bordered w-full"
               rows="3"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
             ></textarea>
-            <select className="select select-bordered w-full">
-              <option disabled selected>
-                Select Payment Method
-              </option>
+
+            <select
+              className="select select-bordered w-full"
+              value={formData.payment}
+              onChange={(e) =>
+                setFormData({ ...formData, payment: e.target.value })
+              }
+            >
+              <option value="">Select Payment Method</option>
               <option>Cash on Delivery</option>
               <option>Bkash / Nagad / Rocket</option>
               <option>Credit/Debit Card</option>
             </select>
+
+            {/* ✅ Submit button triggers handleOrder */}
             <button type="submit" className="btn btn-primary w-full mt-4">
               Place Order
             </button>
@@ -112,6 +186,8 @@ export default function CheckoutPage() {
           <h3 className="text-xl font-semibold text-primary mb-4">
             Order Summary
           </h3>
+
+          {/* ✅ Show all fetched items */}
           {items.map((item) => (
             <div
               key={item._id}
