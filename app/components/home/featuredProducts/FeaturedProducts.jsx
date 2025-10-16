@@ -102,10 +102,10 @@ export default function FeaturedProducts() {
               </Link>
               <p className="text-blue-600 font-bold mt-1">${product.price}</p>
 
-              <div className="flex justify-between mt-3">
+              <div className="flex gap-4 mt-3">
                 <button
                   onClick={() => handleAddToCart(product)}
-                  className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition"
+                  className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition hover:cursor-pointer"
                 >
                   Add to Cart
                 </button>
