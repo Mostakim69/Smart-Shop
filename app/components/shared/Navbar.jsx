@@ -86,7 +86,7 @@ export default function Navbar() {
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             }
-            
+
           </div>
 
           {/* Right Side */}
@@ -210,6 +210,7 @@ export default function Navbar() {
             ) : (
               <div className="relative">
                 <img
+                  referrerPolicy="no-referrer"
                   src={user.photoURL || "/default-avatar.png"}
                   alt="profile"
                   className="w-8 h-8 rounded-full cursor-pointer border"
