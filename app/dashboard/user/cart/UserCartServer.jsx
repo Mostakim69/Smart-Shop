@@ -15,8 +15,9 @@ export default function UserCartClient() {
 
     const fetchCartItems = async () => {
       try {
+        // ✅ Use query param ?userEmail= instead of URL param
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/cartItems/${user.email}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/cartItems?userEmail=${user.email}`,
           { cache: "no-store" }
         );
 
@@ -44,7 +45,7 @@ export default function UserCartClient() {
     };
 
     fetchCartItems();
-  }, [user]);
+  }, [user?.email]);
 
   if (!user) {
     return (

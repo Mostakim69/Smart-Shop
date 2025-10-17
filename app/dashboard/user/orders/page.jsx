@@ -15,7 +15,8 @@ export default function OrdersPage() {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/orders/${user.email}`);
+        // ✅ Updated fetch with query parameter 'orderedBy'
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/orders?orderedBy=${user.email}`);
         if (!res.ok) {
           setOrders([]);
           return;
