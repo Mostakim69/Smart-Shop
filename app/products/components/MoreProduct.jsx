@@ -28,7 +28,7 @@ export default function MoreProduct({ related }) {
                                 href={`/products/${item._id}`}
                                 className="group block bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform hover:scale-[1.02] cursor-pointer overflow-hidden"
                             >
-                                <div className="relative w-full h-48 overflow-hidden">
+                                <div className="relative w-full h-56">
                                     <Image
                                         src={
                                             item?.image?.startsWith("http")
@@ -36,18 +36,19 @@ export default function MoreProduct({ related }) {
                                                 : "/placeholder.png"
                                         }
                                         alt={item.name || "Related Product"}
-                                        width={400}
-                                        height={300}
-                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                        fill
+                                        className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                                     />
                                 </div>
+
                                 <div className="p-4">
                                     <h3 className="text-base md:text-lg font-semibold text-gray-900 truncate">
                                         {item.name}
                                     </h3>
-                                    
+
                                     <p className="text-blue-600 font-medium mt-1">${item.price}</p>
-                                    
+
                                 </div>
                             </Link>
                         ))}
