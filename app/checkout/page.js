@@ -87,7 +87,7 @@ export default function CheckoutPage() {
     console.log("Order Data:", orderData);
 
     if (orderData.payment === 'cashOnDelivery') {
-      axios.post('http://localhost:5000/orders', orderData)
+      axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
         .then(res => {
           if (res.data?.insertedId) {
             Swal.fire({
@@ -108,7 +108,7 @@ export default function CheckoutPage() {
 
 
     // ✅ Send orderData instead of only formData
-    // fetch("http://localhost:5000/orders", {
+    // fetch("https://smart-shop-server-three.vercel.app/orders", {
     //   method: "POST",
     //   headers: { "content-type": "application/json" },
     //   body: JSON.stringify(orderData),
