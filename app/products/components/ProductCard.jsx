@@ -12,15 +12,11 @@ export default function ProductDetails({ product, related }) {
       {/* Image Section */}
       <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
         <Image
-          src={
-            product?.image?.startsWith("http")
-              ? product.image
-              : "/placeholder.png"
-          }
-          alt={product?.name || "Product Image"}
-          width={600}
-          height={300}
-          className="object-cover w-full"
+          src={product.image?.startsWith("http") ? product.image : "/placeholder.png"}
+          alt={product.name}
+          fill
+          className="object-cover"
+
         />
       </div>
 
