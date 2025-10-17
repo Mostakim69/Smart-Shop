@@ -5,7 +5,6 @@ import Footer from "@/app/components/shared/footer/Footer";
 import Navbar from "../components/shared/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useAuth } from "@/context/AuthContext";
 
 export const dynamic = "force-dynamic";
 
@@ -24,9 +23,6 @@ export default function CheckoutPage() {
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  const { user } = useAuth();
-
-
 
   // ✅ Get query parameters (type, id, email) from URL
   useEffect(() => {
@@ -51,12 +47,13 @@ export default function CheckoutPage() {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/products/${productId}`
           );
-          console.log("Fetched single product:", res.data);
+          console.log("Fetched single product:", res.data); // 👈 You can see product data in console
           setItems([{ ...res.data, quantity: 1 }]);
         } else if (type === "cart") {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/cartItems?email=${email}`
           );
+          console.log("Fetched cart items:", res.data); // 👈 You can see cart data in console
           setItems(
             res.data.map((item) => ({ ...item, quantity: item.quantity || 1 }))
           );
@@ -69,55 +66,69 @@ export default function CheckoutPage() {
     fetchData();
   }, [type, productId, email]);
 
-  // Handle "Place Order" button click
-  const handleOrder = (e) => {
+  // ✅ Handle "Place Order" button click
+  const handleOrder = async (e) => {
     e.preventDefault();
 
+    if (!formData.payment) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please select a payment method!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      return;
+    }
 
     const orderData = {
       ...formData,
       productId,
       totalAmount: items.reduce((a, c) => a + c.price * (c.quantity || 1), 0),
       orderDate: new Date(),
-      items,
-      orderUser: user?.email,
     };
 
-    //Log order data in console
-    console.log("Order Data:", orderData);
+    // 💵 If payment is Cash on Delivery
+    if (formData.payment === "Cash on Delivery") {
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/orders/cash",
+          orderData
+        );
 
-    if (orderData.payment === 'cashOnDelivery') {
-      axios.post('http://localhost:5000/orders', orderData)
-        .then(res => {
-          if (res.data?.insertedId) {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Order placed successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Order placed successfully (Cash on Delivery)!",
+          showConfirmButton: false,
+          timer: 1800,
+        });
 
-        })
-        .catch(err => {
-          alert('Data do not go to database')
-        })
+        console.log("Cash order result:", res.data);
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Something went wrong!",
+          text: "Please try again later.",
+        });
+        console.error(err);
+      }
+      return;
     }
 
-
-
-    // ✅ Send orderData instead of only formData
-    // fetch("http://localhost:5000/orders", {
-    //   method: "POST",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify(orderData),
-    // })
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     window.location.replace(result.url)
-    //     console.log(result);
-    //   });
+    // 💳 Otherwise, go through SSLCommerz
+    try {
+      const res = await axios.post("http://localhost:5000/orders", orderData);
+      if (res.data?.url) {
+        window.location.replace(res.data.url);
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Payment initialization failed!",
+        text: "Please try again.",
+      });
+      console.error(err);
+    }
   };
 
   // ✅ Calculate total order amount
@@ -178,18 +189,27 @@ export default function CheckoutPage() {
               }
             ></textarea>
 
-            <select
-              className="select select-bordered w-full"
-              value={formData.payment}
-              onChange={(e) =>
-                setFormData({ ...formData, payment: e.target.value })
-              }
-            >
-              <option value="Select Payment Method">Select Payment Method</option>
-              <option value={'cashOnDelivery'}>Cash on Delivery</option>
-              <option value={'Bkash / Nagad / Rocket'}>Bkash / Nagad / Rocket</option>
-              <option value={'Credit/Debit Card'}>Credit/Debit Card</option>
-            </select>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Payment Method</span>
+              </label>
+              <select
+                className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                value={formData.payment}
+                onChange={(e) =>
+                  setFormData({ ...formData, payment: e.target.value })
+                }
+              >
+                <option value="">Select Payment Method</option>
+                <option value="Cash on Delivery">💵 Cash on Delivery</option>
+                <option value="Bkash / Nagad / Rocket">
+                  📱 Bkash / Nagad / Rocket
+                </option>
+                <option value="Credit/Debit Card">
+                  💳 Credit / Debit Card
+                </option>
+              </select>
+            </div>
 
             {/* ✅ Submit button triggers handleOrder */}
             <button type="submit" className="btn btn-primary w-full mt-4">
