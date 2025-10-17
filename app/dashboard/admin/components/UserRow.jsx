@@ -21,7 +21,7 @@ export default function UserRow({ user, index, }) {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`http://localhost:5000/users/${user._id}`)
+                axios.delete(`https://smart-shop-server-three.vercel.app/users/${user._id}`)
                     .then(res => {
                         if (res.data?.deletedCount) {
                             Swal.fire({
