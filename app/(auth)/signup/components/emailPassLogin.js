@@ -15,7 +15,7 @@ export const handleEmailPassLogin = async (e) => {
     };
 
     try {
-        const res = await fetch('http://localhost:5000/users', { // change this url to your backend url
+        const res = await fetch('https://smart-shop-server-three.vercel.app/users', { // change this url to your backend url
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
