@@ -41,32 +41,32 @@ export default function DashboardClient() {
       try {
         setLoading(true);
 
-        //  Fetch cart items
-        const cartRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cartItems/${user.email}`);
+        // ✅ Fetch cart items dynamically
+        const cartRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cartItems?email=${user.email}`);
         const cartData = await cartRes.json();
         const cartCount = Array.isArray(cartData) ? cartData.length : 0;
 
-        //  Fetch orders
-        const ordersRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/orders/${user.email}`);
+        // ✅ Fetch orders dynamically
+        const ordersRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/orders?orderedBy=${user.email}`);
         const ordersData = await ordersRes.json();
         const totalOrders = Array.isArray(ordersData) ? ordersData.length : 0;
         const pendingOrders = ordersData.filter(o => o.status === "Pending").length;
         const deliveredOrders = ordersData.filter(o => o.status === "Delivered").length;
         const cancelledOrders = ordersData.filter(o => o.status === "Cancelled").length;
 
-        //  Update stats dynamically
+        // ✅ Update stats dynamically
         setStats([
           { title: "My Orders", value: totalOrders, icon: ShoppingBagIcon, color: "bg-blue-100 text-blue-600" },
           { title: "Pending Orders", value: pendingOrders, icon: ClockIcon, color: "bg-yellow-100 text-yellow-600" },
           { title: "Delivered Orders", value: deliveredOrders, icon: TruckIcon, color: "bg-green-100 text-green-600" },
           { title: "Cancelled Orders", value: cancelledOrders, icon: XCircleIcon, color: "bg-red-100 text-red-600" },
-          { title: "Wishlist Items", value: 5, icon: HeartIcon, color: "bg-pink-100 text-pink-600" }, // can make dynamic later
+          { title: "Wishlist Items", value: 5, icon: HeartIcon, color: "bg-pink-100 text-pink-600" }, // make dynamic later if needed
           { title: "Cart Items", value: cartCount, icon: ShoppingCartIcon, color: "bg-indigo-100 text-indigo-600" },
           { title: "Total Spent", value: `$${ordersData.reduce((sum, o) => sum + (o.totalAmount || 0), 0)}`, icon: BanknotesIcon, color: "bg-teal-100 text-teal-600" },
-          { title: "Pending Reviews", value: 3, icon: StarIcon, color: "bg-orange-100 text-orange-600" }, // can make dynamic later
+          { title: "Pending Reviews", value: 3, icon: StarIcon, color: "bg-orange-100 text-orange-600" }, // make dynamic later if needed
         ]);
 
-        //  Prepare chart data dynamically (orders per day)
+        // ✅ Prepare chart data dynamically (orders per day)
         const chartData = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(day => {
           const ordersOnDay = ordersData.filter(
             o => new Date(o.orderDate).toLocaleDateString("en-US", { weekday: "short" }) === day
