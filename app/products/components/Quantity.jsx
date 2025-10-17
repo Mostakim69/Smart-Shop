@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import Link from "next/link";
 
 export default function Quantity({ product }) {
   const [quantity, setQuantity] = useState(1);
@@ -34,14 +36,15 @@ export default function Quantity({ product }) {
       <div className="flex  sm:flex-row justify-center lg:justify-start gap-3 w-full lg:w-auto">
         <button
           onClick={handleAddToCart}
-          className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all"
+          className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all hover:cursor-pointer"
         >
           Add to Cart
         </button>
-        <button className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all">
+        <Link href={`/checkout?type=single&id=${product._id}`} className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all hover:cursor-pointer">
           Buy Now
-        </button>
+        </Link>
       </div>
+      <ToastContainer />
     </div>
 
   );

@@ -157,7 +157,7 @@ export default function ProductForDetailsPage() {
                     Next
                 </button>
             </div>
-
+<ToastContainer />
         </div>
     );
 }

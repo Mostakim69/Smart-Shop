@@ -58,6 +58,7 @@ export default function ProductDetails({ product, related }) {
       <MoreProduct related={related} />
       {/* <RatingAndReview product={product}></RatingAndReview> */}
       <ProductForDetailsPage></ProductForDetailsPage>
+      {/* <ToastContainer /> */}
     </div>
   );
 }
