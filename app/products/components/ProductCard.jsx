@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import Quantity from './Quantity';
 import MoreProduct from './MoreProduct';
-// import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
 import ProductForDetailsPage from "./ProductsForDetailsPage";
+import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
 
 export default function ProductDetails({ product, related }) {
   return (
@@ -55,8 +55,8 @@ export default function ProductDetails({ product, related }) {
         </div>
 
       </div>
+      <RatingAndReview product={product}></RatingAndReview>
       <MoreProduct related={related} />
-      {/* <RatingAndReview product={product}></RatingAndReview> */}
       <ProductForDetailsPage></ProductForDetailsPage>
       {/* <ToastContainer /> */}
     </div>
