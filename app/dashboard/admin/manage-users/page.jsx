@@ -6,7 +6,7 @@ export default async function ManageUsers() {
   let users = [];
 
   try {
-    const res = await axios.get("http://localhost:5000/users");
+    const res = await axios.get("https://smart-shop-server-three.vercel.app/users");
     users = res.data;
   } catch (err) {
     console.error("Error fetching users:", err);

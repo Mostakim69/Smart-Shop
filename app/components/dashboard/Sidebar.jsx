@@ -44,7 +44,7 @@ export default function Sidebar() {
         return;
       }
       try {
-        const res = await fetch(`http://localhost:5000/users/${user.email}/role`);
+        const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${user.email}/role`);
         const data = await res.json();
         if (data?.role) setRole(data.role);
       } catch (err) {

@@ -15,7 +15,7 @@ export default function ProfilePage() {
 
     const fetchUserData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/users/${user.email}`);
+        const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${user.email}`);
         const data = await res.json();
         setUserData(data);
       } catch (error) {
@@ -45,7 +45,7 @@ export default function ProfilePage() {
     try {
       const updatedUser = { ...userData, [field]: tempValue };
 
-      const res = await fetch(`http://localhost:5000/users/${userData.email}`, {
+      const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${userData.email}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedUser),

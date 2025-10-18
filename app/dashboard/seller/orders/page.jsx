@@ -1,53 +1,48 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth } from "@/context/AuthContext";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 
 export default function OrdersPage() {
-  const { user } = useAuth(); // logged-in seller
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // ✅ Dummy orders data
+  const [orders, setOrders] = useState([
+    {
+      _id: "ORD12345",
+      productName: "Wireless Headphones",
+      buyerName: "John Doe",
+      quantity: 2,
+      status: "pending",
+    },
+    {
+      _id: "ORD12346",
+      productName: "Smartwatch",
+      buyerName: "Jane Smith",
+      quantity: 1,
+      status: "shipped",
+    },
+    {
+      _id: "ORD12347",
+      productName: "Gaming Mouse",
+      buyerName: "Mike Johnson",
+      quantity: 3,
+      status: "delivered",
+    },
+  ]);
 
-  // ✅ Fetch seller-specific orders
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get(
-          `https://smart-shop-server-three.vercel.app/api/orders?sellerEmail=${user.email}`
-        );
-        setOrders(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (user?.email) fetchOrders();
-  }, [user]);
+  const [loading, setLoading] = useState(false);
 
   // 🔄 Update order status
-  const handleStatusChange = async (orderId, newStatus) => {
-    try {
-      await axios.patch(
-        `https://smart-shop-server-three.vercel.app/api/orders/${orderId}`,
-        { status: newStatus }
-      );
-      setOrders(
-        orders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
-        )
-      );
-      Swal.fire("Updated!", `Order marked as ${newStatus}`, "success");
-    } catch (err) {
-      console.error(err);
-      Swal.fire("Error!", "Something went wrong!", "error");
-    }
+  const handleStatusChange = (orderId, newStatus) => {
+    setOrders(
+      orders.map((order) =>
+        order._id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
+    Swal.fire("Updated!", `Order marked as ${newStatus}`, "success");
   };
 
   // ❌ Cancel order
-  const handleCancel = async (orderId) => {
+  const handleCancel = (orderId) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This order will be canceled permanently!",
@@ -56,18 +51,10 @@ export default function OrdersPage() {
       confirmButtonText: "Yes, cancel it!",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-    }).then(async (result) => {
+    }).then((result) => {
       if (result.isConfirmed) {
-        try {
-          await axios.delete(
-            `https://smart-shop-server-three.vercel.app/api/orders/${orderId}`
-          );
-          setOrders(orders.filter((order) => order._id !== orderId));
-          Swal.fire("Canceled!", "Order canceled successfully.", "success");
-        } catch (err) {
-          console.error(err);
-          Swal.fire("Error!", "Something went wrong!", "error");
-        }
+        setOrders(orders.filter((order) => order._id !== orderId));
+        Swal.fire("Canceled!", "Order canceled successfully.", "success");
       }
     });
   };
@@ -81,93 +68,77 @@ export default function OrdersPage() {
   if (!orders.length) {
     return (
       <div className="text-center mt-10">
-        <h2 className="text-xl font-semibold text-gray-600">
-          No orders yet for your products.
-        </h2>
+        <h2 className="text-xl font-semibold">No orders yet for your products.</h2>
       </div>
     );
   }
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">My Product Orders</h1>
+      <h1 className="text-3xl font-bold mb-8">My Product Orders</h1>
 
-      <div className="overflow-x-auto shadow-md rounded-lg bg-white">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                Order ID
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                Product Name
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                Buyer
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                Quantity
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                Status
-              </th>
-              <th className="px-4 py-2 text-center text-xs font-medium text-gray-600 uppercase">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {orders.map((order) => (
-              <tr key={order._id} className="hover:bg-gray-50">
-                <td className="px-4 py-2">{order._id}</td>
-                <td className="px-4 py-2 font-medium">{order.productName}</td>
-                <td className="px-4 py-2">{order.buyerName}</td>
-                <td className="px-4 py-2">{order.quantity}</td>
-                <td className="px-4 py-2">
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm ${
-                      order.status === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : order.status === "shipped"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-green-100 text-green-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
-                <td className="px-4 py-2 flex flex-wrap justify-center gap-2">
-                  {order.status !== "shipped" && (
-                    <button
-                      onClick={() =>
-                        handleStatusChange(order._id, "shipped")
-                      }
-                      className="text-blue-500 hover:underline"
-                    >
-                      Mark Shipped
-                    </button>
-                  )}
-                  {order.status !== "delivered" && (
-                    <button
-                      onClick={() =>
-                        handleStatusChange(order._id, "delivered")
-                      }
-                      className="text-green-500 hover:underline"
-                    >
-                      Mark Delivered
-                    </button>
-                  )}
-                  <button
-                    onClick={() => handleCancel(order._id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Cancel
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {orders.map((order) => (
+          <div
+            key={order._id}
+            className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
+          >
+            <div className="flex justify-between mb-3">
+              <span className="font-semibold">Order ID:</span>
+              <span>{order._id}</span>
+            </div>
+            <div className="flex justify-between mb-3">
+              <span className="font-semibold">Product:</span>
+              <span>{order.productName}</span>
+            </div>
+            <div className="flex justify-between mb-3">
+              <span className="font-semibold">Buyer:</span>
+              <span>{order.buyerName}</span>
+            </div>
+            <div className="flex justify-between mb-3">
+              <span className="font-semibold">Quantity:</span>
+              <span>{order.quantity}</span>
+            </div>
+            <div className="flex justify-between mb-4">
+              <span className="font-semibold">Status:</span>
+              <span
+                className={`px-2 py-1 rounded-full text-sm ${
+                  order.status === "pending"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : order.status === "shipped"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-green-100 text-green-800"
+                }`}
+              >
+                {order.status}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {order.status !== "shipped" && (
+                <button
+                  onClick={() => handleStatusChange(order._id, "shipped")}
+                  className="flex-1 bg-blue-100 text-blue-700 py-1 rounded hover:bg-blue-200 transition"
+                >
+                  Mark Shipped
+                </button>
+              )}
+              {order.status !== "delivered" && (
+                <button
+                  onClick={() => handleStatusChange(order._id, "delivered")}
+                  className="flex-1 bg-green-100 text-green-700 py-1 rounded hover:bg-green-200 transition"
+                >
+                  Mark Delivered
+                </button>
+              )}
+              <button
+                onClick={() => handleCancel(order._id)}
+                className="flex-1 bg-red-100 text-red-700 py-1 rounded hover:bg-red-200 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
