@@ -5,7 +5,7 @@ export default function Rating({ data }) {
 
   const defaultData = {
     totalReviews: 223,
-    averageRating: 4.6,
+    averageRating: 3.6,
     ratingBreakdown: [120, 30, 20, 50, 3], // 5 → 1 star
   };
 
