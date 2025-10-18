@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
             <Link href="/"><Image
-              src="/logo (3).png"
+              src="/logo_3.webp"
               alt="Smart Shop Logo"
               width={60}
               height={60}
