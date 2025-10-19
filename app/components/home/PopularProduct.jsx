@@ -179,7 +179,11 @@ export default function PopularProduct() {
 
               <div className="p-4">
                 <Link href={`/products/${product._id}`}>
-                  <h3 className="font-medium text-gray-800 hover:text-blue-600 truncate">
+                  <h3 className="inline-block relative text-gray-500 font-medium text-sm mb-1 
+               hover:text-blue-600 transition-colors duration-200 
+               after:content-[''] after:absolute after:left-0 after:bottom-0 
+               after:w-0 after:h-[1px] after:bg-blue-600 
+               hover:after:w-full after:transition-all after:duration-300">
                     {product.name}
                   </h3>
                 </Link>

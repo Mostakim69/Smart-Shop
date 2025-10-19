@@ -32,7 +32,7 @@ export default function Quantity({ product }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-4 w-full">
 
-        <div className="flex items-center justify-between bg-white text-gay-700 border-1 rounded-lg font-medium w-full sm:w-auto px-6 py-2">
+        <div className="flex items-center justify-between bg-base-100 text-gay-700 border-1 rounded-lg font-medium w-full sm:w-auto px-6 py-2">
         <button
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
           className="px-3 py-1 text-xl font-bold hover:text-gray-400 transition hover:cursor-pointer"
