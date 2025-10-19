@@ -17,11 +17,11 @@ export default function MoreProduct({ related }) {
     return (
         <div className="md:col-span-2 w-full">
             {related?.length > 0 && (
-                <div className="mt-12 pb-10 w-full flex flex-col items-center">
-                    <h2 className="text-2xl font-semibold mb-8 text-gray-900 text-center">
+                <div className="mt-6 pb-10 w-full flex flex-col items-center">
+                    <h2 className="text-3xl font-semibold mb-8 text-gray-900 text-center">
                         Recommended Products
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         {currentProducts.map((item) => (
                             <Link
                                 key={item._id}
@@ -60,3 +60,4 @@ export default function MoreProduct({ related }) {
         </div>
     );
 }
+
