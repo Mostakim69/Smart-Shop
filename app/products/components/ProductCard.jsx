@@ -8,7 +8,7 @@ import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
 
 export default function ProductDetails({ product, related }) {
   return (
-    <div className="container mx-auto py-16 px-6 grid md:grid-cols-2 gap-12  my-6 rounded-2xl bg-gray-50 items-center">
+    <div className="container mx-auto py-16 px-6 grid md:grid-cols-2 gap-12  my-6 rounded-2xl bg-base-100 items-center">
       {/* Image Section */}
       <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
         <Image
@@ -26,7 +26,7 @@ export default function ProductDetails({ product, related }) {
           [{product?.category}]
         </p>
 
-        <h1 className="text-3xl md:text-4xl font-semibold text-gray-900">
+        <h1 className="text-3xl md:text-4xl font-semibold text-primary">
           {product?.name}
         </h1>
 
@@ -45,7 +45,7 @@ export default function ProductDetails({ product, related }) {
         </p>
 
         <div>
-          <span className="text-2xl font-bold text-gray-900">
+          <span className="text-2xl font-bold text-primary">
             ${product?.price}
           </span>
         </div>

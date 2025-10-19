@@ -80,7 +80,7 @@ export default function ProductForDetailsPage() {
         <div className="md:col-span-2 w-full">
             {/* Section Title */}
             <div className="text-center mb-6">
-                <h2 className="text-3xl font-bold">See Our Products</h2>
+                <h2 className="text-3xl font-bold text-primary">See Our Products</h2>
             </div>
 
             {/* Products Grid */}
@@ -140,7 +140,7 @@ export default function ProductForDetailsPage() {
                     <button
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? "border text-black" : "bg-purple-200 text-black"
+                        className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? "border text-primary" : "bg-secondary text-white"
                             }`}
                     >
                         {i + 1}
