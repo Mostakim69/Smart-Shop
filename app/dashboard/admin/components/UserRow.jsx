@@ -9,6 +9,37 @@ export default function UserRow({ user, index, }) {
     const router = useRouter();
     // comment for deploy
 
+const handleRoleChange = async (newRole) => {
+  try {
+    const res = await axios.patch(
+      `https://smart-shop-server-three.vercel.app/users/role/${user._id}`,
+      { role: newRole }
+    );
+
+    if (res.data.modifiedCount > 0) {
+      Swal.fire({
+        icon: "success",
+        title: `${user.name} is now ${newRole}`,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      router.refresh();
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "No changes made",
+      });
+    }
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Failed to update role",
+      text: err.message,
+    });
+  }
+};
+
+
     const handleDelete = async () => {
         Swal.fire({
             title: "Are you sure?",
@@ -40,19 +71,44 @@ export default function UserRow({ user, index, }) {
     };
 
     return (
-        <tr className="border-b dark:border-gray-700">
-            <td className="px-4 py-2">{index + 1}</td>
-            <td className="px-4 py-2">{user.name || "N/A"}</td>
-            <td className="px-4 py-2">{user.email}</td>
-            <td className="px-4 py-2 capitalize">{user.role}</td>
-            <td className="px-4 py-2">
-                <button
-                    onClick={handleDelete}
-                    className="bg-red-500 hover:bg-red-600 cursor-pointer text-white px-3 py-1 rounded mr-2"
-                >
-                    Delete
-                </button>
-            </td>
-        </tr>
+         <tr className="border-b">
+      <td className="px-4 py-2">{index + 1}</td>
+      <td className="px-4 py-2">{user.name}</td>
+      <td className="px-4 py-2">{user.email}</td>
+      <td className="px-4 py-2 capitalize">{user.role}</td>
+       <td className="px-4 py-2 space-x-2">
+        {/* conditional role buttons */}
+        {user.role !== "admin" && (
+          <button
+            onClick={() => handleRoleChange("admin")}
+            className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
+          >
+            Admin
+          </button>
+        )}
+        {user.role !== "seller" && (
+          <button
+            onClick={() => handleRoleChange("seller")}
+            className="bg-green-500 text-white px-2 py-1 rounded cursor-pointer"
+          >
+            Seller
+          </button>
+        )}
+        {user.role !== "user" && (
+          <button
+            onClick={() => handleRoleChange("user")}
+            className="bg-gray-500 text-white px-2 py-1 rounded cursor-pointer"
+          >
+            User
+          </button>
+        )}
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
     );
 }
