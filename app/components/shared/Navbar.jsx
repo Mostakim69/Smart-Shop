@@ -32,13 +32,13 @@ export default function Navbar() {
       : "text-gray-600 hover:text-primary hover:underline"; // default style
 
   return (
-    <nav className="bg-gray-100 shadow-md sticky top-0 z-50">
+    <nav className="bg-base-100 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
             <Link href="/"><Image
-              src="/logo (3).png"
+              src="/logo_3.webp"
               alt="Smart Shop Logo"
               width={60}
               height={60}
@@ -86,7 +86,7 @@ export default function Navbar() {
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             }
-            
+
           </div>
 
           {/* Right Side */}
@@ -159,7 +159,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden text-gray-800 shadow-lg px-6 pt-4 pb-6 space-y-4">
+        <div className="md:hidden text-gray-700 shadow-lg px-6 pt-4 pb-6 space-y-4">
           {/* Links */}
           <Link href="/" className="flex items-center gap-2 hover:text-primary">
             <Home className="w-4 h-4" /> Home
@@ -195,7 +195,7 @@ export default function Navbar() {
           <input
             type="text"
             placeholder="Search..."
-            className="w-full px-3 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           {/* Icons */}
@@ -210,6 +210,7 @@ export default function Navbar() {
             ) : (
               <div className="relative">
                 <img
+                  referrerPolicy="no-referrer"
                   src={user.photoURL || "/default-avatar.png"}
                   alt="profile"
                   className="w-8 h-8 rounded-full cursor-pointer border"

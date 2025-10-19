@@ -1,11 +1,8 @@
-import axiosInstance from '@/lib/axiosInstance';
-import React, { useEffect, useState } from 'react'
-import Rating from '../rating/Rating';
-import Review from '../riview/Review';
+import Rating from "../rating/Rating";
+import Review from "../riview/Review";
+
 
 export default function RatingAndReview({ product }) {
-
-    const [reviews, setReviews] = useState([]);
 
     return (
         <div className='bg-base-100 p-4'>
