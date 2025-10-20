@@ -8,13 +8,17 @@ export default function UserRow({ user, index }) {
   const router = useRouter();
 
   const handleRoleChange = async (newRole) => {
-    try {
-      const res = await axios.patch(
-        `https://smart-shop-server-three.vercel.app/users/role/${user._id}`,
-        { role: newRole }
-      );
+    console.log(newRole);
 
-      if (res.data.modifiedCount > 0) {
+    try {
+      const res = await axios.patch(`http://localhost:5000/users/${user._id}`, {
+        role: newRole
+      });
+
+      console.log(res.data);
+
+
+      if (res.data?.modifiedCount) {
         Swal.fire({
           icon: "success",
           title: `${user.name} is now ${newRole}`,

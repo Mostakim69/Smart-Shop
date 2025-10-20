@@ -27,8 +27,8 @@ export default async function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <UserRow key={user?._id} user={user} index={index}></UserRow>
+            {users?.map((user, index) => (
+              <UserRow key={index} user={user} index={index}></UserRow>
             ))}
           </tbody>
         </table>
