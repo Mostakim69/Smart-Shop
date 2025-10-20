@@ -68,13 +68,13 @@ export default function ProductRow({ product }) {
           <div className="flex items-center justify-center gap-3">
             <button
               onClick={() => setOpenEditModal(true)}
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 cursor-pointer"
             >
               <FaEdit />
             </button>
             <button
               onClick={handleDelete}
-              className="text-red-600 hover:text-red-800"
+              className="text-red-600 hover:text-red-800 cursor-pointer"
             >
               <FaTrash />
             </button>
