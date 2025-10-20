@@ -8,7 +8,9 @@ import Swal from "sweetalert2";
 import { Loader2, Image as ImageIcon, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
+
 export default function EditProductPage() {
+  // console.log('hello');
   const { user } = useAuth();
   const { id } = useParams();
   const router = useRouter();
