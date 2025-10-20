@@ -2,6 +2,7 @@ import React from 'react'
 import { Trash2, Edit2 } from "lucide-react";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Link from 'next/link';
 
 
 export default function Product({ product, myProducts, setMyProducts }) {
@@ -20,7 +21,7 @@ export default function Product({ product, myProducts, setMyProducts }) {
 
         if (result.isConfirmed) {
             try {
-                const res = await axios.delete(`http://localhost:5000/products/${product._id}`);
+                const res = await axios.delete(`https://smart-shop-server-three.vercel.app/products/${product._id}`);
                 if (res.data?.deletedCount) {
 
                     const remaining = myProducts.filter(p => p._id !== product._id);
@@ -38,21 +39,22 @@ export default function Product({ product, myProducts, setMyProducts }) {
         }
     };
 
+
     return (
         <tr>
             <td className="px-4 py-2">
-                <img src={product.image} className="h-12 w-12 rounded object-cover" />
+                <img src={product?.image} className="h-12 w-12 rounded object-cover" />
             </td>
             <td className="px-4 py-2">{product.name}</td>
             <td className="px-4 py-2">${product.price}</td>
             <td className="px-4 py-2">{product.category}</td>
             <td className="px-4 py-2 flex justify-center gap-2">
-                <button
-                    onClick={() => handleEdit(product._id)}
+                <Link
+                    href={`/dashboard/seller/edit/${product._id}`}
                     className="btn btn-sm btn-warning flex items-center gap-1"
                 >
                     <Edit2 size={16} /> Edit
-                </button>
+                </Link>
                 <button
                     onClick={handleDelete}
                     className="btn btn-sm btn-error flex items-center gap-1"

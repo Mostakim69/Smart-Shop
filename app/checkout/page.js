@@ -91,7 +91,7 @@ export default function CheckoutPage() {
     if (formData.payment === "Cash on Delivery") {
       try {
         const res = await axios.post(
-          "http://localhost:5000/orders/cash",
+          "https://smart-shop-server-three.vercel.app/orders/cash",
           orderData
         );
 
@@ -117,7 +117,7 @@ export default function CheckoutPage() {
 
     // 💳 Otherwise, go through SSLCommerz
     try {
-      const res = await axios.post("http://localhost:5000/orders", orderData);
+      const res = await axios.post("https://smart-shop-server-three.vercel.app/orders", orderData);
       if (res.data?.url) {
         window.location.replace(res.data.url);
       }

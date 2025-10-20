@@ -15,7 +15,7 @@ export default function MyProductsPage() {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/products?sellerEmail=${user.email}`)
+        .get(`https://smart-shop-server-three.vercel.app/products?sellerEmail=${user.email}`)
         .then((res) => {
           setMyProducts(res.data);
           setLoading(false);

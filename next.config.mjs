@@ -14,11 +14,11 @@ const nextConfig = {
         hostname: "i.pravatar.cc", // Optional: যদি pravatar.cc use করো
         pathname: "/**",
       },
-            {
+      {
         protocol: "https",
         hostname: "i.ibb.co",
       },
-            {
+      {
         protocol: "https",
         hostname: "i.ibb.co.com",
       },
