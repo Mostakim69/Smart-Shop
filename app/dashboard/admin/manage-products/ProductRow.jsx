@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function ProductRow({ product }) {
+  const router = useRouter();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState(product);
   // Delete handler
@@ -22,7 +24,7 @@ export default function ProductRow({ product }) {
           );
           if (res.data.deletedCount > 0) {
             Swal.fire("Deleted!", "Product deleted.", "success");
-            location.reload(); // simple way to refresh server component
+            router.refresh();
           }
         } catch (err) {
           Swal.fire("Error!", "Delete failed.", "error");
