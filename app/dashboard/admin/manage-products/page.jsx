@@ -2,16 +2,20 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import SearchAndFilter from "./SearchAndFilter";
+import ProductRow from "./ProductRow";
 
-export default async function ManageProducts({searchParams}) {
+export default async function ManageProducts({ searchParams }) {
   const search = searchParams?.name || "";
   const category = searchParams?.category || "";
 
   let products = [];
   try {
-    const res = await axios.get("https://smart-shop-server-three.vercel.app/products", {
-      params: { name: search, category },
-    });
+    const res = await axios.get(
+      "https://smart-shop-server-three.vercel.app/products",
+      {
+        params: { name: search, category },
+      }
+    );
     products = res.data;
   } catch (err) {
     console.error(err);
@@ -28,12 +32,24 @@ export default async function ManageProducts({searchParams}) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Image</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Category</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Price</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Stock</th>
-              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                Image
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                Name
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                Category
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                Price
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                Stock
+              </th>
+              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -45,27 +61,7 @@ export default async function ManageProducts({searchParams}) {
               </tr>
             ) : (
               products.map((product) => (
-                <tr key={product._id}>
-                  <td className="px-6 py-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-16 h-16 object-contain rounded"
-                    />
-                  </td>
-                  <td className="px-6 py-4 text-gray-700">{product.name}</td>
-                  <td className="px-6 py-4 text-gray-700 capitalize">{product.category}</td>
-                  <td className="px-6 py-4 text-gray-700">${product.price}</td>
-                  <td className="px-6 py-4 text-gray-700">{product.stock}</td>
-                  <td className="px-6 py-4 text-center flex justify-center gap-3">
-                    <button className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                      <FaEdit />
-                    </button>
-                    <button className="text-red-600 hover:text-red-800 cursor-pointer">
-                      <FaTrash />
-                    </button>
-                  </td>
-                </tr>
+                <ProductRow key={product._id} product={product} />
               ))
             )}
           </tbody>

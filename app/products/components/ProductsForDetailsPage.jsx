@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GrCart } from "react-icons/gr";
 
 export default function ProductForDetailsPage() {
     const [products, setProducts] = useState([]);
@@ -79,7 +80,7 @@ export default function ProductForDetailsPage() {
         <div className="md:col-span-2 w-full">
             {/* Section Title */}
             <div className="text-center mb-6">
-                <h2 className="text-3xl font-bold">See Our Products</h2>
+                <h2 className="text-3xl font-bold text-primary">See Our Products</h2>
             </div>
 
             {/* Products Grid */}
@@ -109,12 +110,9 @@ export default function ProductForDetailsPage() {
                             </Link>
                             <p className="text-blue-600 font-bold mt-1">${product.price}</p>
 
-                            <div className="flex gap-4 mt-3 ">
-                                <button
-                                    onClick={() => handleAddToCart(product)}
-                                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition hover:cursor-pointer"
-                                >
-                                    Add to Cart
+                            <div className="flex justify-between mt-3 ">
+                                <button onClick={() => handleAddToCart(product)}>
+                                    <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
                                 </button>
                                 <Link
                                     href={`/checkout?type=single&id=${product._id}`}
@@ -142,7 +140,7 @@ export default function ProductForDetailsPage() {
                     <button
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? "border text-black" : "bg-purple-200 text-black"
+                        className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? "border text-primary" : "bg-secondary text-white"
                             }`}
                     >
                         {i + 1}
@@ -157,7 +155,7 @@ export default function ProductForDetailsPage() {
                     Next
                 </button>
             </div>
-<ToastContainer />
+            <ToastContainer />
         </div>
     );
 }

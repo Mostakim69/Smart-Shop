@@ -1,73 +1,117 @@
 // app/signup/page.jsx
+import Navbar from "@/app/components/shared/Navbar";
 import Link from "next/link";
+import SignUpForm from "./components/SignUpForm";
+import SocialButton from "./components/SocialButton";
+import LottieSignup from "./components/LottieSignup";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import SignUpForm from "./components/SignUpButton";
-import SocialButton from "./components/SocialButton";
-import Navbar from "@/app/components/shared/Navbar";
 
 export default function SignUpPage() {
   return (
-    <section>
+    <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <Navbar />
-      <div className="min-h-screen flex items-center justify-center pt-20 pb-20 bg-gradient-to-b  px-4">
-        <div className="w-full max-w-md bg-white/80 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
-          <div className="p-6 flex flex-col justify-center">
-            
-            {/* Icon */}
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gray-100">
-                <span className="text-2xl">📝</span>
+
+      <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 pt-20 pb-10 px-4 max-w-7xl mx-auto">
+        {/* Left: Lottie Animation */}
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center">
+          <div className="max-w-lg w-full">
+            <LottieSignup />
+          </div>
+          <div className="text-center mt-6 max-w-md">
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">
+              Join Thousands of Happy Users
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              Start your journey with us and experience seamless productivity.{" "}
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Right: Signup Card */}
+        <div className="w-full max-w-lg">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/60 p-8 lg:p-10">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 mx-auto mb-4 shadow-lg">
+                <span className="text-2xl text-white">👤</span>
               </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                Create Account
+              </h2>
+              <p className="text-gray-500 text-base">Join our community today</p>
             </div>
 
-            {/* Title */}
-            <h2 className="text-center text-xl font-semibold text-primary">
-              Create an Account
-            </h2>
-            <p className="text-center text-gray-500 text-sm mt-1">
-              Sign up to get started
-            </p>
-
-            {/* Sign Up Form */}
-            <div className="mt-6">
+            {/* Form */}
+            <div className="mb-6">
+              {/* SignUpForm is client component */}
               <SignUpForm />
             </div>
 
-            {/* Sign In Link */}
-            <p className="text-center text-sm mt-4 text-gray-500">
-              Already have an account?{" "}
-              <Link href="/login" className="text-sky-500 hover:underline">
-                Login
-              </Link>
-            </p>
-
             {/* Divider */}
-            <div className="flex items-center my-6">
+            <div className="flex items-center my-8">
               <hr className="flex-1 border-gray-300" />
-              <span className="mx-3 text-sm text-gray-400">Or sign up with</span>
+              <span className="mx-4 text-sm font-medium text-gray-500 bg-white/80 px-3 py-1 rounded-full">
+                Or continue with
+              </span>
               <hr className="flex-1 border-gray-300" />
             </div>
 
-            {/* Social Buttons (Side by side with icon + name) */}
-            <div className="flex justify-between gap-3">
+            {/* Social Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <SocialButton
                 provider="google"
-                className="flex-1 flex items-center cursor-pointer justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:border-sky-400 hover:shadow-md transition bg-white"
-                icon={<FcGoogle size={20} />}
-              >
-                <span className="text-gray-700 font-medium text-sm">Google</span>
-              </SocialButton>
+                icon={
+                  <>
+                    <FcGoogle size={22} />
+                    <span className="text-sm font-semibold text-gray-700">Google</span>
+                  </>
+                }
+                className="flex-1 flex items-center justify-center gap-3 rounded-xl py-3.5 px-4
+                           bg-white border border-gray-300 text-gray-700 font-semibold shadow-sm
+                           hover:shadow-md hover:border-gray-400 hover:bg-gray-50
+                           active:scale-[0.97] transition-all duration-300"
+              />
 
               <SocialButton
                 provider="facebook"
-                className="flex-1 flex items-center cursor-pointer justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:border-blue-400 hover:shadow-md transition bg-white"
-                icon={<FaFacebook size={20} className="text-blue-600" />}
-              >
-                <span className="text-gray-700 font-medium text-sm">Facebook</span>
-              </SocialButton>
+                icon={
+                  <>
+                    <FaFacebook size={22} className="text-white" />
+                    <span className="text-sm font-semibold text-white">Facebook</span>
+                  </>
+                }
+                className="flex-1 flex items-center justify-center gap-3 rounded-xl py-3.5 px-4
+                           bg-[#1877F2] text-white font-semibold shadow-sm
+                           hover:shadow-md hover:bg-[#166FE5] active:scale-[0.97]
+                           transition-all duration-300"
+              />
             </div>
 
+            {/* Terms */}
+            <p className="text-center text-xs text-gray-500 mt-8 leading-relaxed">
+              By creating an account, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Privacy Policy
+              </Link>
+            </p>
           </div>
         </div>
       </div>

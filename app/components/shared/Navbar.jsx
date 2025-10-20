@@ -32,7 +32,7 @@ export default function Navbar() {
       : "text-gray-600 hover:text-primary hover:underline"; // default style
 
   return (
-    <nav className="bg-gray-100 shadow-md sticky top-0 z-50">
+    <nav className="bg-base-100 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -97,7 +97,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
@@ -159,7 +159,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden text-gray-300 shadow-lg px-6 pt-4 pb-6 space-y-4">
+        <div className="md:hidden text-gray-700 shadow-lg px-6 pt-4 pb-6 space-y-4">
           {/* Links */}
           <Link href="/" className="flex items-center gap-2 hover:text-primary">
             <Home className="w-4 h-4" /> Home
@@ -195,7 +195,7 @@ export default function Navbar() {
           <input
             type="text"
             placeholder="Search..."
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           {/* Icons */}

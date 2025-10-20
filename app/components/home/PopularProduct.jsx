@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GrCart } from "react-icons/gr";
 
 export default function PopularProduct() {
   const [products, setProducts] = useState([]);
@@ -135,10 +136,9 @@ export default function PopularProduct() {
               key={cat}
               onClick={() => handleCategory(cat)}
               className={`px-4 py-2 rounded transition cursor-pointer 
-                ${
-                  selectedCategory === cat
-                    ? "bg-secondary text-white"
-                    : "border border-blue-400 text-blue-500 hover:bg-blue-100"
+                ${selectedCategory === cat
+                  ? "bg-secondary text-white"
+                  : "border border-blue-400 text-blue-500 hover:bg-blue-100"
                 }`}
             >
               {cat}
@@ -179,18 +179,19 @@ export default function PopularProduct() {
 
               <div className="p-4">
                 <Link href={`/products/${product._id}`}>
-                  <h3 className="font-medium text-gray-800 hover:text-blue-600 truncate">
+                  <h3 className="inline-block relative text-gray-500 font-medium text-sm mb-1 
+               hover:text-blue-600 transition-colors duration-200 
+               after:content-[''] after:absolute after:left-0 after:bottom-0 
+               after:w-0 after:h-[1px] after:bg-blue-600 
+               hover:after:w-full after:transition-all after:duration-300">
                     {product.name}
                   </h3>
                 </Link>
                 <p className="text-blue-600 font-bold mt-1">${product.price}</p>
 
                 <div className="flex justify-between mt-3">
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition hover:cursor-pointer"
-                  >
-                    Add to Cart
+                  <button onClick={() => handleAddToCart(product)}>
+                    <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
                   </button>
                   <Link
                     href={`/checkout?type=single&id=${product._id}`}
