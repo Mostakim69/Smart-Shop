@@ -43,7 +43,7 @@ export default function ProductRow({ product }) {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Updated!", "Product updated.", "success");
         setOpenEditModal(false);
-        location.reload(); // refresh server component
+        location.reload(); 
       }
     } catch (err) {
       Swal.fire("Error!", "Update failed.", "error");
