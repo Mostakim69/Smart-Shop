@@ -2,6 +2,7 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import SearchAndFilter from "./SearchAndFilter";
+import ProductRow from "./ProductRow";
 
 export default async function ManageProducts({searchParams}) {
   const search = searchParams?.name || "";
@@ -36,39 +37,17 @@ export default async function ManageProducts({searchParams}) {
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="text-center py-10 text-gray-500">
-                  No products found.
-                </td>
-              </tr>
-            ) : (
-              products.map((product) => (
-                <tr key={product._id}>
-                  <td className="px-6 py-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-16 h-16 object-contain rounded"
-                    />
-                  </td>
-                  <td className="px-6 py-4 text-gray-700">{product.name}</td>
-                  <td className="px-6 py-4 text-gray-700 capitalize">{product.category}</td>
-                  <td className="px-6 py-4 text-gray-700">${product.price}</td>
-                  <td className="px-6 py-4 text-gray-700">{product.stock}</td>
-                  <td className="px-6 py-4 text-center flex justify-center gap-3">
-                    <button className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                      <FaEdit />
-                    </button>
-                    <button className="text-red-600 hover:text-red-800 cursor-pointer">
-                      <FaTrash />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
+       <tbody className="divide-y divide-gray-200">
+  {products.length === 0 ? (
+    <tr>
+      <td colSpan="6" className="text-center py-10 text-gray-500">
+        No products found.
+      </td>
+    </tr>
+  ) : (
+    products.map(product => <ProductRow key={product._id} product={product} />)
+  )}
+</tbody>
         </table>
       </div>
     </div>
