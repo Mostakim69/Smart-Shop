@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { Loader2, Image as ImageIcon, ArrowLeft } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function EditProductPage() {
+  const { user } = useAuth();
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -17,11 +19,12 @@ export default function EditProductPage() {
 
   const watchImage = watch("image");
 
-  // ✅ Fetch product details
+  // Fetch product details
   useEffect(() => {
     axios
       .get(`https://smart-shop-server-three.vercel.app/products/${id}`)
-      .then((res) => { reset(res.data);
+      .then((res) => {
+        reset(res.data);
         setLoading(false);
       })
       .catch(() => {
@@ -30,20 +33,49 @@ export default function EditProductPage() {
       });
   }, [id, reset]);
 
+
   // ✅ Handle form submit
-  const onSubmit = (data) => {
-    axios
-      .put(`https://smart-shop-server-three.vercel.app/products/${id}`, data)
-      .then(() => {
+  const onSubmit = async (data) => {
+
+    data.sellerName = user.displayName;
+    data.sellerEmail = user.email;
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.put(`https://smart-shop-server-three.vercel.app/products/${id}`, data);
+
+        if (res.data?.modifiedCount > 0) {
+          await Swal.fire({
+            title: "Updated!",
+            text: "Product has been updated successfully.",
+            icon: "success"
+          });
+        } else {
+          await Swal.fire({
+            title: "No Changes!",
+            text: "No fields were modified.",
+            icon: "info"
+          });
+        }
+
+      } catch (err) {
         Swal.fire({
-          icon: "success",
-          title: "Product updated successfully",
-          showConfirmButton: false,
-          timer: 1500,
+          title: "Error!",
+          text: err.message,
+          icon: "error"
         });
-        router.push("/my-products");
-      })
-      .catch(() => Swal.fire("Error", "Failed to update product", "error"));
+      }
+    }
   };
 
   if (loading)
@@ -156,7 +188,7 @@ export default function EditProductPage() {
             )}
             {watchImage && (
               <div className="flex justify-center mt-3">
-                <img src={watchImage} alt="Preview" className="h-24 w-24 object-cover rounded-lg border shadow-md transition-transform duration-200 hover:scale-105"/>
+                <img src={watchImage} alt="Preview" className="h-24 w-24 object-cover rounded-lg border shadow-md transition-transform duration-200 hover:scale-105" />
               </div>
             )}
           </div>
