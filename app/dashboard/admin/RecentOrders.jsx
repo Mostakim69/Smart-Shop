@@ -82,7 +82,7 @@ export default function RecentOrders() {
                       {order.status}
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-sm">
-                      {new Date(order.createdAt).toLocaleDateString("en-BD")}
+                      {new Date(order.orderDate).toLocaleDateString("en-BD")}
                     </td>
                   </tr>
                 ))
