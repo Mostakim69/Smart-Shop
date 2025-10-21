@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import "dayjs/locale/en";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
@@ -62,8 +61,6 @@ const ManageProfilePage = () => {
           icon: "success",
           title: "Profile Updated!",
           text: "Your profile has been successfully updated.",
-          background: "#0f1328",
-          color: "#fff",
         });
 
         setUser((prev) => ({
@@ -80,15 +77,13 @@ const ManageProfilePage = () => {
         icon: "error",
         title: "Update Failed",
         text: "Something went wrong while updating your profile.",
-        background: "#0f1328",
-        color: "#fff",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const { name, email, photoURL, createdAt, last_loggedIn } = user || {};
+  const { name, email, photoURL, createdAt, last_loggedIn, role } = user || {};
   const completeness = ([name, email, photoURL].filter(Boolean).length / 3) * 100;
 
   return (
@@ -96,54 +91,52 @@ const ManageProfilePage = () => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className=" mx-auto p-6 md:p-10 rounded-2xl bg-gradient-to-br from-[#0f1328] to-[#1a1f3b] shadow-2xl text-white space-y-8"
+      className="mx-auto p-6 md:p-10 space-y-8 text-gray-900"
     >
       {/* Header */}
       <PageIntro
-        h1={`👋 Welcome , ${name || "Explorer"}`}
-        p={`You can update your profile details and manage your account.`}
+        h1={`👋 Welcome  me, ${name || "Explorer"}`}
+        p="You can update your profile details and manage your account."
       />
 
-      {/* Vertical Profile Card */}
-      <div className="bg-[#1c233d] rounded-xl p-6 md:p-8 shadow-xl border border-cyan-500 flex flex-col items-center space-y-4">
+      {/* Profile Card */}
+      <div className="rounded-2xl border border-gray-300 shadow-md p-6 md:p-8 flex flex-col items-center space-y-4 backdrop-blur-sm">
         {/* Avatar */}
         <div className="relative">
           <img
             src={photoURL || "https://avatar.iran.liara.run/public"}
             alt="User"
             className="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-cyan-400 shadow-lg hover:scale-105 transition-transform duration-300"
-            style={{
-              boxShadow:
-                "0 0 20px rgba(34, 211, 238, 0.6), 0 0 40px rgba(34, 211, 238, 0.4), 0 0 60px rgba(34, 211, 238, 0.2)",
-            }}
           />
-          <div className="absolute inset-0 rounded-full border-2 border-cyan-400 animate-ping opacity-50"></div>
         </div>
 
         {/* Info */}
         <div className="text-center space-y-2">
-          <p className="text-lg text-cyan-300 font-semibold">📧 {email}</p>
-          <p className="text-gray-400">
+          <p className="text-lg text-gray-700 font-semibold">📧 {email}</p>
+          <p className="text-md text-gray-600">
+            🔐 Role: <span className="font-semibold text-cyan-600">{role || "user"}</span>
+          </p>
+          <p className="text-gray-500">
             🕓 Joined:{" "}
-            <span className="text-green-400">
+            <span className="text-green-600">
               {dayjs(createdAt).format("MMM D, YYYY")} ({dayjs(createdAt).fromNow()})
             </span>
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             🕘 Last Login:{" "}
-            <span className="text-yellow-300">
+            <span className="text-yellow-600">
               {dayjs(last_loggedIn).format("MMM D, YYYY h:mm A")} ({dayjs(last_loggedIn).fromNow()})
             </span>
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             👥 Profile Completeness:{" "}
             <span
               className={`font-bold ${
                 completeness >= 100
-                  ? "text-green-400"
+                  ? "text-green-600"
                   : completeness >= 60
-                  ? "text-yellow-400"
-                  : "text-red-400"
+                  ? "text-yellow-600"
+                  : "text-red-600"
               }`}
             >
               {Math.round(completeness)}%
@@ -153,40 +146,44 @@ const ManageProfilePage = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col md:flex-row justify-center gap-4">
+      <div className="flex flex-col md:flex-row md:justify-center gap-4 mt-6 max-w-[300px] mx-auto md:max-w-full">
         <button
+          className="btn border border-cyan-500 text-cyan-600 hover:bg-cyan-600 hover:text-white rounded-full"
           onClick={openModal}
-          className="btn btn-outline border-cyan-500 text-cyan-300 hover:bg-cyan-600 hover:text-white transition-all"
+          disabled={loading || isSubmitting}
         >
-          ✏️ Edit Profile
+          {loading || isSubmitting ? (
+            <>
+              <span className="loading loading-spinner loading-sm"></span> Updating...
+            </>
+          ) : (
+            "✏️ Update Profile"
+          )}
         </button>
-        <Link
-          href="/dashboard/orders"
-          className="btn btn-outline border-emerald-500 text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all"
-        >
-          🛒 View Orders
-        </Link>
-        <Link
-          href="/dashboard/address"
-          className="btn btn-outline border-indigo-500 text-indigo-300 hover:bg-indigo-600 hover:text-white transition-all"
-        >
-          📍 Manage Address
-        </Link>
+
+        {role === "user" && (
+          <Link
+            href="/dashboard/user/join-seller"
+            className="btn border border-emerald-500 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-full"
+          >
+            ✨ Join as Seller
+          </Link>
+        )}
       </div>
 
       {/* Modal */}
       {showModal && (
         <dialog className="modal modal-open">
-          <div className="modal-box bg-[#1c233d] text-white border border-cyan-600 shadow-2xl rounded-xl p-6 md:p-8">
-            <h3 className="font-bold text-2xl text-cyan-400 mb-6">Update Profile</h3>
+          <div className="modal-box border border-cyan-600 rounded-xl p-6 md:p-8 shadow-xl backdrop-blur-md bg-white text-gray-900">
+            <h3 className="font-bold text-2xl text-cyan-600 mb-6">Update Profile</h3>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Name */}
               <div className="form-control">
-                <label className="label text-gray-300">Name</label>
+                <label className="label text-gray-700">Name</label>
                 <input
                   type="text"
                   placeholder="Enter your name"
-                  className={`input input-bordered w-full bg-[#0f1328] text-white border-gray-600 focus:border-cyan-500 ${
+                  className={`input input-bordered w-full bg-gray-50 text-gray-900 border-gray-300 focus:border-cyan-500 ${
                     errors.name ? "border-red-500" : ""
                   }`}
                   {...register("name", {
@@ -196,17 +193,17 @@ const ManageProfilePage = () => {
                   })}
                 />
                 {errors.name && (
-                  <span className="text-red-400 text-sm mt-1">{errors.name.message}</span>
+                  <span className="text-red-500 text-sm mt-1">{errors.name.message}</span>
                 )}
               </div>
 
               {/* Photo URL */}
               <div className="form-control">
-                <label className="label text-gray-300">Photo URL</label>
+                <label className="label text-gray-700">Photo URL</label>
                 <input
                   type="url"
                   placeholder="Enter photo URL"
-                  className={`input input-bordered w-full bg-[#0f1328] text-white border-gray-600 focus:border-cyan-500 ${
+                  className={`input input-bordered w-full bg-gray-50 text-gray-900 border-gray-300 focus:border-cyan-500 ${
                     errors.photoURL ? "border-red-500" : ""
                   }`}
                   {...register("photoURL", {
@@ -217,7 +214,7 @@ const ManageProfilePage = () => {
                   })}
                 />
                 {errors.photoURL && (
-                  <span className="text-red-400 text-sm mt-1">{errors.photoURL.message}</span>
+                  <span className="text-red-500 text-sm mt-1">{errors.photoURL.message}</span>
                 )}
               </div>
 
@@ -250,7 +247,7 @@ const ManageProfilePage = () => {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-ghost text-gray-300 hover:bg-gray-700 transition-all"
+                  className="btn btn-ghost text-gray-600 hover:bg-gray-100 transition-all"
                   onClick={closeModal}
                   disabled={isSubmitting || loading}
                 >
