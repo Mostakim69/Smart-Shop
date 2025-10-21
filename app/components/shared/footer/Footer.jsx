@@ -10,10 +10,10 @@ export default function Footer() {
         <div>
           <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
             <Image
-              src="/logo.png"
+              src="/logo_3.webp"
               alt="Smart Shop Logo"
-              width={30}
-              height={30}
+              width={40}
+              height={40}
             />
             <span className="text-xl font-bold text-gray-800">Smart Shop</span>
           </div>
