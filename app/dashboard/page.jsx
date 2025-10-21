@@ -1,324 +1,271 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import {
-//   ShoppingBagIcon,
-//   ArrowPathIcon,
-//   CalendarDaysIcon,
-//   CheckCircleIcon,
-// } from "@heroicons/react/24/outline";
-// import { motion, useAnimation } from "framer-motion";
-// import OverviewChart from "./overviewchart";
-
-// export default function DashboardPage() {
-//   const stats = [
-//     {
-//       title: "Today Orders",
-//       value: "$897.40",
-//       color: "bg-green-500",
-//       icon: <ShoppingBagIcon className="h-8 w-8 text-white" />,
-//     },
-//     {
-//       title: "Yesterday Orders",
-//       value: "$679.93",
-//       color: "bg-orange-400",
-//       icon: <ShoppingBagIcon className="h-8 w-8 text-white" />,
-//     },
-//     {
-//       title: "This Month",
-//       value: "$13146.96",
-//       color: "bg-blue-500",
-//       icon: <ArrowPathIcon className="h-8 w-8 text-white" />,
-//     },
-//     {
-//       title: "Last Month",
-//       value: "$31964.92",
-//       color: "bg-cyan-600",
-//       icon: <CalendarDaysIcon className="h-8 w-8 text-white" />,
-//     },
-//     {
-//       title: "All-Time Sales",
-//       value: "$626513.05",
-//       color: "bg-green-600",
-//       icon: <CheckCircleIcon className="h-8 w-8 text-white" />,
-//     },
-//   ];
-
-//   const orders = [
-//     { title: "Total Orders", value: 815, color: "text-orange-600" },
-//     { title: "Orders Pending", value: 263, color: "text-green-500" },
-//     { title: "Orders Processing", value: 97, color: "text-blue-400" },
-//     { title: "Orders Delivered", value: 418, color: "text-green-600" },
-//   ];
-
-//   // Custom Hook for Count Animation
-//   const useCountUp = (target, duration = 1500) => {
-//     const [count, setCount] = useState(0);
-
-//     useEffect(() => {
-//       let start = 0;
-//       const end = parseInt(target);
-//       if (start === end) return;
-
-//       let incrementTime = 15; // ms
-//       let step = (end / (duration / incrementTime));
-
-//       const timer = setInterval(() => {
-//         start += step;
-//         if (start >= end) {
-//           start = end;
-//           clearInterval(timer);
-//         }
-//         setCount(Math.floor(start));
-//       }, incrementTime);
-
-//       return () => clearInterval(timer);
-//     }, [target, duration]);
-
-//     return count;
-//   };
-
-//   return (
-//     <div className="p-6 space-y-8">
-//       <motion.h1
-//         className="text-2xl font-bold mb-6"
-//         initial={{ opacity: 0, y: -20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ duration: 0.5 }}
-//       >
-//         Dashboard Overview
-//       </motion.h1>
-
-//       {/* Top Stats */}
-//       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-//         {stats.map((item, index) => (
-//           <motion.div
-//             key={index}
-//             className={`${item.color} rounded-2xl p-5 text-white flex flex-col items-center shadow-lg`}
-//             whileHover={{ scale: 1.05 }}
-//             initial={{ opacity: 0, y: 30 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 0.5, delay: index * 0.1 }}
-//           >
-//             <div className="mb-3">{item.icon}</div>
-//             <h2 className="text-sm font-medium opacity-80">{item.title}</h2>
-//             <p className="text-xl font-bold mt-1">{item.value}</p>
-//           </motion.div>
-//         ))}
-//       </div>
-
-//       {/* Orders Section with Count Animation */}
-//       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-//         {orders.map((item, index) => {
-//           const count = useCountUp(item.value, 2000);
-//           return (
-//             <motion.div
-//               key={index}
-//               className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center border border-gray-100"
-//               whileHover={{ y: -5, scale: 1.02 }}
-//               initial={{ opacity: 0, y: 40 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.6, delay: index * 0.15 }}
-//             >
-//               <h2 className="text-sm font-medium text-gray-500">
-//                 {item.title}
-//               </h2>
-//               <p className={`text-3xl font-bold mt-2 ${item.color}`}>
-//                 {count}
-//               </p>
-//             </motion.div>
-//           );
-//         })}
-//       </div>
-
-//       {/* Chart Section */}
-//       <motion.div
-//         className="bg-white rounded-2xl shadow-lg p-6 mt-8"
-//         initial={{ opacity: 0, y: 50 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ duration: 0.7 }}
-//       >
-//         <OverviewChart />
-//       </motion.div>
-//     </div>
-//   );
-// }
-
-
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { PencilIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAuth } from "@/context/AuthContext";
+import { motion } from "framer-motion";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import "dayjs/locale/en";
+import Link from "next/link";
+import Swal from "sweetalert2";
 
-export default function DashboardHome() {
-  const { user } = useAuth();
-  const [userData, setUserData] = useState(null);
-  const [editingField, setEditingField] = useState(null);
-  const [tempValue, setTempValue] = useState("");
+import { useAuth } from "@/context/AuthContext";
+import useAxiosSecure from "@/lib/useAxiosSecure";
+
+dayjs.extend(relativeTime);
+
+const ManageProfilePage = () => {
+  const { user, setUser } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+    watch,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      photoURL: "",
+    },
+  });
 
   useEffect(() => {
-    if (!user?.email) return;
-
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${user.email}`);
-        const data = await res.json();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [user?.email]);
-
-  // ✏️ Start editing
-  const handleEditClick = (field, value) => {
-    setEditingField(field);
-    setTempValue(value);
-  };
-
-  // ❌ Cancel editing
-  const handleCancel = () => {
-    setEditingField(null);
-    setTempValue("");
-  };
-
-  // ✅ Save edited data
-  const handleSave = async (field) => {
-    if (!userData) return;
-
-    try {
-      const updatedUser = { ...userData, [field]: tempValue };
-
-      const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${userData.email}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedUser),
+    if (user?.name || user?.photoURL) {
+      reset({
+        name: user.name || "",
+        photoURL: user.photoURL || "",
       });
+    }
+  }, [user, reset]);
 
-      if (!res.ok) throw new Error("Failed to update user");
+  const openModal = () => {
+    reset({
+      name: user?.name || "",
+      photoURL: user?.photoURL || "",
+    });
+    setShowModal(true);
+  };
 
-      setUserData(updatedUser);
-      setEditingField(null);
-      alert("Profile updated successfully!");
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      const res = await axiosSecure.put(`/users/${user?._id}`, data);
+      if (res.data?.modifiedCount > 0) {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated!",
+          text: "Your profile has been successfully updated.",
+          background: "#0f1328",
+          color: "#fff",
+        });
+
+        setUser((prev) => ({
+          ...prev,
+          name: data.name,
+          photoURL: data.photoURL,
+        }));
+
+        setShowModal(false);
+      }
     } catch (error) {
-      console.error("Error updating:", error);
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Something went wrong while updating your profile.",
+        background: "#0f1328",
+        color: "#fff",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!userData) {
-    return (
-      <div className="p-6 text-center text-gray-500">Loading profile...</div>
-    );
-  }
+  const { name, email, photoURL, createdAt, last_loggedIn } = user || {};
+  const completeness = ([name, email, photoURL].filter(Boolean).length / 3) * 100;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">My Profile</h1>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className=" mx-auto p-6 md:p-10 rounded-2xl bg-gradient-to-br from-[#0f1328] to-[#1a1f3b] shadow-2xl text-white space-y-8"
+    >
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-cyan-400">
+          👋 Welcome, {name || "Valued Customer"}
+        </h1>
+        <p className="text-gray-300 mt-2">
+          Manage your personal information and view your shopping details.
+        </p>
+      </div>
 
-      <div className="bg-white shadow-lg rounded-xl p-6 max-w-md mx-auto hover:shadow-xl transition">
-        {/* Profile Image */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="relative w-28 h-28 rounded-full overflow-hidden bg-gray-100 shadow-md">
-            <img
-              src={userData.photo || "/default-avatar.png"}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {editingField === "photo" ? (
-            <div className="flex items-center gap-2 mt-3">
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                placeholder="Enter image URL"
-                className="border rounded-lg px-2 py-1 text-sm"
-              />
-              <button
-                onClick={() => handleSave("photo")}
-                className="text-green-600"
-              >
-                <CheckIcon className="w-5 h-5" />
-              </button>
-              <button onClick={handleCancel} className="text-red-500">
-                <XMarkIcon className="w-5 h-5" />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => handleEditClick("photo", userData.photo || "")}
-              className="flex items-center gap-1 text-sky-600 mt-3 text-sm hover:underline"
-            >
-              <PencilIcon className="w-4 h-4" /> Change Photo
-            </button>
-          )}
+      {/* Vertical Profile Card */}
+      <div className="bg-[#1c233d] rounded-xl p-6 md:p-8 shadow-xl border border-cyan-500 flex flex-col items-center space-y-4">
+        {/* Avatar */}
+        <div className="relative">
+          <img
+            src={photoURL || "https://avatar.iran.liara.run/public"}
+            alt="User"
+            className="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-cyan-400 shadow-lg hover:scale-105 transition-transform duration-300"
+            style={{
+              boxShadow:
+                "0 0 20px rgba(34, 211, 238, 0.6), 0 0 40px rgba(34, 211, 238, 0.4), 0 0 60px rgba(34, 211, 238, 0.2)",
+            }}
+          />
+          <div className="absolute inset-0 rounded-full border-2 border-cyan-400 animate-ping opacity-50"></div>
         </div>
 
-        {/* Profile Details */}
-        <div className="space-y-4">
-          {/* Email */}
-          <div>
-            <p className="text-gray-500 text-sm">Email</p>
-            <p className="font-semibold">{userData.email}</p>
-          </div>
-
-          {/* Name */}
-          <div>
-            <p className="text-gray-500 text-sm">Name</p>
-            {editingField === "name" ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  className="border rounded-lg px-2 py-1 text-sm"
-                />
-                <button
-                  onClick={() => handleSave("name")}
-                  className="text-green-600"
-                >
-                  <CheckIcon className="w-5 h-5" />
-                </button>
-                <button onClick={handleCancel} className="text-red-500">
-                  <XMarkIcon className="w-5 h-5" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center justify-between">
-                <p className="font-semibold">{userData.name}</p>
-                <button
-                  onClick={() => handleEditClick("name", userData.name)}
-                  className="text-sky-600 hover:underline text-sm flex items-center gap-1"
-                >
-                  <PencilIcon className="w-4 h-4" /> Edit
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Role */}
-          <div>
-            <p className="text-gray-500 text-sm">Role</p>
-            <p className="font-semibold capitalize">{userData.role}</p>
-          </div>
-
-          {/* Joined Date */}
-          <div>
-            <p className="text-gray-500 text-sm">Joined</p>
-            <p className="font-semibold">
-              {new Date(userData.createdAt).toLocaleDateString()}
-            </p>
-          </div>
+        {/* Info */}
+        <div className="text-center space-y-2">
+          <p className="text-lg text-cyan-300 font-semibold">📧 {email}</p>
+          <p className="text-gray-400">
+            🕓 Joined:{" "}
+            <span className="text-green-400">
+              {dayjs(createdAt).format("MMM D, YYYY")} ({dayjs(createdAt).fromNow()})
+            </span>
+          </p>
+          <p className="text-gray-400">
+            🕘 Last Login:{" "}
+            <span className="text-yellow-300">
+              {dayjs(last_loggedIn).format("MMM D, YYYY h:mm A")} ({dayjs(last_loggedIn).fromNow()})
+            </span>
+          </p>
+          <p className="text-gray-400">
+            👥 Profile Completeness:{" "}
+            <span
+              className={`font-bold ${
+                completeness >= 100
+                  ? "text-green-400"
+                  : completeness >= 60
+                  ? "text-yellow-400"
+                  : "text-red-400"
+              }`}
+            >
+              {Math.round(completeness)}%
+            </span>
+          </p>
         </div>
       </div>
-    </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col md:flex-row justify-center gap-4">
+        <button
+          onClick={openModal}
+          className="btn btn-outline border-cyan-500 text-cyan-300 hover:bg-cyan-600 hover:text-white transition-all"
+        >
+          ✏️ Edit Profile
+        </button>
+        <Link
+          href="/dashboard/orders"
+          className="btn btn-outline border-emerald-500 text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all"
+        >
+          🛒 View Orders
+        </Link>
+        <Link
+          href="/dashboard/address"
+          className="btn btn-outline border-indigo-500 text-indigo-300 hover:bg-indigo-600 hover:text-white transition-all"
+        >
+          📍 Manage Address
+        </Link>
+      </div>
+
+      {/* Modal */}
+      {showModal && (
+        <dialog className="modal modal-open">
+          <div className="modal-box bg-[#1c233d] text-white border border-cyan-600 shadow-2xl rounded-xl p-6 md:p-8">
+            <h3 className="font-bold text-2xl text-cyan-400 mb-6">Update Profile</h3>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Name */}
+              <div className="form-control">
+                <label className="label text-gray-300">Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className={`input input-bordered w-full bg-[#0f1328] text-white border-gray-600 focus:border-cyan-500 ${
+                    errors.name ? "border-red-500" : ""
+                  }`}
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: { value: 2, message: "At least 2 characters" },
+                    maxLength: { value: 50, message: "Max 50 characters" },
+                  })}
+                />
+                {errors.name && (
+                  <span className="text-red-400 text-sm mt-1">{errors.name.message}</span>
+                )}
+              </div>
+
+              {/* Photo URL */}
+              <div className="form-control">
+                <label className="label text-gray-300">Photo URL</label>
+                <input
+                  type="url"
+                  placeholder="Enter photo URL"
+                  className={`input input-bordered w-full bg-[#0f1328] text-white border-gray-600 focus:border-cyan-500 ${
+                    errors.photoURL ? "border-red-500" : ""
+                  }`}
+                  {...register("photoURL", {
+                    pattern: {
+                      value: /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i,
+                      message: "Invalid image URL",
+                    },
+                  })}
+                />
+                {errors.photoURL && (
+                  <span className="text-red-400 text-sm mt-1">{errors.photoURL.message}</span>
+                )}
+              </div>
+
+              {/* Preview */}
+              {watch("photoURL") && (
+                <div className="flex justify-center">
+                  <img
+                    src={watch("photoURL")}
+                    alt="Preview"
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-full border-2 border-cyan-500 shadow-lg"
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="modal-action flex justify-end gap-3 mt-4">
+                <button
+                  type="submit"
+                  className="btn bg-cyan-600 text-white hover:bg-cyan-700 transition-all"
+                  disabled={isSubmitting || loading}
+                >
+                  {isSubmitting || loading ? (
+                    <>
+                      <span className="loading loading-spinner loading-sm"></span> Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-ghost text-gray-300 hover:bg-gray-700 transition-all"
+                  onClick={closeModal}
+                  disabled={isSubmitting || loading}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </dialog>
+      )}
+    </motion.div>
   );
-}
+};
 
-
-
-
+export default ManageProfilePage;
