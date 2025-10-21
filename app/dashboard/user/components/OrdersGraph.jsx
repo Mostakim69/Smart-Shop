@@ -14,12 +14,12 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function OrdersGraph({ orders = [] }) { // ✅ default empty array
+export default function OrdersGraph({ orders = [] }) {
   const [view, setView] = useState("weekly");
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
-    if (!orders.length) return; // ✅ safeguard
+    if (!orders.length) return;
 
     if (view === "weekly") {
       const last7Days = Array.from({ length: 7 }, (_, i) => {
@@ -28,7 +28,9 @@ export default function OrdersGraph({ orders = [] }) { // ✅ default empty arra
         return d;
       });
 
-      const labels = last7Days.map((d) => d.toLocaleDateString("en-US", { weekday: "short" }));
+      const labels = last7Days.map((d) =>
+        d.toLocaleDateString("en-US", { weekday: "short" })
+      );
 
       const data = last7Days.map((day) =>
         orders
@@ -82,9 +84,9 @@ export default function OrdersGraph({ orders = [] }) { // ✅ default empty arra
   }, [orders, view]);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Orders</h2>
+    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3 sm:gap-0">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Orders</h2>
         <div className="flex gap-2">
           <button
             className={`px-3 py-1 rounded ${
@@ -104,11 +106,23 @@ export default function OrdersGraph({ orders = [] }) { // ✅ default empty arra
           </button>
         </div>
       </div>
+
       {chartData.datasets.length ? (
-        <Bar
-          data={chartData}
-          options={{ responsive: true, plugins: { legend: { display: true } } }}
-        />
+        <div className="w-full overflow-x-auto">
+          <Bar
+            data={chartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false, // ✅ allows custom height
+              plugins: { legend: { display: true } },
+              scales: {
+                x: { ticks: { autoSkip: false } },
+                y: { beginAtZero: true },
+              },
+            }}
+            height={300} // ✅ fixed height for mobile, adjusts with parent width
+          />
+        </div>
       ) : (
         <p className="text-center text-gray-500 py-10">No order data available</p>
       )}
