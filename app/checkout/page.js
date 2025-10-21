@@ -87,7 +87,7 @@ export default function CheckoutPage() {
       orderDate: new Date(),
     };
 
-    // 💵 If payment is Cash on Delivery
+
     if (formData.payment === "Cash on Delivery") {
       try {
         const res = await axios.post(

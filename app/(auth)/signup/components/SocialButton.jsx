@@ -23,7 +23,7 @@ export default function SocialButton({ icon, provider, className }) {
         createdAt: new Date(),
       };
 
-      const res = await fetch("http://localhost:5000/users", {
+      const res = await fetch("https://smart-shop-server-three.vercel.app/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
