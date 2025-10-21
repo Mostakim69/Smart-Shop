@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 
 import { useAuth } from "@/context/AuthContext";
 import useAxiosSecure from "@/lib/useAxiosSecure";
+import PageIntro from "@/utils/PageIntro";
 
 dayjs.extend(relativeTime);
 
@@ -98,14 +99,10 @@ const ManageProfilePage = () => {
       className=" mx-auto p-6 md:p-10 rounded-2xl bg-gradient-to-br from-[#0f1328] to-[#1a1f3b] shadow-2xl text-white space-y-8"
     >
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-cyan-400">
-          👋 Welcome, {name || "Valued Customer"}
-        </h1>
-        <p className="text-gray-300 mt-2">
-          Manage your personal information and view your shopping details.
-        </p>
-      </div>
+      <PageIntro
+        h1={`👋 Welcome , ${name || "Explorer"}`}
+        p={`You can update your profile details and manage your account.`}
+      />
 
       {/* Vertical Profile Card */}
       <div className="bg-[#1c233d] rounded-xl p-6 md:p-8 shadow-xl border border-cyan-500 flex flex-col items-center space-y-4">
