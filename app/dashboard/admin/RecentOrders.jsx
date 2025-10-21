@@ -7,7 +7,7 @@ export default function RecentOrders() {
 
   useEffect(() => {
     // change the URL to your actual server endpoint
-    fetch("https://your-server-url.com/orders")
+    fetch("https://smart-shop-server-three.vercel.app/orders")
       .then((res) => res.json())
       .then((data) => {
         setRecentOrders(data);
@@ -56,17 +56,18 @@ export default function RecentOrders() {
 
             <tbody className="divide-y divide-gray-100">
               {recentOrders?.length > 0 ? (
-                recentOrders.map((order) => (
+                recentOrders.slice(-6).map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-gray-700">
-                      {order._id?.slice(-6)}
+                      {order._id}
                     </td>
                     <td className="px-4 py-3 text-gray-700">
-                      {order.customerName}
+                      {order.email}
                     </td>
                     <td className="px-4 py-3 text-gray-700">
-                      ৳{order.amount?.toLocaleString("en-BD")}
+                      {order.totalAmount?.toLocaleString("en-BD") } ৳
                     </td>
+                   
                     <td
                       className={`px-4 py-3 font-semibold ${
                         order.status === "Completed"

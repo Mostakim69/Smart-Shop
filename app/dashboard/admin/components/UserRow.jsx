@@ -11,7 +11,7 @@ export default function UserRow({ user, index }) {
     console.log(newRole);
 
     try {
-      const res = await axios.patch(`https://smart-shop-server-three.vercel.app/users/${user._id}`, {
+      const res = await axios.patch(`http://localhost:5000/users/${user._id}`, {
         role: newRole
       });
 
@@ -103,7 +103,7 @@ export default function UserRow({ user, index }) {
         )}
         <button
           onClick={handleDelete}
-          className="w-[80px] text-center border border-red-400 bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-500 hover:text-white transition"
+          className="w-[80px] text-center border border-red-400 bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-500 hover:text-white transition cursor-pointer"
         >
           Delete
         </button>
