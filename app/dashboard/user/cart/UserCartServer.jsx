@@ -17,7 +17,7 @@ export default function UserCartClient() {
       try {
         // ✅ Use query param ?userEmail= instead of URL param
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/cartItems?userEmail=${user.email}`,
+          `http://localhost:5000/cartItems?userEmail=${user.email}`,
           { cache: "no-store" }
         );
 

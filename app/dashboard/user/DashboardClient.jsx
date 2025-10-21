@@ -6,10 +6,9 @@ import StatsCards from "./components/StateCards";
 import RecentOrders from "./components/RecentOrders";
 import QuickActions from "./components/QuickActions";
 import Recommended from "./components/Recommended";
-import Addresses from "./components/Reviews";
+import Reviews from "./components/Reviews";
 import SupportSection from "./components/SupportSection";
 import OrdersGraph from "./components/OrdersGraph";
-import Reviews from "./components/Reviews";
 
 export default function DashboardClient() {
   const { user } = useAuth();
@@ -63,7 +62,7 @@ export default function DashboardClient() {
 
         setRecentOrders(lastOrders);
         setRecommendedProducts(recommended);
-        setAllOrders(orders); // All orders for OrdersGraph
+        setAllOrders(orders);
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
       } finally {
@@ -74,41 +73,47 @@ export default function DashboardClient() {
     fetchData();
   }, [user?.email]);
 
-  if (loading) return <div className="text-center py-10 text-gray-500">Loading Dashboard...</div>;
- 
+  if (loading)
+    return <div className="text-center py-10 text-gray-500">Loading Dashboard...</div>;
 
   const userReviews = [
-  { id: 1, product: "iPhone 15", rating: 5, comment: "Excellent phone!" },
-  { id: 2, product: "Samsung Galaxy S23", rating: 4, comment: "Good performance." },
-  { id: 3, product: "MacBook Pro", rating: 5, comment: "Loving it!" },
-];
-
+    { id: 1, product: "iPhone 15", rating: 5, comment: "Excellent phone!" },
+    { id: 2, product: "Samsung Galaxy S23", rating: 4, comment: "Good performance." },
+    { id: 3, product: "MacBook Pro", rating: 5, comment: "Loving it!" },
+  ];
 
   return (
-    <div className="p-4 lg:p-6 bg-gray-50 min-h-screen space-y-6">
+    <div className="p-4 md:p-6 bg-gray-50 min-h-screen space-y-6">
+      {/* Stats Cards */}
       <StatsCards userStats={userStats} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8 mt-6">
-        <RecentOrders recentOrders={recentOrders} />
-        {/* OrdersGraph only receives orders prop */}
-        <OrdersGraph orders={allOrders} />
+      {/* Recent Orders & Orders Graph */}
+      <div className="grid grid-cols-1 md:grid-cols-2 not-first:gap-3 md:gap-12">
+        {/* Recent Orders - 60% width on large screens */}
+        <div className="w-full ">
+          <RecentOrders recentOrders={recentOrders} />
+        </div>
+
+        {/* Orders Graph - 40% width on large screens */}
+        <div className="w-full">
+          <OrdersGraph orders={allOrders} />
+        </div>
       </div>
 
+      {/* Quick Actions */}
       <QuickActions userStats={userStats} notifications={[]} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6 mt-8">
-  {/* Recommended Products: 7-cols grid এর 5 কলাম => 70% */}
-  <div className="lg:col-span-5">
-    <Recommended recommendedProducts={recommendedProducts} />
-  </div>
+      {/* Recommended & Reviews */}
+      <div className="flex flex-col lg:flex-row gap-6 items-stretch">
+        <div className="w-full lg:w-7/10 min-w-0">
+          <Recommended recommendedProducts={recommendedProducts} />
+        </div>
+        <div className="w-full lg:w-3/10 min-w-0">
+          <Reviews userReviews={userReviews} />
+        </div>
+      </div>
 
-  {/* Reviews: 7-cols grid এর 2 কলাম => 30% */}
-  <div className="lg:col-span-2">
-    <Reviews userReviews={userReviews} />
-  </div>
-</div>
-
-
+      {/* Support Section */}
       <SupportSection />
     </div>
   );
