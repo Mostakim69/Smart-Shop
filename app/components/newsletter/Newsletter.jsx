@@ -17,7 +17,7 @@ export default function Newsletter() {
     <section className="py-12">
       <div className="max-w-3xl mx-auto text-center px-4">
         {/* Title */}
-        <h2 className="text-3xl font-bold mb-2 text-primary">Join the Smart Shop Updates 🛒</h2>
+        <h2 className="text-4xl font-bold mb-2 text-primary">Join the Smart Shop Updates 🛒</h2>
 
         {/* Subtitle */}
         <p className="text-lg mb-6 text-gray-400">

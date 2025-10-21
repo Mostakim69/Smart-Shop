@@ -157,7 +157,7 @@ export default function PopularProduct() {
           {filtered.map((product) => (
             <motion.div
               key={product._id}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden transition"
+              className=" border border-gray-50 rounded-xl shadow-md hover:shadow-xl overflow-hidden transition"
               variants={cardVariants}
               whileHover="hover"
               whileTap={{ scale: 0.97 }}
