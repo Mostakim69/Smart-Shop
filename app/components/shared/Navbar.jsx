@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ShoppingCart,
-  Heart,
+  // Heart,
   User,
   Menu,
   X,
@@ -18,13 +18,13 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 import ThemeToggler from "../ThemeToggler";
+import Gems from "./Gems";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
   const { user, logout } = useAuth();
   const pathname = usePathname();
-
 
   const linkClass = (path) =>
     pathname === path
@@ -37,13 +37,15 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
-            <Link href="/"><Image
-              src="/logo_3.webp"
-              alt="Smart Shop Logo"
-              width={60}
-              height={60}
-              className="rounded-xl"
-            /></Link>
+            <Link href="/">
+              <Image
+                src="/logo_3.webp"
+                alt="Smart Shop Logo"
+                width={60}
+                height={60}
+                className="rounded-xl"
+              />
+            </Link>
           </div>
 
           {/* Desktop Menu */}
@@ -78,15 +80,14 @@ export default function Navbar() {
             >
               <Phone className="w-4 h-4" /> Contact
             </Link>
-            {user?.email &&
+            {user?.email && (
               <Link
                 href="/dashboard"
                 className="flex items-center gap-1 hover:text-primary hover:underline"
               >
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
-            }
-
+            )}
           </div>
 
           {/* Right Side */}
@@ -102,10 +103,12 @@ export default function Navbar() {
             </div>
 
             {/* Icons */}
-            <Link href="/wishlist">
+            {/* <Link href="/wishlist">
               <Heart className="w-6 h-6 text-gray-700 hover:text-primary" />
+            </Link> */}
+            <Link href="/gems">
+              <Gems></Gems>
             </Link>
-
             <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />
               <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
