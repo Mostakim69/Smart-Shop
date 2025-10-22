@@ -24,7 +24,7 @@ export default function CheckoutPage() {
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  const { user } = useAuth();
+  const { user, setGemPoints, gemPoints } = useAuth();
 
 
 
@@ -93,14 +93,6 @@ export default function CheckoutPage() {
       axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
         .then(async res => {
           if (res.data?.insertedId) {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Order placed successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-
 
             // Tracking data তৈরি করা
             const trackingData = {
@@ -122,8 +114,22 @@ export default function CheckoutPage() {
               const res = await axios.post('http://localhost:5000/trackings', trackingData);
               console.log("Tracking info saved successfully!");
 
-              if(res.data.insertedId){
-                alert("traking data saved")
+              if (res.data.insertedId) {
+                // ✅ Gem points update
+                const resGem = await axios.patch('http://localhost:5000/gemPoints', {
+                  email: user.email,
+                  points: 10
+                });
+                if (resGem.data.modifiedCount) {
+                  setGemPoints(gemPoints + 10);
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Order placed successfully! and get 10 points",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                }
               }
 
             } catch (trackingError) {

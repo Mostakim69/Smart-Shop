@@ -35,6 +35,7 @@ export default function SignUpForm() {
         email: formData.email,
         photo: uploadedImageURL,
         role: "user",
+        gemPoints: 0,
         createdAt: new Date(),
       };
 
