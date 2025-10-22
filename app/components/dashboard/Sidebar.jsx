@@ -193,6 +193,7 @@ export default function Sidebar() {
           <span>Profile</span>
         </Link>
       </li>
+      
     </ul>
   );
 
