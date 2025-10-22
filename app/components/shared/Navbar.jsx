@@ -28,12 +28,12 @@ export default function Navbar() {
 
   const linkClass = (path) =>
     pathname === path
-      ? "text-primary font-semibold underline" // active style
-      : "text-gray-600 hover:text-primary hover:underline"; // default style
+      ? "text-primary font-semibold underline"
+      : "text-gray-600 hover:text-primary hover:underline";
 
   return (
     <nav className="bg-base-100 shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold text-primary">
@@ -50,45 +50,41 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden text-gray-600 md:flex items-center space-x-6">
-            {/* <Link href="/" className={linkClass("/")}>Home</Link>
-            <Link href="/products" className={linkClass("/products")}>Products</Link>
-            <Link href="/about" className={linkClass("/about")}>About</Link>
-            <Link href="/contact" className={linkClass("/contact")}>Contact</Link>
-            <Link href="/dashboard" className={linkClass("/dashboard")}>Dashboard</Link>
-            <Link href="/login" className={linkClass("/login")}>Login</Link> */}
-            <Link
-              href="/"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
-            >
+            <Link href="/" className={`flex items-center gap-1 ${linkClass("/")}`}>
               <Home className="w-4 h-4" /> Home
             </Link>
+
             <Link
               href="/products"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
+              className={`flex items-center gap-1 ${linkClass("/products")}`}
             >
               <Package className="w-4 h-4" /> Products
             </Link>
+
             <Link
               href="/about"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
+              className={`flex items-center gap-1 ${linkClass("/about")}`}
             >
               <Info className="w-4 h-4" /> About
             </Link>
+
             <Link
               href="/contact"
-              className="flex items-center gap-1 hover:text-primary hover:underline"
+              className={`flex items-center gap-1 ${linkClass("/contact")}`}
             >
               <Phone className="w-4 h-4" /> Contact
             </Link>
+
             {user?.email && (
               <Link
                 href="/dashboard"
-                className="flex items-center gap-1 hover:text-primary hover:underline"
+                className={`flex items-center gap-1 ${linkClass("/dashboard")}`}
               >
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             )}
           </div>
+
 
           {/* Right Side */}
           <div className="hidden text-gray-300 md:flex items-center space-x-4">
@@ -203,10 +199,10 @@ export default function Navbar() {
 
           {/* Icons */}
           <div className="flex items-center space-x-6 pt-2">
-            <Heart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
-            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+            {/* <Heart className="w-6 h-6 text-gray-700 hover:text-blue-600" /> */}
+             <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
 
-            {!user ? (
+             {!user ? (
               <Link href="/login">
                 <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
               </Link>
