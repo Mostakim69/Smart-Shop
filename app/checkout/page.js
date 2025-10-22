@@ -24,7 +24,7 @@ export default function CheckoutPage() {
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  const { user } = useAuth();
+  const { user, setGemPoints, gemPoints } = useAuth();
 
 
 
@@ -93,41 +93,48 @@ export default function CheckoutPage() {
       axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
         .then(async res => {
           if (res.data?.insertedId) {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Order placed successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-
-            console.log(res.data.insertedId);
-            console.log(orderData);
-            
-
 
             // Tracking data তৈরি করা
-            // const trackingData = {
-            //   orderId: res.data.insertedId,
-            //   email: formData.email,
-            //   currentStatus: "Order Placed",
-            //   steps: [
-            //     { title: "Order Placed", date: new Date(), done: true },
-            //     { title: "At Division Hub", date: null, done: false },
-            //     { title: "At District Hub", date: null, done: false },
-            //     { title: "At Upazila Hub", date: null, done: false },
-            //     { title: "With Delivery Man", date: null, done: false },
-            //     { title: "Delivered", date: null, done: false }
-            //   ]
-            // };
+            const trackingData = {
+              orderId: res.data.insertedId,
+              email: formData.email,
+              currentStatus: "Order Placed",
+              steps: [
+                { title: "Order Placed", date: new Date(), done: true },
+                { title: "At Division Hub", date: null, done: false },
+                { title: "At District Hub", date: null, done: false },
+                { title: "At Upazila Hub", date: null, done: false },
+                { title: "With Delivery Man", date: null, done: false },
+                { title: "Delivered", date: null, done: false }
+              ]
+            };
 
             // ✅ Tracking data backend এ পাঠানো
-            // try {
-            //   await axios.post('https://smart-shop-server-three.vercel.app/tracking', trackingData);
-            //   console.log("Tracking info saved successfully!");
-            // } catch (trackingError) {
-            //   console.error("Tracking save failed:", trackingError);
-            // }
+            try {
+              const res = await axios.post('http://localhost:5000/trackings', trackingData);
+              console.log("Tracking info saved successfully!");
+
+              if (res.data.insertedId) {
+                // ✅ Gem points update
+                const resGem = await axios.patch('http://localhost:5000/gemPoints', {
+                  email: user.email,
+                  points: 10
+                });
+                if (resGem.data.modifiedCount) {
+                  setGemPoints(gemPoints + 10);
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Order placed successfully! and get 10 points",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                }
+              }
+
+            } catch (trackingError) {
+              console.error("Tracking save failed:", trackingError);
+            }
           }
 
         })
