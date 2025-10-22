@@ -1,8 +1,8 @@
 import React from "react";
-import { Users, ShoppingBag, DollarSign, Package } from "lucide-react";
-
 import RecentOrders from "./RecentOrders";
 import SalesOverview from "./SalesOverview";
+import SummaryCards from "./SummaryCards";
+import RecentUsers from "./RecentUsers";
 
 export default function AdminDashboard() {
   return (
@@ -10,45 +10,7 @@ export default function AdminDashboard() {
       {/* PAGE TITLE */}
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Admin Dashboard</h1>
 
-      {/* SUMMARY STATS CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-md transition">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-500 text-sm font-medium">Total Users</h3>
-            <Users className="text-blue-600" />
-          </div>
-          <p className="text-2xl font-semibold text-gray-800">720</p>
-          <p className="text-xs text-green-600 mt-1">↑ 5% this month</p>
-        </div>
-
-        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-md transition">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-500 text-sm font-medium">Total Orders</h3>
-            <ShoppingBag className="text-purple-600" />
-          </div>
-          <p className="text-2xl font-semibold text-gray-800">198</p>
-          <p className="text-xs text-green-600 mt-1">↑ 3% this week</p>
-        </div>
-
-        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-md transition">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-500 text-sm font-medium">Total Sales</h3>
-            <DollarSign className="text-green-600" />
-          </div>
-          <p className="text-2xl font-semibold text-gray-800">$5,480</p>
-          <p className="text-xs text-red-600 mt-1">↓ 2% this week</p>
-        </div>
-
-        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-md transition">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-500 text-sm font-medium">Products</h3>
-            <Package className="text-orange-500" />
-          </div>
-          <p className="text-2xl font-semibold text-gray-800">47</p>
-          <p className="text-xs text-green-600 mt-1">↑ 2 new added</p>
-        </div>
-      </div>
-
+      <SummaryCards />
       <SalesOverview />
 
       {/*  QUICK STATS */}
@@ -90,7 +52,8 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-     <RecentOrders/>
+      <RecentOrders />
+      <RecentUsers/>
 
       {/* RECENT USERS*/}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
