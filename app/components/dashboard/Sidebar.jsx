@@ -171,18 +171,17 @@ export default function Sidebar() {
   return (
     <>
       {/* ✅ Mobile Toggle Button */}
-      <button
+      {/* <button
         onClick={() => setMobileOpen(!mobileOpen)}
         className="md:hidden fixed top-4 left-4 z-50 bg-white border rounded-full p-2 shadow-md"
       >
         {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
+      </button> */}
 
       {/* ✅ Sidebar */}
       <section
-        className={`fixed md:sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-40 transition-transform duration-300
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
-      >
+        className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
+      
         {/* ✅ Logo */}
         <div className="flex justify-center py-4">
           <Link href="/" onClick={() => setMobileOpen(false)}>
