@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { HomeIcon, ChartBarIcon, ShoppingBagIcon, HeartIcon, ShoppingCartIcon, UserCircleIcon, ChatBubbleBottomCenterTextIcon, ClipboardIcon, UsersIcon, } from "@heroicons/react/24/outline";
-import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu,} from "lucide-react";
+import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu, Settings,} from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
@@ -105,6 +105,11 @@ export default function Sidebar() {
         name: "Manage Users",
         link: "/dashboard/admin/manage-users",
         icon: <UsersIcon className="h-5 w-5" />,
+      },
+        {
+        name: "Settings",
+        link: "/dashboard/admin/settings",
+        icon: <Settings className="h-5 w-5" />,
       },
     ],
     seller: [
