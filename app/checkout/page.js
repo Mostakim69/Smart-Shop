@@ -101,33 +101,34 @@ export default function CheckoutPage() {
               timer: 1500,
             });
 
-            console.log(res.data.insertedId);
-            console.log(orderData);
-            
-
 
             // Tracking data তৈরি করা
-            // const trackingData = {
-            //   orderId: res.data.insertedId,
-            //   email: formData.email,
-            //   currentStatus: "Order Placed",
-            //   steps: [
-            //     { title: "Order Placed", date: new Date(), done: true },
-            //     { title: "At Division Hub", date: null, done: false },
-            //     { title: "At District Hub", date: null, done: false },
-            //     { title: "At Upazila Hub", date: null, done: false },
-            //     { title: "With Delivery Man", date: null, done: false },
-            //     { title: "Delivered", date: null, done: false }
-            //   ]
-            // };
+            const trackingData = {
+              orderId: res.data.insertedId,
+              email: formData.email,
+              currentStatus: "Order Placed",
+              steps: [
+                { title: "Order Placed", date: new Date(), done: true },
+                { title: "At Division Hub", date: null, done: false },
+                { title: "At District Hub", date: null, done: false },
+                { title: "At Upazila Hub", date: null, done: false },
+                { title: "With Delivery Man", date: null, done: false },
+                { title: "Delivered", date: null, done: false }
+              ]
+            };
 
             // ✅ Tracking data backend এ পাঠানো
-            // try {
-            //   await axios.post('https://smart-shop-server-three.vercel.app/tracking', trackingData);
-            //   console.log("Tracking info saved successfully!");
-            // } catch (trackingError) {
-            //   console.error("Tracking save failed:", trackingError);
-            // }
+            try {
+              const res = await axios.post('http://localhost:5000/trackings', trackingData);
+              console.log("Tracking info saved successfully!");
+
+              if(res.data.insertedId){
+                alert("traking data saved")
+              }
+
+            } catch (trackingError) {
+              console.error("Tracking save failed:", trackingError);
+            }
           }
 
         })
