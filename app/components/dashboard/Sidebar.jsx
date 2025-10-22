@@ -1,42 +1,23 @@
 "use client";
-import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
+
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  HomeIcon,
-  ChartBarIcon,
-  ShoppingBagIcon,
-  HeartIcon,
-  ShoppingCartIcon,
-  UserCircleIcon,
-  ArrowRightOnRectangleIcon,
-  ChatBubbleBottomCenterTextIcon,
-  ClipboardIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
-import {
-  Home,
-  LayoutDashboard,
-  Package,
-  PlusCircle,
-  ShoppingBag,
-} from "lucide-react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-hot-toast";
+import { HomeIcon, ChartBarIcon, ShoppingBagIcon, HeartIcon, ShoppingCartIcon, UserCircleIcon, ChatBubbleBottomCenterTextIcon, ClipboardIcon, UsersIcon, } from "@heroicons/react/24/outline";
+import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu,} from "lucide-react";
+import Image from "next/image";
+import Swal from "sweetalert2";
 
 export default function Sidebar() {
   const { openSidebar, user, logout } = useAuth();
   const router = useRouter();
-  //set default role in the useState("admin")
-  const [role, setRole] = useState();
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // ✅ Handle Logout
-  const handleLogout = async () => {
-    await logout();
-    router.push("/");
-  };
-//if you want to set default role comment useEffect and set default in the useState
-  // ✅ Fetch role dynamically
+  // ✅ Fetch role
   useEffect(() => {
     const fetchRole = async () => {
       if (!user?.email) {
@@ -44,7 +25,9 @@ export default function Sidebar() {
         return;
       }
       try {
-        const res = await fetch(`https://smart-shop-server-three.vercel.app/users/${user.email}/role`);
+        const res = await fetch(
+          `https://smart-shop-server-three.vercel.app/users/${user.email}/role`
+        );
         const data = await res.json();
         if (data?.role) setRole(data.role);
       } catch (err) {
@@ -56,178 +39,194 @@ export default function Sidebar() {
     fetchRole();
   }, [user?.email]);
 
-  // ✅ Show loading spinner while user/role is loading
+  // ✅ Logout
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await toast.promise(logout(), {
+          loading: "Logging out...",
+          success: "Successfully logged out",
+          error: "Logout failed",
+        });
+        router.push("/");
+      } catch (error) {
+        toast.error(error?.message);
+      }
+    }
+  };
+
   if (loading) {
     return (
-      <div className="fixed left-0 top-0 h-screen w-54 bg-white border-r shadow-md flex items-center justify-center">
-        <div className="flex flex-col items-center">
-          <div className="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-500 text-sm mt-2">Loading...</p>
-        </div>
-      </div>
+      <section className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50 items-center justify-center">
+        <div className="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-500 text-sm mt-2">Loading...</p>
+      </section>
     );
   }
 
-  // ✅ If user is not logged in
   if (!user) {
     return (
-      <div className="fixed left-0 top-0 h-screen w-54 bg-white border-r shadow-md flex items-center justify-center">
-      </div>
+      <section className="sticky top-0 flex flex-col items-center justify-center bg-white border-r px-5 py-3 h-screen w-[260px]">
+        <p className="text-gray-500">Please log in</p>
+      </section>
     );
   }
 
-  // 🔸 Admin Menu
-  const adminMenu = (
-    <ul className="space-y-2 text-gray-700 font-medium">
-      <li>
-        <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <HomeIcon className="w-5 h-5 text-gray-600" />
-          <span>Home</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/admin" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ChartBarIcon className="w-5 h-5 text-gray-600" />
-          <span>Admin Dashboard</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/admin/manage-products" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ClipboardIcon className="w-5 h-5 text-gray-600" />
-          <span>Manage Products</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/admin/manage-orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ShoppingBagIcon className="w-5 h-5 text-gray-600" />
-          <span>Manage Orders</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/admin/manage-users" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <UsersIcon className="w-5 h-5 text-gray-600" />
-          <span>Manage Users</span>
-        </Link>
-      </li>
-    </ul>
-  );
+  // 🔹 Define menus for different roles
+  const menuItems = {
+    admin: [
+      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+      {
+        name: "Admin Dashboard",
+        link: "/dashboard/admin",
+        icon: <ChartBarIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Manage Products",
+        link: "/dashboard/admin/manage-products",
+        icon: <ClipboardIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Manage Orders",
+        link: "/dashboard/admin/manage-orders",
+        icon: <ShoppingBagIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Manage Users",
+        link: "/dashboard/admin/manage-users",
+        icon: <UsersIcon className="h-5 w-5" />,
+      },
+    ],
+    seller: [
+      { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
+      {
+        name: "Seller Dashboard",
+        link: "/dashboard/seller",
+        icon: <LayoutDashboard className="h-5 w-5" />,
+      },
+      {
+        name: "My Products",
+        link: "/dashboard/seller/myproducts",
+        icon: <Package className="h-5 w-5" />,
+      },
+      {
+        name: "Orders",
+        link: "/dashboard/seller/orders",
+        icon: <ShoppingBag className="h-5 w-5" />,
+      },
+      {
+        name: "Add Product",
+        link: "/dashboard/addproduct",
+        icon: <PlusCircle className="h-5 w-5" />,
+      },
+    ],
+    user: [
+      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+      {
+        name: "Overview",
+        link: "/dashboard/user",
+        icon: <ChartBarIcon className="h-5 w-5" />,
+      },
+      {
+        name: "My Orders",
+        link: "/dashboard/user/orders",
+        icon: <ShoppingBagIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Wishlist",
+        link: "/dashboard/user/wishlist",
+        icon: <HeartIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Cart",
+        link: "/dashboard/user/cart",
+        icon: <ShoppingCartIcon className="h-5 w-5" />,
+      },
+      {
+        name: "My Reviews",
+        link: "/dashboard/user/reviews",
+        icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/user/profile",
+        icon: <UserCircleIcon className="h-5 w-5" />,
+      },
+    ],
+  };
 
-  // 🔸 Seller Menu
-  const sellerMenu = (
-    <ul className="space-y-2 text-gray-700 font-medium">
-      <li>
-        <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <Home className="w-5 h-5 text-gray-600" />
-          <span>Home</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/seller" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <LayoutDashboard className="w-5 h-5 text-gray-600" />
-          <span>Seller Dashboard</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/seller/myproducts" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <Package className="w-5 h-5 text-gray-600" />
-          <span>My Products</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/seller/orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ShoppingBag className="w-5 h-5 text-gray-600" />
-          <span>Orders</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/addproduct" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <PlusCircle className="w-5 h-5 text-gray-600" />
-          <span>Add Product</span>
-        </Link>
-      </li>
-    </ul>
-  );
-
-  // 🔸 User Menu
-  const userMenu = (
-    <ul className="flex flex-col gap-2 text-gray-700 font-medium flex-1">
-      <li>
-        <Link href="/" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <HomeIcon className="w-5 h-5 text-gray-600" />
-          <span>Home</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ChartBarIcon className="w-5 h-5 text-gray-600" />
-          <span>Overview</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user/orders" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ShoppingBagIcon className="w-5 h-5 text-gray-600" />
-          <span>My Orders</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user/wishlist" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <HeartIcon className="w-5 h-5 text-gray-600" />
-          <span>Wishlist</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user/cart" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ShoppingCartIcon className="w-5 h-5 text-gray-600" />
-          <span>Cart</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user/reviews" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-gray-600" />
-          <span>My Reviews</span>
-        </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/user/profile" className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-          <UserCircleIcon className="w-5 h-5 text-gray-600" />
-          <span>Profile</span>
-        </Link>
-      </li>
-      
-    </ul>
-  );
-
-  // 🔸 Choose menu based on role
-  let menuItems;
-  if (role === "admin") menuItems = adminMenu;
-  else if (role === "seller") menuItems = sellerMenu;
-  else menuItems = userMenu;
+  const menuList =
+    role === "admin" ? menuItems.admin : role === "seller" ? menuItems.seller : menuItems.user;
 
   return (
-    <div
-      className={`fixed left-0 top-0 h-screen w-54 bg-white border-r text-blue-600 shadow-md flex flex-col justify-between z-50 transition-all duration-300 ${
-        openSidebar ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0`}
-    >
-      <div>
-        <h1 className="text-2xl font-bold text-blue-600 text-center py-4 border-b">
-          Smart Shop
-        </h1>
-        <nav className="overflow-y-auto px-4 py-4 custom-scrollbar">
-          {menuItems}
-        </nav>
-      </div>
+    <>
+      {/* ✅ Mobile Toggle Button */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-white border rounded-full p-2 shadow-md"
+      >
+        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
 
-      {/* ✅ Logout fixed at bottom for all roles */}
-      <div className="border-t p-4">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-3 p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
-        >
-          <ArrowRightOnRectangleIcon className="w-5 h-5" />
-          <span>Logout</span>
-        </button>
-      </div>
-    </div>
+      {/* ✅ Sidebar */}
+      <section
+        className={`fixed md:sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-40 transition-transform duration-300
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
+        {/* ✅ Logo */}
+        <div className="flex justify-center py-4">
+          <Link href="/" onClick={() => setMobileOpen(false)}>
+            <Image src="/logo_3.webp" alt="Logo" width={110} height={40} />
+          </Link>
+        </div>
+
+        {/* ✅ Menu */}
+        <ul className="flex-1 overflow-y-auto scrollbar-none flex flex-col gap-4">
+          {menuList?.map((item, index) => (
+            <Tab item={item} key={index} onClick={() => setMobileOpen(false)} />
+          ))}
+        </ul>
+
+        {/* ✅ Logout */}
+        <div className="flex justify-center">
+          <button
+            onClick={handleLogout}
+            className="flex gap-2 items-center px-3 py-2 rounded-xl w-full justify-center ease-soft-spring duration-400 transition-all text-red-600 font-semibold hover:bg-red-50 hover:text-red-700 cursor-pointer"
+          >
+            <LogOut className="h-5 w-5" /> Logout
+          </button>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ✅ Tab Component
+function Tab({ item, onClick }) {
+  const pathname = usePathname();
+  const isSelected = pathname === item?.link;
+
+  return (
+    <Link href={item?.link} onClick={onClick}>
+      <li
+        className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold ease-soft-spring transition-all duration-300
+          ${isSelected
+            ? "bg-[#879fff] text-white"
+            : "bg-white text-black hover:bg-indigo-50"
+          }`}
+      >
+        {item?.icon} {item?.name}
+      </li>
+    </Link>
   );
 }

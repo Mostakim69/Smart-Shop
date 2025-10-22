@@ -4,21 +4,33 @@ export default function SpecialOffers() {
   const offers = [
     {
       id: 1,
-      title: "20% OFF on Electronics",
-      code: "ELEC20",
-      condition: "Valid on orders above $100",
+      title: "GIFT COUPON",
+      code: "SPECIALGIFT",
+      discount: "70$",
+      bg: "bg-yellow-400",
+      label: "SPECIAL DISCOUNT",
+      description:
+        "Get an instant $70 off on your next purchase over $250. Shop your favorite items and save more today!",
     },
     {
       id: 2,
-      title: "Free Shipping",
-      code: "FREESHIP",
-      condition: "All orders above $50",
+      title: "SPECIAL OFFER",
+      code: "HALFOFF",
+      discount: "50%",
+      bg: "bg-gray-900 text-white",
+      label: "DISCOUNT COUPON",
+      description:
+        "Enjoy 50% off on all fashion and lifestyle products. Limited-time deal — don’t miss out!",
     },
     {
       id: 3,
-      title: "Buy 1 Get 1 Free",
-      code: "BOGO",
-      condition: "Applicable on Fashion category",
+      title: "MEGA DEAL",
+      code: "SAVE30",
+      discount: "30%",
+      bg: "bg-blue-500 text-white",
+      label: "LIMITED OFFER",
+      description:
+        "Get 30% off electronics and accessories. Upgrade your tech and save with this exclusive offer.",
     },
   ];
 
@@ -27,42 +39,39 @@ export default function SpecialOffers() {
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-primary">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary bg-clip-text ">
             Special Offers & Coupons
           </h2>
-          <p className="text-sm sm:text-base md:text-lg max-w-md mx-auto text-gray-400">
-            Grab the best deals and discounts available for a limited time!
+          <p className="text-gray-500 mt-2">
+            Unlock exclusive discounts and make your shopping experience smarter and more rewarding.
           </p>
         </div>
 
-        {/* Offers Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Coupons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {offers.map((offer) => (
             <div
               key={offer.id}
-              className="bg-gray-300 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg transition relative"
+              className={`relative flex items-center justify-between rounded-lg shadow-lg overflow-hidden ${offer.bg}`}
             >
-              {/* Ribbon / Badge */}
-              <span className="absolute top-2 left-6 bg-blue-600 text-white text-xs px-2 py-1 rounded">
-                Hot Deal
-              </span>
-
-              {/* Offer Info */}
-              <h3 className="text-base sm:text-lg font-semibold mb-2 mt-4 text-black">
-                {offer.title}
-              </h3>
-              <p className="text-gray-700 text-sm sm:text-base mb-4">
-                {offer.condition}
-              </p>
-
-              {/* Coupon & Button */}
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                <span className="font-bold text-secondary border border-secondary px-2 py-1 rounded cursor-pointer hover:transition text-center sm:text-left">
-                  {offer.code}
+              {/* Left Strip */}
+              <div className="w-1/4 h-full flex flex-col justify-center items-center border-r border-dashed border-white py-6">
+                <span className="text-xs font-semibold uppercase tracking-wide rotate-180 [writing-mode:vertical-rl]">
+                  {offer.label}
                 </span>
-                <button className="px-3 py-1 sm:px-4 sm:py-2 bg-secondary text-white rounded hover:cursor-pointer transition w-full sm:w-auto">
-                  Grab Offer
-                </button>
+              </div>
+
+              {/* Right Content */}
+              <div className="flex-1 bg-white text-gray-800 py-6 px-6">
+                <h3 className="text-xl font-semibold mb-2">{offer.title}</h3>
+                <p className="text-4xl font-bold mb-2">{offer.discount}</p>
+                <p className="text-sm mb-2 font-medium">Promo Code:</p>
+                <div className="border border-gray-400 px-4 py-2 rounded-md font-mono text-center w-fit mb-4">
+                  {offer.code}
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  {offer.description}
+                </p>
               </div>
             </div>
           ))}
