@@ -6,13 +6,16 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { HomeIcon, ChartBarIcon, ShoppingBagIcon, HeartIcon, ShoppingCartIcon, UserCircleIcon, ChatBubbleBottomCenterTextIcon, ClipboardIcon, UsersIcon, } from "@heroicons/react/24/outline";
-import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, } from "lucide-react";
+import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu,} from "lucide-react";
+import Image from "next/image";
+import Swal from "sweetalert2";
 
 export default function Sidebar() {
   const { openSidebar, user, logout } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // ✅ Fetch role
   useEffect(() => {
@@ -38,15 +41,27 @@ export default function Sidebar() {
 
   // ✅ Logout
   const handleLogout = async () => {
-    try {
-      await toast.promise(logout(), {
-        loading: "Logging out...",
-        success: "Successfully logged out",
-        error: "Logout failed",
-      });
-      router.push("/");
-    } catch (error) {
-      toast.error(error?.message);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await toast.promise(logout(), {
+          loading: "Logging out...",
+          success: "Successfully logged out",
+          error: "Logout failed",
+        });
+        router.push("/");
+      } catch (error) {
+        toast.error(error?.message);
+      }
     }
   };
 
@@ -154,51 +169,60 @@ export default function Sidebar() {
     role === "admin" ? menuItems.admin : role === "seller" ? menuItems.seller : menuItems.user;
 
   return (
-    <section
-      className={`sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50 transition-all duration-300 ${
-        openSidebar ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0`}
-    >
-      {/* ✅ Logo */}
-      <div className="flex justify-center py-4">
-        <Link href="/">
-          <img className="h-8" src="/logo.png" alt="Smart Shop Logo" />
-        </Link>
-      </div>
+    <>
+      {/* ✅ Mobile Toggle Button */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-white border rounded-full p-2 shadow-md"
+      >
+        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
 
-      {/* ✅ Menu */}
-      <ul className="flex-1 overflow-y-auto flex flex-col gap-4">
-        {menuList?.map((item, index) => (
-          <Tab item={item} key={index} />
-        ))}
-      </ul>
+      {/* ✅ Sidebar */}
+      <section
+        className={`fixed md:sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-40 transition-transform duration-300
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
+        {/* ✅ Logo */}
+        <div className="flex justify-center py-4">
+          <Link href="/" onClick={() => setMobileOpen(false)}>
+            <Image src="/logo_3.webp" alt="Logo" width={110} height={40} />
+          </Link>
+        </div>
 
-      {/* ✅ Logout */}
-      <div className="flex justify-center">
-        <button
-          onClick={handleLogout}
-          className="flex gap-2 items-center px-3 py-2 hover:bg-indigo-100 rounded-xl w-full justify-center ease-soft-spring duration-400 transition-all text-red-600 font-semibold"
-        >
-          <LogOut className="h-5 w-5" /> Logout
-        </button>
-      </div>
-    </section>
+        {/* ✅ Menu */}
+        <ul className="flex-1 overflow-y-auto scrollbar-none flex flex-col gap-4">
+          {menuList?.map((item, index) => (
+            <Tab item={item} key={index} onClick={() => setMobileOpen(false)} />
+          ))}
+        </ul>
+
+        {/* ✅ Logout */}
+        <div className="flex justify-center">
+          <button
+            onClick={handleLogout}
+            className="flex gap-2 items-center px-3 py-2 rounded-xl w-full justify-center ease-soft-spring duration-400 transition-all text-red-600 font-semibold hover:bg-red-50 hover:text-red-700 cursor-pointer"
+          >
+            <LogOut className="h-5 w-5" /> Logout
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
 
 // ✅ Tab Component
-function Tab({ item }) {
+function Tab({ item, onClick }) {
   const pathname = usePathname();
   const isSelected = pathname === item?.link;
 
   return (
-    <Link href={item?.link}>
+    <Link href={item?.link} onClick={onClick}>
       <li
         className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold ease-soft-spring transition-all duration-300
-          ${
-            isSelected
-              ? "bg-[#879fff] text-white"
-              : "bg-white text-black hover:bg-indigo-50"
+          ${isSelected
+            ? "bg-[#879fff] text-white"
+            : "bg-white text-black hover:bg-indigo-50"
           }`}
       >
         {item?.icon} {item?.name}
