@@ -11,11 +11,10 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 
 export default function Sidebar() {
-  const { openSidebar, user, logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   // ✅ Fetch role
   useEffect(() => {
@@ -170,35 +169,26 @@ export default function Sidebar() {
     ],
   };
 
-  const menuList =
-    role === "admin" ? menuItems.admin : role === "seller" ? menuItems.seller : menuItems.user;
+  const menuList = menuItems[role] || menuItems.user;
 
   return (
     <>
-      {/* ✅ Mobile Toggle Button */}
-      <button
-        onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-white border rounded-full p-2 shadow-md"
-      >
-        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
 
       {/* ✅ Sidebar */}
       <section
-        className={`fixed md:sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-40 transition-transform duration-300
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
-      >
+        className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
+      
         {/* ✅ Logo */}
         <div className="flex justify-center py-4">
-          <Link href="/" onClick={() => setMobileOpen(false)}>
+          <Link href="/" >
             <Image src="/logo_3.webp" alt="Logo" width={110} height={40} />
           </Link>
         </div>
 
         {/* ✅ Menu */}
-        <ul className="flex-1 overflow-y-auto scrollbar-none flex flex-col gap-4">
+        <ul className="flex-1 overflow-y-auto  h-full scrollbar-none flex flex-col gap-4">
           {menuList?.map((item, index) => (
-            <Tab item={item} key={index} onClick={() => setMobileOpen(false)} />
+            <Tab item={item} key={index} />
           ))}
         </ul>
 
