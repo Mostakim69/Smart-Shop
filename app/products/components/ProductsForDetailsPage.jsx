@@ -127,11 +127,11 @@ export default function ProductForDetailsPage() {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center mt-6 space-x-2">
+            <div className="flex flex-wrap justify-center mt-6 gap-2 sm:space-x-2">
                 <button
                     onClick={() => setCurrentPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-3 py-1 rounded disabled:opacity-50 bg-secondary text-white cursor-pointer"
+                    className="px-3 py-1 rounded bg-secondary text-white disabled:opacity-50 hover:bg-secondary/80 transition"
                 >
                     Prev
                 </button>
@@ -140,7 +140,9 @@ export default function ProductForDetailsPage() {
                     <button
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? "border text-primary" : "bg-secondary text-white"
+                        className={`px-3 py-1 rounded transition ${currentPage === i + 1
+                                ? "border border-primary text-primary bg-transparent"
+                                : "bg-secondary text-white hover:bg-secondary/80"
                             }`}
                     >
                         {i + 1}
@@ -150,11 +152,12 @@ export default function ProductForDetailsPage() {
                 <button
                     onClick={() => setCurrentPage(currentPage + 1)}
                     disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-                    className="px-3 py-1 rounded disabled:opacity-50 bg-secondary text-white"
+                    className="px-3 py-1 rounded bg-secondary text-white disabled:opacity-50 hover:bg-secondary/80 transition"
                 >
                     Next
                 </button>
             </div>
+
             <ToastContainer />
         </div>
     );

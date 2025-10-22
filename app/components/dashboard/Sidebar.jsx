@@ -6,16 +6,15 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { HomeIcon, ChartBarIcon, ShoppingBagIcon, HeartIcon, ShoppingCartIcon, UserCircleIcon, ChatBubbleBottomCenterTextIcon, ClipboardIcon, UsersIcon, } from "@heroicons/react/24/outline";
-import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu,} from "lucide-react";
+import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu, Settings,} from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
 export default function Sidebar() {
-  const { openSidebar, user, logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   // ✅ Fetch role
   useEffect(() => {
@@ -106,6 +105,11 @@ export default function Sidebar() {
         link: "/dashboard/admin/manage-users",
         icon: <UsersIcon className="h-5 w-5" />,
       },
+        {
+        name: "Settings",
+        link: "/dashboard/admin/settings",
+        icon: <Settings className="h-5 w-5" />,
+      },
     ],
     seller: [
       { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
@@ -165,18 +169,10 @@ export default function Sidebar() {
     ],
   };
 
-  const menuList =
-    role === "admin" ? menuItems.admin : role === "seller" ? menuItems.seller : menuItems.user;
+  const menuList = menuItems[role] || menuItems.user;
 
   return (
     <>
-      {/* ✅ Mobile Toggle Button */}
-      {/* <button
-        onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-white border rounded-full p-2 shadow-md"
-      >
-        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button> */}
 
       {/* ✅ Sidebar */}
       <section
@@ -184,15 +180,15 @@ export default function Sidebar() {
       
         {/* ✅ Logo */}
         <div className="flex justify-center py-4">
-          <Link href="/" onClick={() => setMobileOpen(false)}>
+          <Link href="/" >
             <Image src="/logo_3.webp" alt="Logo" width={110} height={40} />
           </Link>
         </div>
 
         {/* ✅ Menu */}
-        <ul className="flex-1 overflow-y-auto scrollbar-none flex flex-col gap-4">
+        <ul className="flex-1 overflow-y-auto  h-full scrollbar-none flex flex-col gap-4">
           {menuList?.map((item, index) => (
-            <Tab item={item} key={index} onClick={() => setMobileOpen(false)} />
+            <Tab item={item} key={index} />
           ))}
         </ul>
 
