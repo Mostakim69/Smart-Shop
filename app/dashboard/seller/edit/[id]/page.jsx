@@ -56,7 +56,7 @@ export default function EditProductPage() {
       try {
         const res = await axios.put(`https://smart-shop-server-three.vercel.app/products/${id}`, data);
 
-        if (res.data?.modifiedCount > 0) {
+        if (res.data?.modifiedCount > 0 || res.data?.acknowledged) {
           await Swal.fire({
             title: "Updated!",
             text: "Product has been updated successfully.",
