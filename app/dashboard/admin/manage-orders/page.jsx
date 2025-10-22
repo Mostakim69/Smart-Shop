@@ -1,49 +1,16 @@
-"use client";
+import axios from "axios";
+import ManageOrder from "../components/ManageOrder";
 
-import React, { useState, useEffect } from "react";
+export default async function ManageOrders() {
 
-export default function ManageOrders() {
-  // Dummy data (replace later with API fetch)
-  const [orders, setOrders] = useState([
-    {
-      _id: "1",
-      customer: "John Doe",
-      email: "john@example.com",
-      product: "iPhone 15",
-      quantity: 2,
-      total: 2000,
-      status: "Pending",
-      payment: "Paid",
-    },
-    {
-      _id: "2",
-      customer: "Jane Smith",
-      email: "jane@example.com",
-      product: "MacBook Pro",
-      quantity: 1,
-      total: 2500,
-      status: "Shipped",
-      payment: "Unpaid",
-    },
-  ]);
+  let orders = [];
 
-  // Status update handler
-  const handleStatusChange = (id, newStatus) => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order._id === id ? { ...order, status: newStatus } : order
-      )
-    );
-    // Later: call backend API to update status in DB
-    console.log(`Order ${id} status changed to ${newStatus}`);
-  };
-
-  // Delete handler
-  const handleDelete = (id) => {
-    setOrders((prev) => prev.filter((order) => order._id !== id));
-    // Later: call backend API to delete
-    console.log(`Order ${id} deleted`);
-  };
+  try {
+    const res = await axios.get("https://smart-shop-server-three.vercel.app/orders");
+    orders = res.data;
+  } catch (error) {
+    alert(error);
+  }
 
   return (
     <div className="p-6">
@@ -56,7 +23,6 @@ export default function ManageOrders() {
               <th className="px-4 py-2">Customer</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Product</th>
-              <th className="px-4 py-2">Quantity</th>
               <th className="px-4 py-2">Total</th>
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Payment</th>
@@ -64,37 +30,11 @@ export default function ManageOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
-              <tr key={order._id} className="border-b border-gray-200">
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="px-4 py-2">{order.customer}</td>
-                <td className="px-4 py-2">{order.email}</td>
-                <td className="px-4 py-2">{order.product}</td>
-                <td className="px-4 py-2">{order.quantity}</td>
-                <td className="px-4 py-2">${order.total}</td>
-                <td className="px-4 py-2">
-                  <select
-                    value={order.status}
-                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                    className="border px-2 py-1 rounded"
-                  >
-                    <option>Pending</option>
-                    <option>Shipped</option>
-                    <option>Delivered</option>
-                    <option>Cancelled</option>
-                  </select>
-                </td>
-                <td className="px-4 py-2">{order.payment}</td>
-                <td className="px-4 py-2 space-x-2">
-                  <button
-                    onClick={() => handleDelete(order._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {orders.map((order, index) => <ManageOrder
+              key={order._id}
+              order={order}
+              index={index}
+            ></ManageOrder>)}
           </tbody>
         </table>
       </div>
