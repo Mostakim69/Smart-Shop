@@ -83,11 +83,7 @@ export default function CheckoutPage() {
       orderUser: user?.email,
     };
 
-    //Log order data in console
-    console.log("Order Data:", orderData);
-
     if (orderData.payment === 'cashOnDelivery' || orderData.payment === 'Bkash / Nagad / Rocket') {
-
 
       if (orderData.payment === 'Bkash / Nagad / Rocket') {
         alert('Payment gateway integration coming soon!')
@@ -95,7 +91,7 @@ export default function CheckoutPage() {
         // if success then continue to place order otherwise this fuction will be break
       }
       axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
-        .then(res => {
+        .then(async res => {
           if (res.data?.insertedId) {
             Swal.fire({
               position: "center",
@@ -104,6 +100,34 @@ export default function CheckoutPage() {
               showConfirmButton: false,
               timer: 1500,
             });
+
+            console.log(res.data.insertedId);
+            console.log(orderData);
+            
+
+
+            // Tracking data তৈরি করা
+            // const trackingData = {
+            //   orderId: res.data.insertedId,
+            //   email: formData.email,
+            //   currentStatus: "Order Placed",
+            //   steps: [
+            //     { title: "Order Placed", date: new Date(), done: true },
+            //     { title: "At Division Hub", date: null, done: false },
+            //     { title: "At District Hub", date: null, done: false },
+            //     { title: "At Upazila Hub", date: null, done: false },
+            //     { title: "With Delivery Man", date: null, done: false },
+            //     { title: "Delivered", date: null, done: false }
+            //   ]
+            // };
+
+            // ✅ Tracking data backend এ পাঠানো
+            // try {
+            //   await axios.post('https://smart-shop-server-three.vercel.app/tracking', trackingData);
+            //   console.log("Tracking info saved successfully!");
+            // } catch (trackingError) {
+            //   console.error("Tracking save failed:", trackingError);
+            // }
           }
 
         })
