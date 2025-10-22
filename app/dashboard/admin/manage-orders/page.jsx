@@ -49,7 +49,7 @@ export default function ManageOrders() {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Manage Orders</h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border rounded-lg">
+        <table className="min-w-full bg-white rounded-lg">
           <thead>
             <tr className="bg-gray-200 text-left">
               <th className="px-4 py-2">#</th>
@@ -65,7 +65,7 @@ export default function ManageOrders() {
           </thead>
           <tbody>
             {orders.map((order, index) => (
-              <tr key={order._id} className="border-b">
+              <tr key={order._id} className="border-b border-gray-200">
                 <td className="px-4 py-2">{index + 1}</td>
                 <td className="px-4 py-2">{order.customer}</td>
                 <td className="px-4 py-2">{order.email}</td>
@@ -88,7 +88,7 @@ export default function ManageOrders() {
                 <td className="px-4 py-2 space-x-2">
                   <button
                     onClick={() => handleDelete(order._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
                   >
                     Delete
                   </button>

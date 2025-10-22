@@ -16,7 +16,7 @@ export default async function ManageUsers() {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white dark:bg-gray-800 border rounded-lg">
+        <table className="min-w-full bg-white dark:bg-gray-800  rounded-xl">
           <thead>
             <tr className="bg-gray-200 dark:bg-gray-700 text-left">
               <th className="px-4 py-2">#</th>
@@ -27,8 +27,8 @@ export default async function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <UserRow key={user?._id} user={user} index={index}></UserRow>
+            {users?.map((user, index) => (
+              <UserRow key={index} user={user} index={index}></UserRow>
             ))}
           </tbody>
         </table>

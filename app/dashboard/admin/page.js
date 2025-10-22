@@ -1,11 +1,8 @@
 import React from "react";
-import {
-  BarChart3,
-  Users,
-  ShoppingBag,
-  DollarSign,
-  Package,
-} from "lucide-react";
+import { Users, ShoppingBag, DollarSign, Package } from "lucide-react";
+
+import RecentOrders from "./RecentOrders";
+import SalesOverview from "./SalesOverview";
 
 export default function AdminDashboard() {
   return (
@@ -52,16 +49,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* SALES OVERVIEW CHART */}
-      <div className="bg-white p-6 rounded-2xl shadow mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Sales Overview</h2>
-          <BarChart3 className="text-blue-600" />
-        </div>
-        <div className="text-gray-400 text-center py-10">
-          📊 Chart will be displayed here
-        </div>
-      </div>
+      <SalesOverview />
 
       {/*  QUICK STATS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -102,30 +90,13 @@ export default function AdminDashboard() {
         </ul>
       </div>
 
-      {/* RECENT ORDERS */}
-      <div className="bg-white p-6 rounded-2xl shadow mb-10">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Recent Orders
-        </h2>
-        <ul className="divide-y divide-gray-100">
-          <li className="py-3 flex justify-between text-gray-700">
-            <span>678</span>
-            <span className="text-green-500 font-medium">Completed</span>
-          </li>
-          <li className="py-3 flex justify-between text-gray-700">
-            <span>278</span>
-            <span className="text-yellow-500 font-medium">Pending</span>
-          </li>
-          <li className="py-3 flex justify-between text-gray-700">
-            <span>356</span>
-            <span className="text-red-500 font-medium">Cancelled</span>
-          </li>
-        </ul>
-      </div>
+     <RecentOrders/>
 
       {/* RECENT USERS*/}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Users</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-800">
+          Recent Users
+        </h2>
         <ul className="divide-y divide-gray-100">
           <li className="py-3 flex justify-between items-center">
             <div>
@@ -177,7 +148,9 @@ export default function AdminDashboard() {
             <div className="w-3 h-3 mt-2 rounded-full bg-green-500"></div>
             <div>
               <p className="text-gray-800 font-medium">Product approved</p>
-              <p className="text-sm text-gray-500">New product added by Admin</p>
+              <p className="text-sm text-gray-500">
+                New product added by Admin
+              </p>
               <span className="text-xs text-gray-400">1 hour ago</span>
             </div>
           </li>

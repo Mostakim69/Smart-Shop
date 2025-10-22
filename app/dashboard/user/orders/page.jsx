@@ -2,21 +2,21 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { EyeIcon, TruckIcon, CheckCircleIcon, ClockIcon } from "@heroicons/react/24/outline";
 
 export default function OrdersPage() {
-  const { user } = useAuth(); // ✅ Current logged-in user
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.email) return; // Wait until user is loaded
+    if (!user?.email) return;
 
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        // ✅ Updated fetch with query parameter 'orderedBy'
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/orders?orderedBy=${user.email}`);
+        const res = await fetch(`http://localhost:5000/orders?orderedBy=${user.email}`);
         if (!res.ok) {
           setOrders([]);
           return;
@@ -43,9 +43,7 @@ export default function OrdersPage() {
   }
 
   if (loading) {
-    return (
-      <div className="p-6 text-center text-gray-500">Loading your orders...</div>
-    );
+    return <div className="p-6 text-center text-gray-500">Loading your orders...</div>;
   }
 
   return (
@@ -87,9 +85,11 @@ export default function OrdersPage() {
                       </span>
                     </td>
                     <td className="p-4 text-center">
-                      <button className="inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition">
-                        <EyeIcon className="w-4 h-4" /> View Details
-                      </button>
+                      <Link href={`/orders/${o._id}`}>
+                        <button className="inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition">
+                          <EyeIcon className="w-4 h-4" /> View Details
+                        </button>
+                      </Link>
                     </td>
                   </tr>
                 ))
@@ -123,9 +123,11 @@ export default function OrdersPage() {
                 </div>
                 <p className="text-gray-600 text-sm">📅 {new Date(o.orderDate).toLocaleDateString()}</p>
                 <p className="text-gray-800 font-semibold mt-1">💰 ${o.totalAmount}</p>
-                <button className="mt-3 w-full flex justify-center items-center gap-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
-                  <EyeIcon className="w-4 h-4" /> View Details
-                </button>
+                <Link href={`/orders/${o._id}`}>
+                  <button className="mt-3 w-full flex justify-center items-center gap-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                    <EyeIcon className="w-4 h-4" /> View Details
+                  </button>
+                </Link>
               </div>
             ))
           ) : (

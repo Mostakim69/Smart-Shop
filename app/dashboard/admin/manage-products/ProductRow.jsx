@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function ProductRow({ product }) {
+  const router = useRouter();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState(product);
   // Delete handler
@@ -22,7 +24,7 @@ export default function ProductRow({ product }) {
           );
           if (res.data.deletedCount > 0) {
             Swal.fire("Deleted!", "Product deleted.", "success");
-            location.reload(); // simple way to refresh server component
+            router.refresh();
           }
         } catch (err) {
           Swal.fire("Error!", "Delete failed.", "error");
@@ -41,7 +43,7 @@ export default function ProductRow({ product }) {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Updated!", "Product updated.", "success");
         setOpenEditModal(false);
-        location.reload(); // refresh server component
+        location.reload(); 
       }
     } catch (err) {
       Swal.fire("Error!", "Update failed.", "error");
@@ -66,13 +68,13 @@ export default function ProductRow({ product }) {
           <div className="flex items-center justify-center gap-3">
             <button
               onClick={() => setOpenEditModal(true)}
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 cursor-pointer"
             >
               <FaEdit />
             </button>
             <button
               onClick={handleDelete}
-              className="text-red-600 hover:text-red-800"
+              className="text-red-600 hover:text-red-800 cursor-pointer"
             >
               <FaTrash />
             </button>
