@@ -25,7 +25,7 @@ export default function OrderDetailsPage() {
 
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/orders/${id}`);
+        const res = await fetch(`https://smart-shop-server-three.vercel.app/orders/${id}`);
         if (!res.ok) throw new Error("Order not found");
         const data = await res.json();
         setOrder(data);

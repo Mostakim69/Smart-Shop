@@ -22,7 +22,7 @@ export default function ManageOrder({ order, index }) {
         if (result.isConfirmed) {
             try {
                 const res = await axios.delete(
-                    `http://localhost:5000/orders/${order._id}`
+                    `https://smart-shop-server-three.vercel.app/orders/${order._id}`
                 );
 
                 if (res.data?.deletedCount) {
