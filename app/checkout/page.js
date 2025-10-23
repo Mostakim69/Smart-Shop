@@ -6,6 +6,7 @@ import Navbar from "../components/shared/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
   const { user, setGemPoints, gemPoints } = useAuth();
-
+  const router = useRouter();
 
 
   // ✅ Get query parameters (type, id, email) from URL
@@ -92,11 +93,12 @@ export default function CheckoutPage() {
       }
       axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
         .then(async res => {
-          if (res.data?.insertedId) {
+          if (res.data.insertedId) {
 
+            const orderId = res.data?.insertedId;
             // Tracking data তৈরি করা
             const trackingData = {
-              orderId: res.data.insertedId,
+              orderId: orderId,
               email: formData.email,
               currentStatus: "Order Placed",
               steps: [
@@ -129,6 +131,7 @@ export default function CheckoutPage() {
                     showConfirmButton: false,
                     timer: 1500,
                   });
+                  router.push(`/order-success?orderId=${orderId}`);
                 }
               }
 
