@@ -33,7 +33,7 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`https://smart-shop-server-three.vercel.app/products?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
