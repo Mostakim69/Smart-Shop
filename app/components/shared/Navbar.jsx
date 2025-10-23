@@ -3,209 +3,169 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ShoppingCart,
-  // Heart,
-  User,
-  Menu,
-  X,
-  Home,
-  Info,
-  Phone,
-  LayoutDashboard,
-  Package,
-} from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { ShoppingCart, User, Menu, X, Home, Info, Phone, LayoutDashboard, Package } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { usePathname } from "next/navigation";
 import ThemeToggler from "../ThemeToggler";
 import Gems from "./Gems";
 import DropDown from "./DropDown";
+// import useCart from "@/context/CartContext"; // optional if you have cart context
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
-  const { user, logout } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useAuth();
+  // const { cartItems } = useCart(); // for real-time cart count
   const pathname = usePathname();
+  const router = useRouter();
+
+  const links = [
+    { name: "Home", path: "/", icon: <Home className="w-4 h-4" /> },
+    { name: "Products", path: "/products", icon: <Package className="w-4 h-4" /> },
+    { name: "About", path: "/about", icon: <Info className="w-4 h-4" /> },
+    { name: "Contact", path: "/contact", icon: <Phone className="w-4 h-4" /> },
+  ];
+  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="w-4 h-4" /> });
 
   const linkClass = (path) =>
-    pathname === path
-      ? "text-primary font-semibold underline"
-      : "text-gray-600 hover:text-primary hover:underline";
+    pathname === path ? "text-primary font-semibold underline" : "text-gray-600 hover:text-primary hover:underline";
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <nav className="bg-base-100 shadow-md sticky top-0 z-50">
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 text-2xl font-bold text-primary">
-            <Link href="/">
-              <Image
-                src="/logo_3.webp"
-                alt="Smart Shop Logo"
-                width={60}
-                height={60}
-                className="rounded-xl"
-              />
-            </Link>
+          {/* Left: Hamburger + Logo */}
+          <div className="flex items-center gap-3">
+            <div className="md:hidden">
+              <button onClick={() => setIsOpen(!isOpen)} className="p-1 rounded-md hover:bg-gray-200 transition">
+                {isOpen ? <X className="w-7 h-7 text-gray-700" /> : <Menu className="w-7 h-7 text-gray-700" />}
+              </button>
+            </div>
+            <div className="flex-shrink-0 text-2xl font-bold text-primary">
+              <Link href="/">
+                <Image src="/logo_3.webp" alt="Smart Shop Logo" width={60} height={60} className="rounded-xl" />
+              </Link>
+            </div>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden text-gray-600 md:flex items-center space-x-6">
-            <Link href="/" className={`flex items-center gap-1 ${linkClass("/")}`}>
-              <Home className="w-4 h-4" /> Home
-            </Link>
-
-            <Link
-              href="/products"
-              className={`flex items-center gap-1 ${linkClass("/products")}`}
-            >
-              <Package className="w-4 h-4" /> Products
-            </Link>
-
-            <Link
-              href="/about"
-              className={`flex items-center gap-1 ${linkClass("/about")}`}
-            >
-              <Info className="w-4 h-4" /> About
-            </Link>
-
-            <Link
-              href="/contact"
-              className={`flex items-center gap-1 ${linkClass("/contact")}`}
-            >
-              <Phone className="w-4 h-4" /> Contact
-            </Link>
-
-            {user?.email && (
-              <Link
-                href="/dashboard"
-                className={`flex items-center gap-1 ${linkClass("/dashboard")}`}
-              >
-                <LayoutDashboard className="w-4 h-4" /> Dashboard
+          <div className="hidden md:flex items-center space-x-6 text-gray-600">
+            {links.map((link) => (
+              <Link key={link.path} href={link.path} className={`flex items-center gap-1 ${linkClass(link.path)}`}>
+                {link.icon} {link.name}
               </Link>
-            )}
+            ))}
           </div>
 
-
-          {/* Right Side */}
-          <div className="hidden text-gray-300 md:flex items-center space-x-4">
-            <ThemeToggler></ThemeToggler>
-            {/* Search Bar */}
-            <div className="relative">
+          {/* Right side */}
+          <div className="hidden md:flex items-center space-x-4 text-gray-300">
+            <ThemeToggler />
+            <form onSubmit={handleSearchSubmit}>
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search..."
                 className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
               />
-            </div>
-
-            {/* Icons */}
-            {/* <Link href="/wishlist">
-              <Heart className="w-6 h-6 text-gray-700 hover:text-primary" />
-            </Link> */}
+            </form>
             <Link href="/gems">
-              <Gems></Gems>
+              <Gems />
             </Link>
             <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />
               <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
-                2
+                {/* {cartItems.length} */} 2
               </span>
             </Link>
-
-            {/* User / Profile */}
             {!user ? (
               <Link href="/login">
                 <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
               </Link>
             ) : (
-              <div className="relative">
-                <DropDown>
-                  <img
-                    src={user.photoURL || "/default-avatar.png"}
-                    alt="profile"
-                    className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all"
-                  />
-                </DropDown>
-
-              </div>
+              <DropDown>
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all ring-2 ring-offset-2"
+                />
+              </DropDown>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? (
-                <X className="w-7 h-7 text-gray-700" />
-              ) : (
-                <Menu className="w-7 h-7 text-gray-700" />
-              )}
-            </button>
+          {/* Mobile Right */}
+          <div className="md:hidden flex items-center">
+            {!user ? (
+              <Link href="/login">
+                <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+              </Link>
+            ) : (
+              <DropDown>
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all ring-2 ring-offset-2"
+                />
+              </DropDown>
+            )}
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden text-gray-700 shadow-lg px-6 pt-4 pb-6 space-y-4">
-          {/* Links */}
-          <Link href="/" className="flex items-center gap-2 hover:text-primary">
-            <Home className="w-4 h-4" /> Home
-          </Link>
-          <Link
-            href="/products"
-            className="flex items-center gap-2 hover:text-primary"
-          >
-            <Package className="w-4 h-4" /> Products
-          </Link>
-          <Link
-            href="/about"
-            className="flex items-center gap-2 hover:text-primary"
-          >
-            <Info className="w-4 h-4" /> About
-          </Link>
-          <Link
-            href="/contact"
-            className="flex items-center gap-2 hover:text-primary"
-          >
-            <Phone className="w-4 h-4" /> Contact
-          </Link>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 hover:text-primary"
-          >
-            <LayoutDashboard className="w-4 h-4" /> Dashboard
-          </Link>
+        <div className="md:hidden text-gray-700 shadow-lg px-6 pt-2 pb-4 space-y-4 bg-base-100 rounded-b-lg">
+          <div className="flex flex-col space-y-3">
+            {links.map((link) => (
+              <Link key={link.path} href={link.path} className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
+                {link.icon} {link.name}
+              </Link>
+            ))}
+          </div>
 
-          <ThemeToggler></ThemeToggler>
+          {/* Theme Toggle */}
+          <div className="pt-3">
+            <ThemeToggler />
+          </div>
 
-          {/* Search Bar */}
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          {/* Search */}
+          <form onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search..."
+              className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary mt-3"
+            />
+          </form>
 
           {/* Icons */}
-          <div className="flex items-center space-x-6 pt-2">
-            {/* <Heart className="w-6 h-6 text-gray-700 hover:text-blue-600" /> */}
-            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
-
+          <div className="flex items-center space-x-6 pt-4">
+            <Link href="/cartPage" className="relative">
+              <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+              <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
+                {/* {cartItems.length} */} 2
+              </span>
+            </Link>
             {!user ? (
               <Link href="/login">
                 <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
               </Link>
             ) : (
-              <div className="relative">
-                <DropDown>
-                  <img
-                    src={user.photoURL || "/default-avatar.png"}
-                    alt="profile"
-                    className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all"
-                  />
-                </DropDown>
-
-              </div>
+              <DropDown>
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all ring-2 ring-offset-2"
+                />
+              </DropDown>
             )}
           </div>
         </div>
