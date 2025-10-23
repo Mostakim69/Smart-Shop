@@ -30,16 +30,9 @@ export default function DashboardLayout({ children }) {
     };
   }, []);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="h-screen w-screen flex justify-center items-center">
-  //       <CircularProgress />
-  //     </div>
-  //   );
-  // }
 
   return (
-    <div className="flex relative">
+    <main className="flex relative">
       <div className="hidden md:block">
         <Sidebar />
       </div>
@@ -56,6 +49,6 @@ export default function DashboardLayout({ children }) {
                 <NavDash toggleSidebar={toggleSidebar} />
         <section className="pt-14 flex-1 bg-[#eff3f4]">{children}</section>
       </section>
-    </div>
+    </main>
   );
 }
