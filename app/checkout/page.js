@@ -148,6 +148,8 @@ export default function CheckoutPage() {
 
   };
 
+  console.log(handleOrder)
+
   // ✅ Calculate total order amount
   const totalPrice = items.reduce((a, c) => a + c.price * (c.quantity || 1), 0);
 
