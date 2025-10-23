@@ -19,6 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 import ThemeToggler from "../ThemeToggler";
 import Gems from "./Gems";
+import DropDown from "./DropDown";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -119,26 +120,14 @@ export default function Navbar() {
               </Link>
             ) : (
               <div className="relative">
-                <img
-                  src={user.photoURL || "/default-avatar.png"}
-                  alt="profile"
-                  className="w-8 h-8 rounded-full cursor-pointer border"
-                  onClick={() => setOpenUserMenu(!openUserMenu)}
-                />
+                <DropDown>
+                  <img
+                    src={user.photoURL || "/default-avatar.png"}
+                    alt="profile"
+                    className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all"
+                  />
+                </DropDown>
 
-                {openUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border z-50">
-                    <div className="px-4 py-2 text-sm text-gray-800">
-                      {user.displayName || "User"}
-                    </div>
-                    <button
-                      onClick={logout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
               </div>
             )}
           </div>
@@ -200,35 +189,22 @@ export default function Navbar() {
           {/* Icons */}
           <div className="flex items-center space-x-6 pt-2">
             {/* <Heart className="w-6 h-6 text-gray-700 hover:text-blue-600" /> */}
-             <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
+            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600" />
 
-             {!user ? (
+            {!user ? (
               <Link href="/login">
                 <User className="w-6 h-6 text-gray-700 hover:text-blue-600" />
               </Link>
             ) : (
               <div className="relative">
-                <img
-                  referrerPolicy="no-referrer"
-                  src={user.photoURL || "/default-avatar.png"}
-                  alt="profile"
-                  className="w-8 h-8 rounded-full cursor-pointer border"
-                  onClick={() => setOpenUserMenu(!openUserMenu)}
-                />
+                <DropDown>
+                  <img
+                    src={user.photoURL || "/default-avatar.png"}
+                    alt="profile"
+                    className="w-8 h-8 rounded-full cursor-pointer border hover:ring-2 hover:ring-indigo-400 transition-all"
+                  />
+                </DropDown>
 
-                {openUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border z-50">
-                    <div className="px-4 py-2 text-sm text-gray-800">
-                      {user.displayName || "User"}
-                    </div>
-                    <button
-                      onClick={logout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
               </div>
             )}
           </div>
