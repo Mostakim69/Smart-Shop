@@ -28,7 +28,7 @@ export function CartTable({ cartItems: initialItems, userEmail, refreshCart }) {
   // Remove item
   const handleRemove = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/cartItems/${id}`, {
+      const res = await fetch(`https://smart-shop-server-three.vercel.app/cartItems/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to remove item");
@@ -55,7 +55,7 @@ export function CartTable({ cartItems: initialItems, userEmail, refreshCart }) {
       };
 
       // Place order
-      const res = await fetch("http://localhost:5000/orders", {
+      const res = await fetch("https://smart-shop-server-three.vercel.app/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),
@@ -63,7 +63,7 @@ export function CartTable({ cartItems: initialItems, userEmail, refreshCart }) {
       if (!res.ok) throw new Error("Failed to place order");
 
       // Remove item from cart
-      await fetch(`http://localhost:5000/cartItems/${item.id}`, { method: "DELETE" });
+      await fetch(`https://smart-shop-server-three.vercel.app/cartItems/${item.id}`, { method: "DELETE" });
 
       // Update local state
       setCartItems((prev) => prev.filter((i) => i.id !== item.id));

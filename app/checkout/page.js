@@ -113,12 +113,12 @@ export default function CheckoutPage() {
 
             // ✅ Tracking data backend এ পাঠানো
             try {
-              const res = await axios.post('http://localhost:5000/trackings', trackingData);
+              const res = await axios.post('https://smart-shop-server-three.vercel.app/trackings', trackingData);
               console.log("Tracking info saved successfully!");
 
               if (res.data.insertedId) {
                 // ✅ Gem points update
-                const resGem = await axios.patch('http://localhost:5000/gemPoints', {
+                const resGem = await axios.patch('https://smart-shop-server-three.vercel.app/gemPoints', {
                   email: user.email,
                   points: 10
                 });

@@ -15,7 +15,7 @@ export default function UserCartClient() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/cartItems?userEmail=${user.email}`,
+        `https://smart-shop-server-three.vercel.app/cartItems?userEmail=${user.email}`,
         { cache: "no-store" }
       );
       if (!res.ok) {

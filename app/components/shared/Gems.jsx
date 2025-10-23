@@ -12,7 +12,7 @@ export default function Gems() {
     if (!user?.email) return;
 
     axios
-      .get(`http://localhost:5000/users?email=${user.email}`)
+      .get(`https://smart-shop-server-three.vercel.app/users?email=${user.email}`)
       .then((res) => {
         setGemPoints(res.data.gemPoints);
       })

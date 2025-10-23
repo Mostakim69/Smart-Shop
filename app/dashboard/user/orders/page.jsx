@@ -27,7 +27,7 @@ export default function OrdersPage() {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/orders?orderedBy=${user.email}`);
+        const res = await fetch(`https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`);
         if (!res.ok) {
           setOrders([]);
           return;
@@ -56,7 +56,7 @@ export default function OrdersPage() {
 
     setCancellingOrderId(selectedOrder._id);
     try {
-      const res = await fetch(`http://localhost:5000/orders/${selectedOrder._id}`, {
+      const res = await fetch(`https://smart-shop-server-three.vercel.app/orders/${selectedOrder._id}`, {
         method: 'DELETE',
       });
 

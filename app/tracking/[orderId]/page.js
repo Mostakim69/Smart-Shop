@@ -14,7 +14,7 @@ export default function OrderTracking({ params }) {
     useEffect(() => {
         const fetchTracking = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/trackings?orderId=${orderId}`);
+                const res = await axios.get(`https://smart-shop-server-three.vercel.app/trackings?orderId=${orderId}`);
                 setTracking(res.data);
             } catch (err) {
                 console.error("Failed to fetch tracking data", err);
