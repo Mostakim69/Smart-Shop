@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ImageWithMagnify from "./ImageWithMangnify";
 
 
 export default function MoreProduct({ related }) {
@@ -29,7 +30,7 @@ export default function MoreProduct({ related }) {
                                 className="group block bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform hover:scale-[1.02] cursor-pointer overflow-hidden"
                             >
                                 <div className="relative w-full h-56">
-                                    <Image
+                                    {/* <Image
                                         src={
                                             item?.image?.startsWith("http")
                                                 ? item.image
@@ -39,7 +40,8 @@ export default function MoreProduct({ related }) {
                                         fill
                                         className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                                    />
+                                    /> */}
+                                    <ImageWithMagnify></ImageWithMagnify>
                                 </div>
 
                                 <div className="p-4">
