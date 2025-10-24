@@ -76,9 +76,7 @@ export default function Navbar() {
                 className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </form>
-            <Link href="/gems">
-              <Gems />
-            </Link>
+            <Gems />
             <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />
               <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
