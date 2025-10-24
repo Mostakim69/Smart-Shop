@@ -133,6 +133,11 @@ export default function Sidebar() {
         link: "/dashboard/addproduct",
         icon: <PlusCircle className="h-5 w-5" />,
       },
+      {
+        name: "Settings",
+        link: "/dashboard/admin/settings",
+        icon: <Settings className="h-5 w-5" />,
+      },
     ],
     user: [
       { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
