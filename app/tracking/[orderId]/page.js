@@ -4,6 +4,7 @@ import { use } from "react";
 import axios from "axios";
 import ProgressBar from "../components/ProgressBar";
 import TrackingSteps from "../components/TrackingSteps";
+import Navbar from "@/app/components/shared/Navbar";
 
 export default function OrderTracking({ params }) {
     // ✅ unwrap params using React.use()
@@ -27,18 +28,21 @@ export default function OrderTracking({ params }) {
     if (!tracking) return <p className="text-center mt-10">Loading...</p>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6 mt-10 bg-base-200 rounded-2xl shadow-lg">
-            <h1 className="text-2xl font-bold text-primary mb-4">Order Tracking</h1>
-            <p className="mb-6 text-gray-600">Order ID: <span className="font-semibold">{tracking.orderId}</span></p>
+        <div>
+            <Navbar></Navbar>
+            <div className="max-w-4xl mx-auto p-6 mt-10 bg-base-200 rounded-2xl shadow-lg">
+                <h1 className="text-2xl font-bold text-primary mb-4">Order Tracking</h1>
+                <p className="mb-6 text-gray-600">Order ID: <span className="font-semibold">{tracking.orderId}</span></p>
 
-            {/* Progress Bar */}
-            <ProgressBar steps={tracking.steps}></ProgressBar>
-            {/* Steps */}
-            <TrackingSteps steps={tracking.steps} />
+                {/* Progress Bar */}
+                <ProgressBar steps={tracking.steps}></ProgressBar>
+                {/* Steps */}
+                <TrackingSteps steps={tracking.steps} />
 
-            {/* Current Status */}
-            <div className="mt-8 p-4 bg-base-100 rounded-lg shadow">
-                <p className="font-semibold text-lg">Current Status: <span className="text-primary">{tracking.currentStatus}</span></p>
+                {/* Current Status */}
+                <div className="mt-8 p-4 bg-base-100 rounded-lg shadow">
+                    <p className="font-semibold text-lg">Current Status: <span className="text-primary">{tracking.currentStatus}</span></p>
+                </div>
             </div>
         </div>
     );
