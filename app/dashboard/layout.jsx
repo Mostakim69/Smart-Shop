@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
       </div>
       {/* Main Section */}
       <section className="flex-1 flex flex-col min-h-screen overflow-hidden">
-                <NavDash toggleSidebar={toggleSidebar} />
+        <NavDash toggleSidebar={toggleSidebar} />
         <section className="pt-14 flex-1 bg-[#eff3f4]">{children}</section>
       </section>
     </main>
