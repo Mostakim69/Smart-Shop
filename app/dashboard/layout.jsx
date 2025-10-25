@@ -1,21 +1,54 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import NavDash from "../components/dashboard/NavDash";
 import Sidebar from "../components/dashboard/Sidebar";
+import { useEffect, useRef, useState } from "react";
 
 export default function DashboardLayout({ children }) {
-  return (
-    <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar */}
-      <Sidebar />
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const sidebarRef = useRef(null);
 
-      {/* Main Section */}
-        <div className="flex-1 p-4 mt-16 md:mt-16 ml-0 md:ml-54">
-        {/* Navbar */}
-          <div className="fixed top-0 left-0 right-0 z-40">
-          <NavDash />
-        </div>
-        {/* Page Content */}
-        <main className="flex-1 p-4">{children}</main>
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    toggleSidebar();
+  }, [pathname]);
+
+  useEffect(() => {
+    function handleClickOutsideEvent(event) {
+      if (sidebarRef.current && !sidebarRef?.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutsideEvent);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideEvent);
+    };
+  }, []);
+
+
+  return (
+    <main className="flex relative">
+      <div className="hidden md:block">
+        <Sidebar />
       </div>
-    </div>
+      <div
+        ref={sidebarRef}
+        className={`fixed md:hidden ease-in-out transition-all duration-400 z-50 
+        ${isOpen ? "translate-x-0" : "-translate-x-[260px]"}
+        `}
+      >
+        <Sidebar />
+      </div>
+      {/* Main Section */}
+      <section className="flex-1 flex flex-col min-h-screen overflow-hidden">
+                <NavDash toggleSidebar={toggleSidebar} />
+        <section className="pt-14 flex-1 bg-[#eff3f4]">{children}</section>
+      </section>
+    </main>
   );
 }

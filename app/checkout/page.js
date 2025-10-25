@@ -6,6 +6,7 @@ import Navbar from "../components/shared/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +25,8 @@ export default function CheckoutPage() {
   const [productId, setProductId] = useState(null);
   const [email, setEmail] = useState(null);
   const [items, setItems] = useState([]);
-  const { user } = useAuth();
-
+  const { user, setGemPoints, gemPoints } = useAuth();
+  const router = useRouter();
 
 
   // ✅ Get query parameters (type, id, email) from URL
@@ -83,11 +84,7 @@ export default function CheckoutPage() {
       orderUser: user?.email,
     };
 
-    //Log order data in console
-    console.log("Order Data:", orderData);
-
     if (orderData.payment === 'cashOnDelivery' || orderData.payment === 'Bkash / Nagad / Rocket') {
-
 
       if (orderData.payment === 'Bkash / Nagad / Rocket') {
         alert('Payment gateway integration coming soon!')
@@ -95,15 +92,52 @@ export default function CheckoutPage() {
         // if success then continue to place order otherwise this fuction will be break
       }
       axios.post('https://smart-shop-server-three.vercel.app/orders', orderData)
-        .then(res => {
-          if (res.data?.insertedId) {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Order placed successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
+        .then(async res => {
+          if (res.data.insertedId) {
+
+            const orderId = res.data?.insertedId;
+            // Tracking data তৈরি করা
+            const trackingData = {
+              orderId: orderId,
+              email: formData.email,
+              currentStatus: "Order Placed",
+              steps: [
+                { title: "Order Placed", date: new Date(), done: true },
+                { title: "At Division Hub", date: null, done: false },
+                { title: "At District Hub", date: null, done: false },
+                { title: "At Upazila Hub", date: null, done: false },
+                { title: "With Delivery Man", date: null, done: false },
+                { title: "Delivered", date: null, done: false }
+              ]
+            };
+
+            // ✅ Tracking data backend এ পাঠানো
+            try {
+              const res = await axios.post('https://smart-shop-server-three.vercel.app/trackings', trackingData);
+              console.log("Tracking info saved successfully!");
+
+              if (res.data.insertedId) {
+                // ✅ Gem points update
+                const resGem = await axios.patch('https://smart-shop-server-three.vercel.app/gemPoints', {
+                  email: user.email,
+                  points: 10
+                });
+                if (resGem.data.modifiedCount) {
+                  setGemPoints(gemPoints + 10);
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Order placed successfully! and get 10 points",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  router.push(`/order-success?orderId=${orderId}`);
+                }
+              }
+
+            } catch (trackingError) {
+              console.error("Tracking save failed:", trackingError);
+            }
           }
 
         })
@@ -113,6 +147,8 @@ export default function CheckoutPage() {
     }
 
   };
+
+  console.log(handleOrder)
 
   // ✅ Calculate total order amount
   const totalPrice = items.reduce((a, c) => a + c.price * (c.quantity || 1), 0);

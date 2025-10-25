@@ -6,44 +6,40 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { CartTable } from "./CartTable";
 
 export default function UserCartClient() {
-  const { user } = useAuth(); // ✅ logged-in user info
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchCartItems = async () => {
     if (!user?.email) return;
-
-    const fetchCartItems = async () => {
-      try {
-        // ✅ Use query param ?userEmail= instead of URL param
-        const res = await fetch(
-          `http://localhost:5000/cartItems?userEmail=${user.email}`,
-          { cache: "no-store" }
-        );
-
-        if (!res.ok) {
-          setCartItems([]);
-          return;
-        }
-
-        const data = await res.json();
-        const formatted = data.map((item) => ({
-          id: item._id,
-          name: item.name,
-          price: parseFloat(item.price),
-          qty: item.quantity,
-          image: item.image,
-        }));
-
-        setCartItems(formatted);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `https://smart-shop-server-three.vercel.app/cartItems?userEmail=${user.email}`,
+        { cache: "no-store" }
+      );
+      if (!res.ok) {
         setCartItems([]);
-      } finally {
-        setLoading(false);
+        return;
       }
-    };
+      const data = await res.json();
+      const formatted = data.map((item) => ({
+        id: item._id,
+        name: item.name,
+        price: parseFloat(item.price),
+        qty: item.quantity,
+        image: item.image,
+      }));
+      setCartItems(formatted);
+    } catch (error) {
+      console.error(error);
+      setCartItems([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCartItems();
   }, [user?.email]);
 
@@ -83,7 +79,12 @@ export default function UserCartClient() {
         </div>
       ) : (
         <div className="bg-white shadow rounded-xl p-4 md:p-6">
-          <CartTable cartItems={cartItems} total={total} />
+          <CartTable
+            cartItems={cartItems}
+            total={total}
+            userEmail={user.email}
+            refreshCart={fetchCartItems}
+          />
         </div>
       )}
     </div>

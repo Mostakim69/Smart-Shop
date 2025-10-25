@@ -24,9 +24,9 @@ export default function DashboardClient() {
     const fetchData = async () => {
       try {
         const [ordersRes, cartRes, recRes] = await Promise.all([
-          fetch(`http://localhost:5000/orders?orderedBy=${user.email}`),
-          fetch(`http://localhost:5000/cartItems?email=${user.email}`),
-          fetch(`http://localhost:5000/products?category=electronics`),
+          fetch(`https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`),
+          fetch(`https://smart-shop-server-three.vercel.app/cartItems?email=${user.email}`),
+          fetch(`https://smart-shop-server-three.vercel.app/products?category=electronics`),
         ]);
 
         const orders = await ordersRes.json();

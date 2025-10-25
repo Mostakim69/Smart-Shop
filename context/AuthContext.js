@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [gemPoints, setGemPoints] = useState(null);
 
   // Signup with email/password
   const signup = (email, password) => {
@@ -76,6 +77,8 @@ export const AuthProvider = ({ children }) => {
         updateUserProfile,
         setOpenSidebar,
         openSidebar,
+        setGemPoints,
+        gemPoints,
       }}
     >
       {children}
