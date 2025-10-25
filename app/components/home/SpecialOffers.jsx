@@ -62,7 +62,7 @@ export default function SpecialOffers() {
               </div>
 
               {/* Right Content */}
-              <div className="flex-1 bg-white text-gray-800 py-6 px-6">
+              <div className="flex-1 bg-gray-50 text-gray-800 py-6 px-6">
                 <h3 className="text-xl font-semibold mb-2">{offer.title}</h3>
                 <p className="text-4xl font-bold mb-2">{offer.discount}</p>
                 <p className="text-sm mb-2 font-medium">Promo Code:</p>
