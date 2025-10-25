@@ -26,13 +26,13 @@ export default function Newsletter() {
           {/* Icon */}
           <div className="flex justify-center mb-4">
             <div className="bg-secondary/10 p-3 rounded-full">
-              <Mail className="text-secondary w-8 h-8" />
+              <Mail className="text-primary w-8 h-8" />
             </div>
           </div>
 
           {/* Heading */}
           <h2 className="text-3xl md:text-4xl font-bold text-gray-500 mb-3">
-            Stay in the Loop with <span className="text-secondary">SmartShop</span>!
+            Stay in the Loop with <span className="text-primary">SmartShop</span>!
           </h2>
           <p className="text-gray-500 mb-8 max-w-xl mx-auto">
             Get exclusive deals, new product alerts, and special offers straight to your inbox. 
