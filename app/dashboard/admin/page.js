@@ -3,6 +3,7 @@ import RecentOrders from "./RecentOrders";
 import SalesOverview from "./SalesOverview";
 import SummaryCards from "./SummaryCards";
 import RecentUsers from "./RecentUsers";
+import TopSellignProducts from "./TopSellignProducts";
 
 export default function AdminDashboard() {
   return (
@@ -28,32 +29,10 @@ export default function AdminDashboard() {
           <p className="text-3xl font-bold">99.8%</p>
         </div>
       </div>
-
-      {/*  TOP SELLING PRODUCTS */}
-      <div className="bg-white p-6 rounded-2xl shadow mb-10">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Top Selling Products
-        </h2>
-        <ul className="divide-y divide-gray-100">
-          <li className="py-3 flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <img src="/img/product1.jpg" className="w-10 h-10 rounded" />
-              <span className="text-gray-700">Wireless Headphones</span>
-            </div>
-            <span className="font-medium text-gray-600">320 sold</span>
-          </li>
-          <li className="py-3 flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <img src="/img/product2.jpg" className="w-10 h-10 rounded" />
-              <span className="text-gray-700">Smart Watch</span>
-            </div>
-            <span className="font-medium text-gray-600">270 sold</span>
-          </li>
-        </ul>
-      </div>
+      <TopSellignProducts />
 
       <RecentOrders />
-      <RecentUsers/>
+      <RecentUsers />
 
       {/* RECENT USERS*/}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
