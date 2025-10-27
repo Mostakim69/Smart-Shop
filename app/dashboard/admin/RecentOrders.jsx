@@ -30,8 +30,8 @@ export default function RecentOrders() {
         <div className="text-center py-10 text-gray-500">Loading orders...</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-green-200">
+            <thead className="bg-green-50">
               <tr>
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
                   Order ID
@@ -54,7 +54,7 @@ export default function RecentOrders() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-green-100">
               {recentOrders?.length > 0 ? (
                 recentOrders.slice(-6).map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
