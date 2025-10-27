@@ -205,19 +205,256 @@ My contributions covered requirement analysis, architecture design, frontend and
 
 ## 📂 Folder Structure (Simplified)
 
+Here's a high-level overview of the project's file structure:
+```
+├── .gitignore
+├── README.md
+├── app
+    ├── (auth)
+    │   ├── login
+    │   │   ├── components
+    │   │   │   ├── LottieLogin.jsx
+    │   │   │   ├── login.json
+    │   │   │   └── signinButton.jsx
+    │   │   ├── page.js
+    │   │   └── passwordReset
+    │   │   │   └── page.jsx
+    │   └── signup
+    │   │   ├── components
+    │   │       ├── ImageUpload.jsx
+    │   │       ├── LottieSignup.jsx
+    │   │       ├── PasswordInput.jsx
+    │   │       ├── SignUpForm.jsx
+    │   │       ├── SocialButton.jsx
+    │   │       ├── emailPassLogin.js
+    │   │       └── signup.json
+    │   │   └── page.jsx
+    ├── about
+    │   ├── components
+    │   │   ├── Count.jsx
+    │   │   ├── Hero.jsx
+    │   │   ├── Stories.jsx
+    │   │   ├── Team.jsx
+    │   │   └── WhyChooseUse.jsx
+    │   └── page.jsx
+    ├── cartPage
+    │   └── page.jsx
+    ├── checkout
+    │   └── page.js
+    ├── components
+    │   ├── CardItem.jsx
+    │   ├── CartItem.jsx
+    │   ├── Chatbot
+    │   │   └── ChatWidget.jsx
+    │   ├── ThemeToggler.jsx
+    │   ├── dashboard
+    │   │   ├── NavDash.jsx
+    │   │   └── Sidebar.jsx
+    │   ├── goBackButton
+    │   │   └── page.jsx
+    │   ├── home
+    │   │   ├── PopularProduct.jsx
+    │   │   ├── SpecialOffers.jsx
+    │   │   ├── Testimonial
+    │   │   │   └── Testimonial.jsx
+    │   │   ├── banner
+    │   │   │   └── Banner.jsx
+    │   │   ├── catagories
+    │   │   │   └── Catagories.jsx
+    │   │   └── featuredProducts
+    │   │   │   └── FeaturedProducts.jsx
+    │   ├── newsletter
+    │   │   └── Newsletter.jsx
+    │   ├── rating
+    │   │   └── Rating.jsx
+    │   ├── ratingAndReview
+    │   │   └── RatingAndReview.jsx
+    │   ├── riview
+    │   │   └── Review.jsx
+    │   └── shared
+    │   │   ├── DropDown.jsx
+    │   │   ├── Gems.jsx
+    │   │   ├── Navbar.jsx
+    │   │   └── footer
+    │   │       └── Footer.jsx
+    ├── contact
+    │   ├── components
+    │   │   ├── CTASection.jsx
+    │   │   ├── ContactForm.jsx
+    │   │   ├── ContactInfo.jsx
+    │   │   ├── FAQSection.jsx
+    │   │   ├── GoogleMap.jsx
+    │   │   └── SocialLinks.jsx
+    │   └── page.jsx
+    ├── dashboard
+    │   ├── addproduct
+    │   │   └── page.jsx
+    │   ├── admin
+    │   │   ├── RecentOrders.jsx
+    │   │   ├── RecentUsers.jsx
+    │   │   ├── SalesOverview.jsx
+    │   │   ├── SummaryCards.jsx
+    │   │   ├── components
+    │   │   │   ├── ManageOrder.jsx
+    │   │   │   └── UserRow.jsx
+    │   │   ├── manage-orders
+    │   │   │   └── page.jsx
+    │   │   ├── manage-products
+    │   │   │   ├── ProductRow.jsx
+    │   │   │   ├── SearchAndFilter.jsx
+    │   │   │   └── page.jsx
+    │   │   ├── manage-users
+    │   │   │   └── page.jsx
+    │   │   ├── page.js
+    │   │   ├── reports
+    │   │   │   └── page.jsx
+    │   │   └── settings
+    │   │   │   └── page.jsx
+    │   ├── categories
+    │   │   └── page.jsx
+    │   ├── collections
+    │   │   └── page.jsx
+    │   ├── customers
+    │   │   └── page.jsx
+    │   ├── layout.jsx
+    │   ├── myproduct
+    │   │   └── page.jsx
+    │   ├── overviewchart.jsx
+    │   ├── page.jsx
+    │   ├── products
+    │   │   ├── ProductTable.jsx
+    │   │   └── page.jsx
+    │   ├── reviews
+    │   │   └── page.jsx
+    │   ├── seller
+    │   │   ├── components
+    │   │   │   └── product
+    │   │   │   │   └── Product.jsx
+    │   │   ├── edit
+    │   │   │   └── [id]
+    │   │   │   │   └── page.jsx
+    │   │   ├── myproducts
+    │   │   │   └── page.jsx
+    │   │   ├── orders
+    │   │   │   └── page.jsx
+    │   │   └── page.js
+    │   └── user
+    │   │   ├── ChartClient.jsx
+    │   │   ├── DashboardClient.jsx
+    │   │   ├── cart
+    │   │       ├── CartTable.jsx
+    │   │       ├── UserCartServer.jsx
+    │   │       └── page.jsx
+    │   │   ├── components
+    │   │       ├── OrdersGraph.jsx
+    │   │       ├── QuickActions.jsx
+    │   │       ├── RecentOrders.jsx
+    │   │       ├── Recommended.jsx
+    │   │       ├── Reviews.jsx
+    │   │       ├── StateCards.jsx
+    │   │       └── SupportSection.jsx
+    │   │   ├── logout
+    │   │       └── page.jsx
+    │   │   ├── orders
+    │   │       ├── [id]
+    │   │       │   └── page.jsx
+    │   │       └── page.jsx
+    │   │   ├── page.js
+    │   │   ├── product
+    │   │       └── [id]
+    │   │       │   └── page.jsx
+    │   │   ├── profile
+    │   │       └── page.jsx
+    │   │   ├── reviews
+    │   │       ├── ReviewList.jsx
+    │   │       └── page.jsx
+    │   │   └── wishlist
+    │   │       ├── AddToCardButton.jsx
+    │   │       └── page.jsx
+    ├── favicon.ico
+    ├── globals.css
+    ├── layout.js
+    ├── loading.js
+    ├── not-found.jsx
+    ├── order-success
+    │   └── page.js
+    ├── page.js
+    ├── payment
+    │   ├── paymentFail
+    │   │   └── page.jsx
+    │   └── paymentSuccess
+    │   │   └── page.jsx
+    ├── privacyPolicy
+    │   └── page.jsx
+    ├── products
+    │   ├── [id]
+    │   │   └── page.js
+    │   ├── components
+    │   │   ├── AllProducts.jsx
+    │   │   ├── ImageWithMangnify.jsx
+    │   │   ├── MoreProduct.jsx
+    │   │   ├── ProductCard.jsx
+    │   │   ├── ProductsForDetailsPage.jsx
+    │   │   └── Quantity.jsx
+    │   ├── loading.jsx
+    │   └── page.jsx
+    ├── returnRefundPolicy
+    │   └── page.jsx
+    ├── termAndConditions
+    │   └── page.jsx
+    └── tracking
+    │   ├── [orderId]
+    │       └── page.js
+    │   └── components
+    │       ├── ProgressBar.jsx
+    │       └── TrackingSteps.jsx
+├── context
+    └── AuthContext.js
+├── cspell.json
+├── eslint.config.mjs
+├── jsconfig.json
+├── lib
+    ├── axiosInstance.js
+    ├── firebaseClient.js
+    └── useAxiosSecure.js
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+    ├── E-commerce in a Digital World.png
+    ├── Shopping.json
+    ├── file.svg
+    ├── globe.svg
+    ├── logo(4).png
+    ├── logo_3.webp
+    ├── next.svg
+    ├── vercel.svg
+    └── window.svg
+├── tailwind.config.js
+└── utils
+    ├── PageIntro.jsx
+    ├── TypeWriterEffect.jsx
+    └── getUserRole.js
+```
+
 ---
 
 <div align="center">
   <img src="https://i.postimg.cc/hvfGtWj6/Screenshot-2025-10-26-132210.png" width="100%" alt="Login Page" />
   <br/><br/>
   <img src="https://i.postimg.cc/MZN6mLHC/Screenshot-2025-10-26-132238.png" width="100%" alt="Register Page" />
-  <img src="https://i.postimg.cc/66fsy1Rc/Screenshot-2025-10-26-131125.png" width="100%" alt="FriendAssign Banner" />
+  <img src="" width="100%" alt="Banner" />
   <br/>
-  <img src="https://i.postimg.cc/3rB6K05z/Screenshot-2025-10-26-131203.png" width="100%" alt="Assignment Page" />
-  <img src="https://i.postimg.cc/L8djwvCG/Screenshot-2025-10-26-131511.png" width="100%" alt="All Assignment Details Page " />
-  <img src="https://i.postimg.cc/FHgkqvJH/Screenshot-2025-10-26-131633.png" width="100%" alt="Profile page" />
-  <img src="https://i.postimg.cc/kMBYWJ2j/Screenshot-2025-10-26-131659.png" width="100%" alt="Pendding Assignment Page" />
-  <img src="https://i.postimg.cc/FzLx8Kc1/Screenshot-2025-10-26-131806.png" width="100%" alt="My Assignment Page" />
+  <img src="" width="100%" alt="Page" />
+  <img src="https://i.postimg.cc/L8djwvCG/Screenshot-2025-10-26-131511.png" width="100%" alt=" Page " />
+  <img src="" width="100%" alt="Profile page" />
+  <img src="" width="100%" alt="Page " />
+  <img src="" width="100%" alt="Page" />
+  <img src="" width="100%" alt="Page " />
+  <img src="" width="100%" alt="Page" />
+  <img src="" width="100%" alt="Page " />
+  <img src="" width="100%" alt="Page" />
 </div>
 
 ---
