@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛍️ AI-Powered E-Commerce Sales Predictor & Inventory Optimizer Website
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-5.3-blue?logo=tailwindcss)
+![Firebase](https://img.shields.io/badge/Firebase-Auth-orange?logo=firebase)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live Links
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Type | Link |
+|------|------|
+| 🖥️ **Live Site** | [https://your-live-site.vercel.app](#) |
+| 💻 **Client Repo** | [GitHub Client Repository](#) |
+| ⚙️ **Server Repo** | [GitHub Server Repository](#) |
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📘 Project Overview
 
-## Learn More
+A fully functional **E-Commerce Web Application** built using **Next.js App Router**, **Firebase Authentication**, and **MongoDB**.  
+This project delivers a complete online shopping experience with **role-based dashboards**, **real-time order tracking**, and a **modern UI** built with Tailwind CSS and DaisyUI.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Purpose
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The goal of this project is to build a modern, secure, and scalable e-commerce platform that:
+- Simplifies online shopping for users.  
+- Enables sellers to manage their inventory easily.  
+- Allows admins to control users, products, and overall performance.  
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<details>
+<summary>🌟 <b>Key Features</b> (Click to expand)</summary>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 👤 User Features
+- 🔐 Login / Signup using Firebase (Email & Social)
+- 🛒 Add to Cart & Wishlist System
+- 💳 Checkout & Secure Online Payment
+- ⭐ Product Ratings and Reviews
+- 📦 Order Tracking with Step Progress Bar
+- 🌙 Dark / Light Theme Toggle
+
+### 🏪 Seller Dashboard
+- ➕ Add / Edit / Delete Products
+- 📊 View Product Sales Graph
+- 🧾 Manage Customer Orders
+- 🧮 Edit Products Dynamically (`/edit/[id]`)
+- 🏷️ My Product Management Page
+
+### 🛠️ Admin Dashboard
+- 👥 Manage Users & Roles
+- 📦 Manage All Products and Orders
+- 💹 View Analytics & Reports
+- 🗂️ Product Search, Filter, and Sorting System
+
+### 💬 Extra Features
+- 🤖 Live Chatbot Integration
+- 📰 Newsletter Subscription
+- 🗺️ Google Map on Contact Page
+- 🧭 Responsive Design for All Devices
+- 📄 Privacy Policy, Refund, and Terms Pages
+
+</details>
+
+---
+
+<details>
+<summary>🧩 <b>Tech Stack</b> (Click to expand)</summary>
+
+### ⚛️ Frontend
+- Next.js 14 (App Router)
+- React.js 18
+- Tailwind CSS + DaisyUI
+- Framer Motion (Animations)
+
+### 🔧 Backend & Database
+- Node.js + Express.js
+- MongoDB (Mongoose)
+- Axios (with secure instance)
+
+### 🔐 Authentication
+- Firebase Authentication (Email & Social)
+
+### 💰 Payment Integration
+- SSLCOMMERZ / Stripe (example integration)
+
+### 🌍 Others
+- Context API for Global State
+- React CountUp, Lottie Animations
+- Axios Secure Hook for Authorized API Calls
+
+</details>
+
+---
+
+## 📂 Folder Structure (Simplified)
+
