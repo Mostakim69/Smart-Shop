@@ -14,48 +14,10 @@ export default function AdminDashboard() {
       <SummaryCards />
       <SalesOverview />
 
-      {/*  QUICK STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="p-6 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-2xl shadow">
-          <h3 className="text-lg font-semibold mb-2">Pending Approvals</h3>
-          <p className="text-3xl font-bold">12</p>
-        </div>
-        <div className="p-6 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-2xl shadow">
-          <h3 className="text-lg font-semibold mb-2">New Feedback</h3>
-          <p className="text-3xl font-bold">34</p>
-        </div>
-        <div className="p-6 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-2xl shadow">
-          <h3 className="text-lg font-semibold mb-2">Server Uptime</h3>
-          <p className="text-3xl font-bold">99.8%</p>
-        </div>
-      </div>
       <TopSellignProducts />
 
       <RecentOrders />
       <RecentUsers />
-
-      {/* RECENT USERS*/}
-      <div className="bg-white p-6 rounded-2xl shadow mb-10">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Recent Users
-        </h2>
-        <ul className="divide-y divide-gray-100">
-          <li className="py-3 flex justify-between items-center">
-            <div>
-              <p className="text-gray-800 font-medium">Sarah Rahman</p>
-              <p className="text-sm text-gray-500">Joined 2 days ago</p>
-            </div>
-            <span className="text-green-600 font-semibold">Active</span>
-          </li>
-          <li className="py-3 flex justify-between items-center">
-            <div>
-              <p className="text-gray-800 font-medium">Aminul Hasan</p>
-              <p className="text-sm text-gray-500">Joined 5 days ago</p>
-            </div>
-            <span className="text-gray-400 font-semibold">Offline</span>
-          </li>
-        </ul>
-      </div>
 
       {/* NOTIFICATIONS */}
       <div className="bg-white p-6 rounded-2xl shadow mb-10">
