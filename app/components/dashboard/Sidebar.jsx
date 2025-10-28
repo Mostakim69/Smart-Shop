@@ -27,6 +27,7 @@ import {
   X,
   Menu,
   Settings,
+  ChartPieIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
@@ -132,6 +133,11 @@ export default function Sidebar() {
         icon: <UserCircleIcon className="h-5 w-5" />,
       },
       {
+        name: "Report",
+        link: "/dashboard/admin/reports",
+        icon: <ChartPieIcon className="h-5 w-5" />,
+      },
+      {
         name: "Settings",
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
@@ -177,7 +183,7 @@ export default function Sidebar() {
         link: "/dashboard/user/orders",
         icon: <ShoppingBagIcon className="h-5 w-5" />,
       },
-     
+
       {
         name: "Cart",
         link: "/dashboard/user/cart",
@@ -189,10 +195,10 @@ export default function Sidebar() {
         icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
       },
       {
-  name: "Support",
-  link: "/dashboard/user/support",
-  icon: <LifebuoyIcon className="h-5 w-5" />,
-}
+        name: "Support",
+        link: "/dashboard/user/support",
+        icon: <LifebuoyIcon className="h-5 w-5" />,
+      },
     ],
   };
 
