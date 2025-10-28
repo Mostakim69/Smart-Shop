@@ -5,8 +5,29 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
-import { HomeIcon, ChartBarIcon, ShoppingBagIcon, HeartIcon, ShoppingCartIcon, UserCircleIcon, ChatBubbleBottomCenterTextIcon, ClipboardIcon, UsersIcon, } from "@heroicons/react/24/outline";
-import { LayoutDashboard, Package, PlusCircle, ShoppingBag, LogOut, Home, X,Menu, Settings,} from "lucide-react";
+import {
+  HomeIcon,
+  ChartBarIcon,
+  ShoppingBagIcon,
+  HeartIcon,
+  ShoppingCartIcon,
+  UserCircleIcon,
+  ChatBubbleBottomCenterTextIcon,
+  ClipboardIcon,
+  UsersIcon,
+  LifebuoyIcon,
+} from "@heroicons/react/24/outline";
+import {
+  LayoutDashboard,
+  Package,
+  PlusCircle,
+  ShoppingBag,
+  LogOut,
+  Home,
+  X,
+  Menu,
+  Settings,
+} from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
@@ -105,7 +126,12 @@ export default function Sidebar() {
         link: "/dashboard/admin/manage-users",
         icon: <UsersIcon className="h-5 w-5" />,
       },
-        {
+      {
+        name: "Support User",
+        link: "/dashboard/admin/support-user",
+        icon: <UserCircleIcon className="h-5 w-5" />,
+      },
+      {
         name: "Settings",
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
@@ -151,11 +177,7 @@ export default function Sidebar() {
         link: "/dashboard/user/orders",
         icon: <ShoppingBagIcon className="h-5 w-5" />,
       },
-      {
-        name: "Wishlist",
-        link: "/dashboard/user/wishlist",
-        icon: <HeartIcon className="h-5 w-5" />,
-      },
+     
       {
         name: "Cart",
         link: "/dashboard/user/cart",
@@ -167,10 +189,10 @@ export default function Sidebar() {
         icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
       },
       {
-        name: "Profile",
-        link: "/dashboard/user/profile",
-        icon: <UserCircleIcon className="h-5 w-5" />,
-      },
+  name: "Support",
+  link: "/dashboard/user/support",
+  icon: <LifebuoyIcon className="h-5 w-5" />,
+}
     ],
   };
 
@@ -178,14 +200,11 @@ export default function Sidebar() {
 
   return (
     <>
-
       {/* ✅ Sidebar */}
-      <section
-        className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
-      
+      <section className="sticky top-0 flex flex-col gap-10 bg-white border-r px-5 py-3 h-screen overflow-hidden w-[260px] z-50">
         {/* ✅ Logo */}
         <div className="flex justify-center py-4">
-          <Link href="/" >
+          <Link href="/">
             <Image src="/logo_3.webp" alt="Logo" width={110} height={40} />
           </Link>
         </div>
@@ -220,9 +239,10 @@ function Tab({ item, onClick }) {
     <Link href={item?.link} onClick={onClick}>
       <li
         className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold ease-soft-spring transition-all duration-300
-          ${isSelected
-            ? "bg-[#879fff] text-white"
-            : "bg-white text-black hover:bg-indigo-50"
+          ${
+            isSelected
+              ? "bg-[#879fff] text-white"
+              : "bg-white text-black hover:bg-indigo-50"
           }`}
       >
         {item?.icon} {item?.name}
