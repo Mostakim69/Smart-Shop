@@ -8,6 +8,7 @@ import Catagories from "./components/home/catagories/Catagories";
 import FeaturedProducts from "./components/home/featuredProducts/FeaturedProducts";
 import Banner from "./components/home/banner/Banner";
 import SpecialOffers from "./components/home/SpecialOffers";
+import Ai from "./components/ai/page";
 import ChatWidget from "./components/Chatbot/ChatWidget";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <Newsletter />
       <ChatWidget></ChatWidget>
       <Footer />
+      <Ai />
     </main>
   );
 }
