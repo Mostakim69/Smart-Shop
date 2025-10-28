@@ -35,8 +35,7 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-className="w-full bg-white/70 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6"
-
+      className="w-full bg-white/70 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6"
     >
       <motion.form
         onSubmit={handleSubmit}
@@ -44,19 +43,25 @@ className="w-full bg-white/70 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y
         animate="visible"
         className="w-full bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl p-8 space-y-6"
       >
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-bold text-center text-gray-800 mb-4"
-        >
-          Get in Touch
-        </motion.h2>
-
         {[
-          { label: "Full Name", name: "name", type: "text", placeholder: "Enter your name" },
-          { label: "Email", name: "email", type: "email", placeholder: "Enter your email" },
-          { label: "Subject", name: "subject", type: "text", placeholder: "Enter subject" },
+          {
+            label: "Full Name",
+            name: "name",
+            type: "text",
+            placeholder: "Enter your name",
+          },
+          {
+            label: "Email",
+            name: "email",
+            type: "email",
+            placeholder: "Enter your email",
+          },
+          {
+            label: "Subject",
+            name: "subject",
+            type: "text",
+            placeholder: "Enter subject",
+          },
         ].map((field, i) => (
           <motion.div key={field.name} variants={fadeUp} custom={i}>
             <label className="block text-sm font-medium text-gray-700 mb-1">
