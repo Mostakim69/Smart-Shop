@@ -1,47 +1,47 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 
 export default function OrdersPage() {
-  // ✅ Dummy orders data
-  const [orders, setOrders] = useState([
-    {
-      _id: "ORD12345",
-      productName: "Wireless Headphones",
-      buyerName: "John Doe",
-      quantity: 2,
-      status: "pending",
-    },
-    {
-      _id: "ORD12346",
-      productName: "Smartwatch",
-      buyerName: "Jane Smith",
-      quantity: 1,
-      status: "shipped",
-    },
-    {
-      _id: "ORD12347",
-      productName: "Gaming Mouse",
-      buyerName: "Mike Johnson",
-      quantity: 3,
-      status: "delivered",
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth(); // ✅ current logged-in user
 
-  const [loading, setLoading] = useState(false);
+  // 🔄 Fetch orders from backend
+  useEffect(() => {
+    if (!user?.email) return;
 
-  // 🔄 Update order status
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get(
+          `https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`
+        );
+        setOrders(res.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        Swal.fire("Error", "Failed to load your orders", "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [user]);
+
+  // ✅ Update status (optional - you can later connect this to backend)
   const handleStatusChange = (orderId, newStatus) => {
-    setOrders(
-      orders.map((order) =>
+    setOrders((prev) =>
+      prev.map((order) =>
         order._id === orderId ? { ...order, status: newStatus } : order
       )
     );
     Swal.fire("Updated!", `Order marked as ${newStatus}`, "success");
   };
 
-  // ❌ Cancel order
+  // ✅ Cancel order (frontend only; you can later connect backend DELETE)
   const handleCancel = (orderId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -51,10 +51,17 @@ export default function OrdersPage() {
       confirmButtonText: "Yes, cancel it!",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setOrders(orders.filter((order) => order._id !== orderId));
-        Swal.fire("Canceled!", "Order canceled successfully.", "success");
+        try {
+          await axios.delete(
+            `https://smart-shop-server-three.vercel.app/orders/${orderId}`
+          );
+          setOrders(orders.filter((order) => order._id !== orderId));
+          Swal.fire("Canceled!", "Order canceled successfully.", "success");
+        } catch (err) {
+          Swal.fire("Error", "Failed to cancel order", "error");
+        }
       }
     });
   };
@@ -75,7 +82,7 @@ export default function OrdersPage() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8">My Product Orders</h1>
+      <h1 className="text-3xl font-bold mb-8">My Orders</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {orders.map((order) => (
@@ -88,16 +95,16 @@ export default function OrdersPage() {
               <span>{order._id}</span>
             </div>
             <div className="flex justify-between mb-3">
-              <span className="font-semibold">Product:</span>
-              <span>{order.productName}</span>
+              <span className="font-semibold">Customer:</span>
+              <span>{order.name}</span>
             </div>
             <div className="flex justify-between mb-3">
-              <span className="font-semibold">Buyer:</span>
-              <span>{order.buyerName}</span>
+              <span className="font-semibold">Total:</span>
+              <span>৳ {order.totalAmount}</span>
             </div>
             <div className="flex justify-between mb-3">
-              <span className="font-semibold">Quantity:</span>
-              <span>{order.quantity}</span>
+              <span className="font-semibold">Date:</span>
+              <span>{new Date(order.orderDate).toLocaleDateString()}</span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="font-semibold">Status:</span>
@@ -110,9 +117,11 @@ export default function OrdersPage() {
                     : "bg-green-100 text-green-800"
                 }`}
               >
-                {order.status}
+                {order.status || "pending"}
               </span>
             </div>
+
+            {/* ✅ Actions */}
             <div className="flex flex-wrap gap-2">
               {order.status !== "shipped" && (
                 <button
