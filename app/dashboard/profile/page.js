@@ -44,27 +44,6 @@ const Profile = () => {
         }
     }, [user, reset]);
 
-    // useEffect(() => {
-    //     const fetchRole = async () => {
-    //         if (!user?.email) {
-    //             setLoading(false);
-    //             return;
-    //         }
-    //         try {
-    //             const res = await fetch(
-    //                 `https://smart-shop-server-three.vercel.app/users/${user.email}/role`
-    //             );
-    //             const data = await res.json();
-    //             if (data?.role) setRole(data.role);
-    //         } catch (err) {
-    //             console.error("Error fetching role:", err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchRole();
-    // }, [user?.email]);
-
     const openModal = () => {
         reset({
             name: user?.name || "",

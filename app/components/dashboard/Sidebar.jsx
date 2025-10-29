@@ -114,15 +114,15 @@ export default function Sidebar() {
   const menuItems = {
     admin: [
       { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
-        {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <UserRoundPen className="h-5 w-5" />,
-      },
       {
         name: "Admin Dashboard",
         link: "/dashboard/admin",
         icon: <ChartBarIcon className="h-5 w-5" />,
+      },
+        {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
       },
       {
         name: "Manage Products",
@@ -158,15 +158,15 @@ export default function Sidebar() {
     ],
     seller: [
       { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
-         {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <UserRoundPen className="h-5 w-5" />,
-      },
       {
         name: "Seller Dashboard",
         link: "/dashboard/seller",
         icon: <LayoutDashboard className="h-5 w-5" />,
+      },
+         {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
       },
       {
         name: "My Products",
@@ -191,15 +191,15 @@ export default function Sidebar() {
     ],
     user: [
       { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
-       {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <UserRoundPen className="h-5 w-5" />,
-      },
       {
         name: "Overview",
         link: "/dashboard/user",
         icon: <ChartBarIcon className="h-5 w-5" />,
+      },
+       {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
       },
       {
         name: "My Orders",
