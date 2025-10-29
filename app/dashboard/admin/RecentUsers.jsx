@@ -7,7 +7,8 @@ export default function RecentUsers() {
 
   useEffect(() => {
     // Backend theke latest 6 users fetch koro
-    fetch("/api/recent-users")
+     fetch("https://smart-shop-server-three.vercel.app/users")
+
       .then((res) => res.json())
       .then((data) => {
         setUsers(data.slice(0, 6));

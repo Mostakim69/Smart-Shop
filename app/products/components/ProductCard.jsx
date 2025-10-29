@@ -4,19 +4,18 @@ import Quantity from './Quantity';
 import MoreProduct from './MoreProduct';
 import ProductForDetailsPage from "./ProductsForDetailsPage";
 import RatingAndReview from "@/app/components/ratingAndReview/RatingAndReview";
+import ImageWithMagnify from "./ImageWithMangnify";
 
 export default function ProductDetails({ product, related }) {
   return (
     <div className="w-full bg-base-100 py-16">
       <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 my-6 rounded-2xl items-center">
-        
+
         {/* Image Section */}
-        <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
-          <Image
-            src={product.image?.startsWith("http") ? product.image : "/placeholder.png"}
+        <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md group cursor-zoom-in">
+          <ImageWithMagnify
+            src={product.image?.startsWith("http") ? product.image : ""}
             alt={product.name}
-            fill
-            className="object-cover"
           />
         </div>
 

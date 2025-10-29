@@ -1,107 +1,97 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [stats, setStats] = useState({ totalSales: 0, orders: 0, productsListed: 0 });
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 🧩 Dummy data for testing
-    const dummyStats = {
-      totalSales: 12890,
-      orders: 56,
-      productsListed: 12,
+    if (!user?.email) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const productsRes = await axios.get(
+          `https://smart-shop-server-three.vercel.app/products?sellerEmail=${user.email}`
+        );
+        const myProducts = productsRes.data || [];
+        setProducts(myProducts);
+
+        const ordersRes = await axios.get(
+          `https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`
+        );
+        const myOrders = ordersRes.data || [];
+        setOrders(myOrders);
+
+        const totalSales = myOrders.reduce(
+          (sum, order) => sum + (parseFloat(order.totalAmount) || 0),
+          0
+        );
+        setStats({ totalSales, orders: myOrders.length, productsListed: myProducts.length });
+
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const dummyOrders = [
-      {
-        id: "ORD-1001",
-        customer: "John Doe",
-        date: "2025-10-15",
-        status: "Delivered",
-        total: "$299.00",
-      },
-      {
-        id: "ORD-1002",
-        customer: "Sarah Miller",
-        date: "2025-10-14",
-        status: "Processing",
-        total: "$125.50",
-      },
-      {
-        id: "ORD-1003",
-        customer: "Michael Lee",
-        date: "2025-10-13",
-        status: "Pending",
-        total: "$89.00",
-      },
-    ];
-
-    const dummyProducts = [
-      { _id: 1, name: "Wireless Headphones", stock: 25, price: "$59.99", sales: 145 },
-      { _id: 2, name: "Smartwatch Series 6", stock: 12, price: "$199.00", sales: 87 },
-      { _id: 3, name: "Bluetooth Speaker", stock: 40, price: "$39.99", sales: 212 },
-      { _id: 4, name: "Gaming Mouse", stock: 30, price: "$29.99", sales: 165 },
-    ];
-
-    setTimeout(() => {
-      setStats(dummyStats);
-      setOrders(dummyOrders);
-      setProducts(dummyProducts);
-      setLoading(false);
-    }, 1000);
-  }, []);
+    fetchData();
+  }, [user]);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
+      <div className="flex items-center justify-center h-screen bg-gray-50">
         <Loader2 className="animate-spin text-blue-500" size={48} />
       </div>
     );
   }
 
   return (
-    <div className="font-display bg-white min-h-screen text-gray-800 px-4 md:px-10 py-8">
-      {/* 👋 Greeting */}
-      <div className="mb-10 text-center md:text-left">
-        <h2 className="text-3xl font-semibold text-gray-900">
-          Welcome back, <span className="text-blue-500">Seller</span> 👋
-        </h2>
-        <p className="text-gray-600 mt-2">Here’s an overview of your store performance today.</p>
+    <div className="font-sans bg-gray-50 min-h-screen text-gray-900 px-4 md:px-10 py-8">
+      {/* Header */}
+      <div className="mb-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div>
+          <h2 className="text-4xl font-bold text-gray-900">
+            Welcome back, <span className="text-blue-500">{user.displayName || "Seller"}</span> 👋
+          </h2>
+          <p className="text-gray-600 mt-2 text-lg">Here's a quick overview of your store performance.</p>
+        </div>
       </div>
 
-      {/* 📊 Stats Cards */}
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         {[
-          { label: "Total Sales", value: `$${stats.totalSales}`, color: "blue" },
+          { label: "Total Sales", value: `৳${stats.totalSales}`, color: "blue" },
           { label: "Orders", value: stats.orders, color: "emerald" },
           { label: "Products Listed", value: stats.productsListed, color: "violet" },
         ].map((item, i) => (
           <div
             key={i}
-            className="bg-white rounded-xl border border-blue-100 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-6"
+            className={`bg-white rounded-2xl border border-gray-200 shadow-lg p-6 transform transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
           >
             <h3 className="text-sm font-medium text-gray-500">{item.label}</h3>
-            <p className={`text-3xl font-bold text-${item.color}-600 mt-2`}>{item.value}</p>
+            <p className={`text-3xl font-extrabold text-${item.color}-600 mt-3 animate-pulse`}>{item.value}</p>
           </div>
         ))}
       </div>
 
-      {/* 🧾 Orders Table */}
+      {/* Recent Orders */}
       <section className="mb-10">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Recent Orders</h3>
-        <div className="overflow-x-auto rounded-xl border border-blue-100 shadow-md">
+        <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Orders</h3>
+        <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-lg">
           <table className="min-w-full text-left">
-            <thead className="bg-blue-50">
+            <thead className="bg-gray-100">
               <tr>
                 {["Order ID", "Customer", "Date", "Status", "Total"].map((header) => (
-                  <th
-                    key={header}
-                    className="p-4 text-sm font-semibold text-gray-700 border-b border-blue-100"
-                  >
+                  <th key={header} className="p-4 text-sm font-semibold text-gray-600 border-b border-gray-200">
                     {header}
                   </th>
                 ))}
@@ -110,26 +100,24 @@ export default function DashboardPage() {
             <tbody>
               {orders.map((o) => (
                 <tr
-                  key={o.id}
-                  className="border-b hover:bg-blue-50 transition-all duration-200 cursor-pointer"
+                  key={o._id}
+                  className="border-b hover:bg-blue-50 transition-all duration-300 cursor-pointer group"
                 >
-                  <td className="p-4 text-blue-500 text-sm font-medium">{o.id}</td>
-                  <td className="p-4 text-sm">{o.customer}</td>
-                  <td className="p-4 text-sm">{o.date}</td>
+                  <td className="p-4 text-blue-500 text-sm font-medium">{o._id}</td>
+                  <td className="p-4 text-sm">{o.name}</td>
+                  <td className="p-4 text-sm">{new Date(o.orderDate).toLocaleDateString()}</td>
                   <td className="p-4">
-                    <span
-                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        o.status === "Delivered"
-                          ? "bg-green-100 text-green-700"
-                          : o.status === "Processing"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-blue-100 text-blue-700"
-                      }`}
-                    >
-                      {o.status}
+                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                      o.status === "delivered"
+                        ? "bg-green-100 text-green-700"
+                        : o.status === "shipped"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}>
+                      {o.status || "pending"}
                     </span>
                   </td>
-                  <td className="p-4 text-sm text-right font-medium">{o.total}</td>
+                  <td className="p-4 text-sm text-right font-medium">৳{o.totalAmount}</td>
                 </tr>
               ))}
             </tbody>
@@ -137,18 +125,15 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* 🛒 Product List */}
+      {/* Product Listings */}
       <section>
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Product Listings</h3>
-        <div className="overflow-x-auto rounded-xl border border-blue-100 shadow-md">
+        <h3 className="text-2xl font-bold text-gray-900 mb-6">Product Listings</h3>
+        <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-lg">
           <table className="min-w-full text-left">
-            <thead className="bg-blue-50">
+            <thead className="bg-gray-100">
               <tr>
-                {["Product", "Stock", "Price", "Sales"].map((header) => (
-                  <th
-                    key={header}
-                    className="p-4 text-sm font-semibold text-gray-700 border-b border-blue-100"
-                  >
+                {["Product", "Category", "Price", "Date Added"].map((header) => (
+                  <th key={header} className="p-4 text-sm font-semibold text-gray-600 border-b border-gray-200">
                     {header}
                   </th>
                 ))}
@@ -158,12 +143,16 @@ export default function DashboardPage() {
               {products.map((p) => (
                 <tr
                   key={p._id}
-                  className="border-b hover:bg-blue-50 transition-all duration-200 cursor-pointer"
+                  className="border-b hover:bg-blue-50 transition-all duration-300 cursor-pointer group"
                 >
                   <td className="p-4 text-sm font-medium">{p.name}</td>
-                  <td className="p-4 text-sm">{p.stock}</td>
-                  <td className="p-4 text-sm">{p.price}</td>
-                  <td className="p-4 text-sm text-right font-medium">{p.sales}</td>
+                  <td className="p-4 text-sm capitalize">{p.category || "N/A"}</td>
+                  <td className="p-4 text-sm">৳{p.price}</td>
+                  <td className="p-4 text-sm text-right font-medium">
+                    {p.createdAt
+                      ? new Date(p.createdAt).toLocaleDateString()
+                      : new Date(parseInt(p._id.substring(0, 8), 16) * 1000).toLocaleDateString()}
+                  </td>
                 </tr>
               ))}
             </tbody>

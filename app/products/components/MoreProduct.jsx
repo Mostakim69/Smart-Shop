@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ImageWithMagnify from "./ImageWithMangnify";
 
 
 export default function MoreProduct({ related }) {
@@ -40,6 +41,7 @@ export default function MoreProduct({ related }) {
                                         className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                                     />
+                                    
                                 </div>
 
                                 <div className="p-4">

@@ -23,19 +23,40 @@ export default function DashboardClient() {
 
     const fetchData = async () => {
       try {
-        const [ordersRes, cartRes, recRes] = await Promise.all([
-          fetch(`https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`),
-          fetch(`https://smart-shop-server-three.vercel.app/cartItems?email=${user.email}`),
-          fetch(`https://smart-shop-server-three.vercel.app/products?category=electronics`),
+        // 🟢 Fetch all data together
+        const [ordersRes, cartRes, userRes, recRes] = await Promise.all([
+          fetch(
+            `https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`
+          ),
+          fetch(
+            `https://smart-shop-server-three.vercel.app/cartItems?email=${user.email}`
+          ),
+          fetch(
+            `https://smart-shop-server-three.vercel.app/users?email=${user.email}`
+          ),
+          fetch(
+            `https://smart-shop-server-three.vercel.app/products?category=electronics`
+          ),
         ]);
 
         const orders = await ordersRes.json();
         const cartItems = await cartRes.json();
+        const userData = await userRes.json();
         const recommended = await recRes.json();
 
-        const totalOrders = orders.length;
-        const totalSpent = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+        // ✅ Extract gems point from user data
+        const gems =
+          Array.isArray(userData) && userData.length > 0
+            ? userData[0]?.gemPoints || 0
+            : userData?.gemPoints || 0;
 
+        const totalOrders = orders.length;
+        const totalSpent = orders.reduce(
+          (sum, o) => sum + (o.totalAmount || 0),
+          0
+        );
+
+        // ✅ Last 3 orders
         const lastOrders = orders
           .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
           .slice(0, 3)
@@ -52,9 +73,10 @@ export default function DashboardClient() {
             items: order.items || [],
           }));
 
+        // ✅ Update user stats (gems instead of wishlist)
         setUserStats({
           totalOrders,
-          wishlistCount: 5,
+          gemsPoint: gems, // <-- Replaced wishlist with gems
           reviewsCount: 8,
           cartItems: cartItems.length,
           totalSpent,
@@ -74,7 +96,11 @@ export default function DashboardClient() {
   }, [user?.email]);
 
   if (loading)
-    return <div className="text-center py-10 text-gray-500">Loading Dashboard...</div>;
+    return (
+      <div className="text-center py-10 text-gray-500">
+        Loading Dashboard...
+      </div>
+    );
 
   const userReviews = [
     { id: 1, product: "iPhone 15", rating: 5, comment: "Excellent phone!" },
@@ -89,12 +115,9 @@ export default function DashboardClient() {
 
       {/* Recent Orders & Orders Graph */}
       <div className="grid grid-cols-1 md:grid-cols-2 not-first:gap-3 md:gap-12">
-        {/* Recent Orders - 60% width on large screens */}
-        <div className="w-full ">
+        <div className="w-full">
           <RecentOrders recentOrders={recentOrders} />
         </div>
-
-        {/* Orders Graph - 40% width on large screens */}
         <div className="w-full">
           <OrdersGraph orders={allOrders} />
         </div>
