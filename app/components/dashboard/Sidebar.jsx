@@ -222,6 +222,11 @@ export default function Sidebar() {
         link: "/dashboard/user/support",
         icon: <LifebuoyIcon className="h-5 w-5" />,
       },
+      {
+        name: "Join Seller",
+        link: "/dashboard/user/components/joinseller",
+        icon: <LifebuoyIcon className="h-5 w-5" />,
+      },
      
     ],
      deliveryMan: [
@@ -230,6 +235,11 @@ export default function Sidebar() {
         name: "Dashboard",
         link: "/dashboard/deliveryMan",
         icon: <LayoutDashboardIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserCircle2Icon className="h-5 w-5" />,
       },
       {
         name: "My Deliveries",
@@ -245,11 +255,6 @@ export default function Sidebar() {
         name: "Notifications",
         link: "/dashboard/deliveryMan/notifications",
         icon: <BellIcon className="h-5 w-5" />,
-      },
-      {
-        name: "Profile",
-        link: "/dashboard/deliveryMan/profile",
-        icon: <UserCircle2Icon className="h-5 w-5" />,
       },
       {
         name: "Support",
