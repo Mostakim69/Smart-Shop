@@ -25,7 +25,7 @@ export default function Navbar() {
     { name: "About", path: "/about", icon: <Info className="w-4 h-4" /> },
     { name: "Contact", path: "/contact", icon: <Phone className="w-4 h-4" /> },
   ];
-  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="w-4 h-4" /> });
+  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard/user", icon: <LayoutDashboard className="w-4 h-4" /> });
 
   const linkClass = (path) =>
     pathname === path ? "text-primary font-semibold underline" : "text-gray-600 hover:text-primary hover:underline";
