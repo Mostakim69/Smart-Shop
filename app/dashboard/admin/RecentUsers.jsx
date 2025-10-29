@@ -6,12 +6,10 @@ export default function RecentUsers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Backend theke latest 6 users fetch koro
-     fetch("https://smart-shop-server-three.vercel.app/users")
-
+    fetch("https://smart-shop-server-three.vercel.app/users")
       .then((res) => res.json())
       .then((data) => {
-        setUsers(data.slice(0, 6));
+        setUsers(data.slice(0, 8));
         setLoading(false);
       })
       .catch((err) => {
@@ -20,37 +18,57 @@ export default function RecentUsers() {
       });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="bg-white p-6 rounded-2xl shadow mb-10 text-center text-gray-500">
-        Loading recent users...
-      </div>
-    );
-  }
-
   return (
     <div className="bg-white p-6 rounded-2xl shadow mb-10">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Users</h2>
-      <ul className="divide-y divide-gray-100">
-        {users.map((user) => (
-          <li
-            key={user.id}
-            className="py-3 flex justify-between items-center hover:bg-gray-50 transition px-2 rounded-lg"
-          >
-            <div>
-              <p className="text-gray-800 font-medium">{user.name}</p>
-              <p className="text-sm text-gray-500">Joined {user.joined}</p>
-            </div>
-            <span
-              className={`font-semibold ${
-                user.status === "Active" ? "text-green-600" : "text-gray-400"
-              }`}
-            >
-              {user.status}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        Recent Users
+      </h2>
+
+      {loading ? (
+        <div className="text-center py-10 text-gray-500">
+          Loading recent users...
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 rounded-lg">
+            <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+              <tr>
+                <th className="px-4 py-3 text-left">#</th>
+                <th className="px-4 py-3 text-left">Name</th>
+                <th className="px-4 py-3 text-left">Email</th>
+                <th className="px-4 py-3 text-left">Role</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm text-gray-600">
+              {users.length > 0 ? (
+                users.map((user, index) => (
+                  <tr
+                    key={user._id || index}
+                    className="hover:bg-gray-50 transition duration-150 border-t"
+                  >
+                    <td className="px-4 py-3">{index + 1}</td>
+                    <td className="px-4 py-3 font-medium text-gray-800">
+                      {user.name || "N/A"}
+                    </td>
+                    <td className="px-4 py-3">{user.email || "N/A"}</td>
+                    <td className="px-4 py-3">
+                      <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                        {user.role || "N/A"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center py-6 text-gray-500">
+                    No recent users found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

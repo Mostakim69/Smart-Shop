@@ -15,12 +15,10 @@ const PageIntro = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
           <TypewriterText words={[h1]} />
         </h1>
-        <p className="text-gray-400 mx-auto sm:w-5/6 lg:w-1/2 w-3/4 text-center">
-          {p}
-        </p>
+        
       </motion.div>
     </div>
   );

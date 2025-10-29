@@ -25,7 +25,7 @@ export default function Navbar() {
     { name: "About", path: "/about", icon: <Info className="w-4 h-4" /> },
     { name: "Contact", path: "/contact", icon: <Phone className="w-4 h-4" /> },
   ];
-  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="w-4 h-4" /> });
+  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard/user", icon: <LayoutDashboard className="w-4 h-4" /> });
 
   const linkClass = (path) =>
     pathname === path ? "text-primary font-semibold underline" : "text-gray-600 hover:text-primary hover:underline";
@@ -76,9 +76,7 @@ export default function Navbar() {
                 className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </form>
-            <Link href="/gems">
-              <Gems />
-            </Link>
+            <Gems />
             <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />
               <span className="absolute -top-2 -right-2 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
