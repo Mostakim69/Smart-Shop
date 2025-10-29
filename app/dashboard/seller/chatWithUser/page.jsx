@@ -55,7 +55,7 @@ export default function chatWithUser() {
         {/* User info */}
         <div className="flex items-center gap-3">
           {receiver?.image ? (
-            <Image
+            <img
               src={receiver.image}
               alt={receiver.name}
               width={40}
@@ -76,7 +76,7 @@ export default function chatWithUser() {
         {/* Seller info */}
         <div className="flex items-center gap-3 border-l pl-4">
           {user?.photoURL ? (
-            <Image
+            <img
               src={user.photoURL}
               alt={user.displayName || "Seller"}
               width={40}
