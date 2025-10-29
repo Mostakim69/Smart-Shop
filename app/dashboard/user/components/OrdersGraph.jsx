@@ -113,14 +113,14 @@ export default function OrdersGraph({ orders = [] }) {
             data={chartData}
             options={{
               responsive: true,
-              maintainAspectRatio: false, // ✅ allows custom height
+              maintainAspectRatio: false,
               plugins: { legend: { display: true } },
               scales: {
                 x: { ticks: { autoSkip: false } },
                 y: { beginAtZero: true },
               },
             }}
-            height={300} // ✅ fixed height for mobile, adjusts with parent width
+            height={300}
           />
         </div>
       ) : (
