@@ -14,10 +14,16 @@ import DropDown from "./DropDown";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   // const { cartItems } = useCart(); // for real-time cart count
   const pathname = usePathname();
   const router = useRouter();
+    const dashboardPath =
+    role === "admin"
+      ? "/dashboard/admin"
+      : role === "seller"
+      ? "/dashboard/seller"
+      : "/dashboard/user";
 
   const links = [
     { name: "Home", path: "/", icon: <Home className="w-4 h-4" /> },
@@ -25,8 +31,13 @@ export default function Navbar() {
     { name: "About", path: "/about", icon: <Info className="w-4 h-4" /> },
     { name: "Contact", path: "/contact", icon: <Phone className="w-4 h-4" /> },
   ];
-  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard/user", icon: <LayoutDashboard className="w-4 h-4" /> });
-
+  if (user?.email) {
+    links.push({
+      name: "Dashboard",
+      path: dashboardPath,
+      icon: <LayoutDashboard className="w-4 h-4" />,
+    });
+  }
   const linkClass = (path) =>
     pathname === path ? "text-primary font-semibold underline" : "text-gray-600 hover:text-primary hover:underline";
 
