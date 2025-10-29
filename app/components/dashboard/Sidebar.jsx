@@ -27,6 +27,7 @@ import {
   X,
   Menu,
   Settings,
+  ChartPieIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
@@ -132,9 +133,19 @@ export default function Sidebar() {
         icon: <UserCircleIcon className="h-5 w-5" />,
       },
       {
+        name: "Report",
+        link: "/dashboard/admin/reports",
+        icon: <ChartPieIcon className="h-5 w-5" />,
+      },
+      {
         name: "Settings",
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <ChartBarIcon className="h-5 w-5" />,
       },
     ],
     seller: [
@@ -170,35 +181,75 @@ export default function Sidebar() {
         icon: <Settings className="h-5 w-5" />,
       },
     ],
-    user: [
-      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
-      {
-        name: "Overview",
-        link: "/dashboard/user",
-        icon: <ChartBarIcon className="h-5 w-5" />,
-      },
-      {
-        name: "My Orders",
-        link: "/dashboard/user/orders",
-        icon: <ShoppingBagIcon className="h-5 w-5" />,
-      },
+    // user: [
+    //   { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+    //   {
+    //     name: "Overview",
+    //     link: "/dashboard/user",
+    //     icon: <ChartBarIcon className="h-5 w-5" />,
+    //   },
+    //   {
+    //     name: "My Orders",
+    //     link: "/dashboard/user/orders",
+    //     icon: <ShoppingBagIcon className="h-5 w-5" />,
+    //   },
 
-      {
-        name: "Cart",
-        link: "/dashboard/user/cart",
-        icon: <ShoppingCartIcon className="h-5 w-5" />,
-      },
-      {
-        name: "My Reviews",
-        link: "/dashboard/user/reviews",
-        icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
-      },
-      {
-        name: "Support",
-        link: "/dashboard/user/support",
-        icon: <LifebuoyIcon className="h-5 w-5" />,
-      }
-    ],
+    //   {
+    //     name: "Cart",
+    //     link: "/dashboard/user/cart",
+    //     icon: <ShoppingCartIcon className="h-5 w-5" />,
+    //   },
+    //   {
+    //     name: "My Reviews",
+    //     link: "/dashboard/user/reviews",
+    //     icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
+    //   },
+    //   {
+    //     name: "Support",
+    //     link: "/dashboard/user/support",
+    //     icon: <LifebuoyIcon className="h-5 w-5" />,
+    //   }
+    //   },
+    //   {
+    //     name: "Profile",
+    //     link: "/dashboard/profile",
+    //     icon: <ChartBarIcon className="h-5 w-5" />,
+    //   },
+    // ],
+    user: [
+  { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+  {
+    name: "Overview",
+    link: "/dashboard/user",
+    icon: <ChartBarIcon className="h-5 w-5" />,
+  },
+  {
+    name: "My Orders",
+    link: "/dashboard/user/orders",
+    icon: <ShoppingBagIcon className="h-5 w-5" />,
+  },
+  {
+    name: "Cart",
+    link: "/dashboard/user/cart",
+    icon: <ShoppingCartIcon className="h-5 w-5" />,
+  },
+  {
+    name: "My Reviews",
+    link: "/dashboard/user/reviews",
+    icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
+  },
+  {
+    name: "Support",
+    link: "/dashboard/user/support",
+    icon: <LifebuoyIcon className="h-5 w-5" />,
+  },
+  {
+    name: "Profile",
+    link: "/dashboard/profile",
+    icon: <ChartBarIcon className="h-5 w-5" />,
+  },
+],
+
   };
 
   const menuList = menuItems[role] || menuItems.user;

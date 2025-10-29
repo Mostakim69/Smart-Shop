@@ -41,27 +41,27 @@ export default function SignInPage() {
             <LottieLogin className="w-full h-full object-contain" />
           </div>
           <div className="text-center mt-4 max-w-md">
-  <h3 className="text-2xl font-bold text-gray-800 mb-3">
-    Welcome Back to Smart Shop!
-  </h3>
-  <p className="text-gray-600 leading-relaxed">
-    Log in to explore amazing deals and continue shopping with ease. 
-    New here?{" "}
-    <Link
-      href="/signup"
-      className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
-    >
-      Join us today
-    </Link>
-  </p>
-</div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">
+              Welcome Back to Smart Shop!
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              Log in to explore amazing deals and continue shopping with ease.
+              New here?{" "}
+              <Link
+                href="/signup"
+                className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+              >
+                Join us today
+              </Link>
+            </p>
+          </div>
 
         </div>
 
         {/* Right: Sign In Card */}
         <div className="w-full max-w-md">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/60 p-8 lg:p-10">
-            
+
             {/* Header */}
             <div className="text-center mb-2">
               <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 mx-auto mb-4 shadow-lg">
@@ -211,7 +211,7 @@ export default function SignInPage() {
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-gray-500 mt-8 leading-relaxed">
-              Don't have an account?{" "}
+              Don&apos;t have an account?
               <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
                 Sign up now
               </Link>
