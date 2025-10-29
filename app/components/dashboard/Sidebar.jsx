@@ -142,6 +142,11 @@ export default function Sidebar() {
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
       },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <ChartBarIcon className="h-5 w-5" />,
+      },
     ],
     seller: [
       { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
@@ -199,6 +204,11 @@ export default function Sidebar() {
         link: "/dashboard/user/support",
         icon: <LifebuoyIcon className="h-5 w-5" />,
       },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <ChartBarIcon className="h-5 w-5" />,
+      },
     ],
   };
 
@@ -245,10 +255,9 @@ function Tab({ item, onClick }) {
     <Link href={item?.link} onClick={onClick}>
       <li
         className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold ease-soft-spring transition-all duration-300
-          ${
-            isSelected
-              ? "bg-[#879fff] text-white"
-              : "bg-white text-black hover:bg-indigo-50"
+          ${isSelected
+            ? "bg-[#879fff] text-white"
+            : "bg-white text-black hover:bg-indigo-50"
           }`}
       >
         {item?.icon} {item?.name}
