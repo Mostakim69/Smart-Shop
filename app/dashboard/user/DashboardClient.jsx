@@ -10,8 +10,6 @@ import Reviews from "./components/Reviews";
 import SupportSection from "./components/SupportSection";
 import OrdersGraph from "./components/OrdersGraph";
 
-
-
 export default function DashboardClient() {
   const { user } = useAuth();
   const [userStats, setUserStats] = useState(null);
@@ -25,7 +23,7 @@ export default function DashboardClient() {
 
     const fetchData = async () => {
       try {
-        // 🟢 একসাথে সব API ফেচ করা হচ্ছে
+        // 🟢 Fetch all data together
         const [ordersRes, cartRes, userRes, recRes] = await Promise.all([
           fetch(
             `https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`
@@ -46,7 +44,7 @@ export default function DashboardClient() {
         const userData = await userRes.json();
         const recommended = await recRes.json();
 
-        // ✅ Gems Point extract করা হচ্ছে
+        // ✅ Extract gems point from user data
         const gems =
           Array.isArray(userData) && userData.length > 0
             ? userData[0]?.gemPoints || 0
@@ -58,7 +56,7 @@ export default function DashboardClient() {
           0
         );
 
-        // ✅ সর্বশেষ ৩টি order show করা
+        // ✅ Last 3 orders
         const lastOrders = orders
           .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
           .slice(0, 3)
@@ -75,10 +73,10 @@ export default function DashboardClient() {
             items: order.items || [],
           }));
 
-        // ✅ Stats সেট করা হচ্ছে
+        // ✅ Update user stats (gems instead of wishlist)
         setUserStats({
           totalOrders,
-          gemsPoint: gems,
+          gemsPoint: gems, // <-- Replaced wishlist with gems
           reviewsCount: 8,
           cartItems: cartItems.length,
           totalSpent,
@@ -140,8 +138,6 @@ export default function DashboardClient() {
 
       {/* Support Section */}
       <SupportSection />
-      
-      
     </div>
   );
 }

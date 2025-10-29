@@ -27,11 +27,11 @@ export default function QuickActions() {
       href: "/write-review",
     },
     {
-      title: "Update Profile",
+      title: "support",
       description: "Personal info",
       icon: User,
       color: "from-purple-500 to-purple-600",
-      href: "/profile",
+      href: "dashboard/user/support",
     },
     {
       title: "My Orders",
