@@ -62,7 +62,7 @@ export default function DashboardPage() {
           <h2 className="text-4xl font-bold text-gray-900">
             Welcome back, <span className="text-blue-500">{user.displayName || "Seller"}</span> 👋
           </h2>
-          <p className="text-gray-600 mt-2 text-lg">Here's a quick overview of your store performance.</p>
+          <p className="text-gray-600 mt-2 text-lg">Heres a quick overview of your store performance.</p>
         </div>
       </div>
 

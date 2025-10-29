@@ -52,7 +52,6 @@ export default function CheckoutPage() {
           const res = await axios.get(
             `https://smart-shop-server-three.vercel.app/products/${productId}`
           );
-          console.log("Fetched single product:", res.data);
           setItems([{ ...res.data, quantity: 1 }]);
         } else if (type === "cart") {
           const res = await axios.get(
@@ -83,6 +82,9 @@ export default function CheckoutPage() {
       items,
       orderUser: user?.email,
     };
+
+    console.log(orderData);
+    
 
     if (orderData.payment === 'cashOnDelivery' || orderData.payment === 'Bkash / Nagad / Rocket') {
 
