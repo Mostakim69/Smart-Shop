@@ -63,7 +63,7 @@ export default function DashboardPage() {
           <PageIntro
             h1={`👋 Welcome  back, ${user.displayName || "Seller"}`}
           />
-          <p className="text-gray-600 text-lg">Here's a quick overview of your store performance.</p>
+          <p className="text-gray-600 text-lg">Heres a quick overview of your store performance.</p>
         </div>
       </div>
 

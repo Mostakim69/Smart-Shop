@@ -17,9 +17,9 @@ export default function AllProducts() {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const category = searchParams.get("category");
-  
+
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
@@ -44,13 +44,13 @@ const searchParams = useSearchParams();
       });
   }, [category]);
 
-   const sectionTitle = category
+  const sectionTitle = category
     ? `Products of ${category}`
     : "All Products";
-  
+
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-40"> 
+      <div className="flex justify-center items-center h-40">
         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -79,6 +79,8 @@ const searchParams = useSearchParams();
       price: product.price,
       image: product.image,
       quantity: 1,
+      sellerEmail: product.sellerEmail,
+      sellerName: product.sellerName,
     };
 
     axios.post("https://smart-shop-server-three.vercel.app/addToCart", cartItem)
@@ -116,17 +118,17 @@ const searchParams = useSearchParams();
             className="border border-gray-300 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
           >
             {/* Image  */}
-       <Link href={`/products/${product._id}`}>
-  <div className="w-full h-48 flex items-center justify-center bg-gray-50">
-    <Image
-      src={product.image || "/placeholder.jpg"}
-      alt={product.name || "Product image"}
-      width={300}
-      height={300}
-      className="w-full h-48 object-cover"
-    />
-  </div>
-</Link>
+            <Link href={`/products/${product._id}`}>
+              <div className="w-full h-48 flex items-center justify-center bg-gray-50">
+                <Image
+                  src={product.image || "/placeholder.jpg"}
+                  alt={product.name || "Product image"}
+                  width={300}
+                  height={300}
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+            </Link>
 
             {/* Product Info */}
             <div className="p-4">
