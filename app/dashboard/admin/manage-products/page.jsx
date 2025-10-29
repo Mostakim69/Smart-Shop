@@ -44,9 +44,9 @@ export default async function ManageProducts({ searchParams }) {
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+              {/* <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
                 Stock
-              </th>
+              </th> */}
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
                 Actions
               </th>

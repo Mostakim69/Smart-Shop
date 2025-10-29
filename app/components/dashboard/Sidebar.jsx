@@ -28,6 +28,7 @@ import {
   Menu,
   Settings,
   ChartPieIcon,
+  UserRoundPen,
 } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
@@ -107,6 +108,11 @@ export default function Sidebar() {
   const menuItems = {
     admin: [
       { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+        {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
+      },
       {
         name: "Admin Dashboard",
         link: "/dashboard/admin",
@@ -142,14 +148,15 @@ export default function Sidebar() {
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
       },
-      {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <ChartBarIcon className="h-5 w-5" />,
-      },
+    
     ],
     seller: [
       { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
+         {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
+      },
       {
         name: "Seller Dashboard",
         link: "/dashboard/seller",
@@ -178,6 +185,11 @@ export default function Sidebar() {
     ],
     user: [
       { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+       {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
+      },
       {
         name: "Overview",
         link: "/dashboard/user",
@@ -204,11 +216,7 @@ export default function Sidebar() {
         link: "/dashboard/user/support",
         icon: <LifebuoyIcon className="h-5 w-5" />,
       },
-      {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <ChartBarIcon className="h-5 w-5" />,
-      },
+     
     ],
   };
 
