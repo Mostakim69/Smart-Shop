@@ -28,6 +28,12 @@ import {
   Menu,
   Settings,
   ChartPieIcon,
+  LifeBuoyIcon,
+  UserCircle2Icon,
+  BellIcon,
+  Package2,
+  LayoutDashboardIcon,
+  ClipboardPenIcon,
   UserRoundPen,
 } from "lucide-react";
 import Image from "next/image";
@@ -217,6 +223,39 @@ export default function Sidebar() {
         icon: <LifebuoyIcon className="h-5 w-5" />,
       },
      
+    ],
+     deliveryMan: [
+      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+      {
+        name: "Dashboard",
+        link: "/dashboard/deliveryMan",
+        icon: <LayoutDashboardIcon className="h-5 w-5" />,
+      },
+      {
+        name: "My Deliveries",
+        link: "/dashboard/deliveryMan/delivery",
+        icon: <Package2 className="h-5 w-5" />,
+      },
+      {
+        name: "Delivery History",
+        link: "/dashboard/deliveryMan/history",
+        icon: <ClipboardPenIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Notifications",
+        link: "/dashboard/deliveryMan/notifications",
+        icon: <BellIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/deliveryMan/profile",
+        icon: <UserCircle2Icon className="h-5 w-5" />,
+      },
+      {
+        name: "Support",
+        link: "/dashboard/deliveryMan/support",
+        icon: <LifeBuoyIcon className="h-5 w-5" />,
+      },
     ],
   };
 
