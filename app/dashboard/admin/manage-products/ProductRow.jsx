@@ -63,7 +63,7 @@ export default function ProductRow({ product }) {
         <td className="px-6 py-4">{product.name}</td>
         <td className="px-6 py-4 capitalize">{product.category}</td>
         <td className="px-6 py-4">${product.price}</td>
-        <td className="px-6 py-4">{product.stock}</td>
+        {/* <td className="px-6 py-4">{product.stock}</td> */}
         <td className="px-6 py-4">
           <div className="flex items-center justify-center gap-3">
             <button

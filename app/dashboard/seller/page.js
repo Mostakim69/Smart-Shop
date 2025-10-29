@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import PageIntro from "@/utils/PageIntro";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -59,10 +60,10 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="mb-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
-          <h2 className="text-4xl font-bold text-gray-900">
-            Welcome back, <span className="text-blue-500">{user.displayName || "Seller"}</span> 👋
-          </h2>
-          <p className="text-gray-600 mt-2 text-lg">Heres a quick overview of your store performance.</p>
+          <PageIntro
+            h1={`👋 Welcome  back, ${user.displayName || "Seller"}`}
+          />
+          <p className="text-gray-600 text-lg">Heres a quick overview of your store performance.</p>
         </div>
       </div>
 
@@ -107,13 +108,12 @@ export default function DashboardPage() {
                   <td className="p-4 text-sm">{o.name}</td>
                   <td className="p-4 text-sm">{new Date(o.orderDate).toLocaleDateString()}</td>
                   <td className="p-4">
-                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                      o.status === "delivered"
+                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${o.status === "delivered"
                         ? "bg-green-100 text-green-700"
                         : o.status === "shipped"
-                        ? "bg-blue-100 text-blue-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}>
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}>
                       {o.status || "pending"}
                     </span>
                   </td>
