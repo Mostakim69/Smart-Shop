@@ -170,6 +170,14 @@ const Profile = () => {
                         ✨ Join as Seller
                     </Link>
                 )}
+                {role === "user" && (
+                    <Link
+                        href="/dashboard/user/joinasseller"
+                        className="btn border border-emerald-500 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-full"
+                    >
+                        ✨ Join as Delivariman
+                    </Link>
+                )}
             </div>
 
             {/* Modal */}
