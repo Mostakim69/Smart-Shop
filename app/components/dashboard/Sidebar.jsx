@@ -30,7 +30,6 @@ import {
   ChartPieIcon,
   LifeBuoyIcon,
   UserCircle2Icon,
-  BellIcon,
   Package2,
   LayoutDashboardIcon,
   ClipboardPenIcon,
@@ -236,11 +235,7 @@ export default function Sidebar() {
         link: "/dashboard/deliveryMan",
         icon: <LayoutDashboardIcon className="h-5 w-5" />,
       },
-      {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <UserCircle2Icon className="h-5 w-5" />,
-      },
+      
       {
         name: "My Deliveries",
         link: "/dashboard/deliveryMan/delivery",
@@ -251,15 +246,16 @@ export default function Sidebar() {
         link: "/dashboard/deliveryMan/history",
         icon: <ClipboardPenIcon className="h-5 w-5" />,
       },
-      {
-        name: "Notifications",
-        link: "/dashboard/deliveryMan/notifications",
-        icon: <BellIcon className="h-5 w-5" />,
-      },
+      
       {
         name: "Support",
         link: "/dashboard/deliveryMan/support",
         icon: <LifeBuoyIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserCircle2Icon className="h-5 w-5" />,
       },
     ],
   };
