@@ -39,6 +39,7 @@ export default function AllProducts() {
       .get(url)
       .then((res) => {
         setProducts(res.data);
+        setFiltered(res.data); 
         setLoading(false);
       })
       .catch((err) => {
