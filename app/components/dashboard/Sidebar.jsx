@@ -183,6 +183,11 @@ export default function Sidebar() {
         icon: <PlusCircle className="h-5 w-5" />,
       },
       {
+        name: "Chat With Users",
+        link: "/dashboard/seller/chatWithUser",
+        icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
+      },
+      {
         name: "Settings",
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,

@@ -9,7 +9,6 @@ import FeaturedProducts from "./components/home/featuredProducts/FeaturedProduct
 import Banner from "./components/home/banner/Banner";
 import SpecialOffers from "./components/home/SpecialOffers";
 import Ai from "./components/ai/page";
-import ChatWidget from "./components/Chatbot/ChatWidget";
 
 export default function Home() {
   return (
@@ -22,7 +21,6 @@ export default function Home() {
       <SpecialOffers/>
       <Testimonial />
       <Newsletter />
-      <ChatWidget></ChatWidget>
       <Footer />
       <Ai />
     </main>

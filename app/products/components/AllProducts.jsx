@@ -12,9 +12,12 @@ import Image from "next/image";
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const [filtered, setFiltered] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const productsPerPage = 12;
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,7 +26,7 @@ export default function AllProducts() {
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
-  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+  const currentProducts = filtered.slice(indexOfFirst, indexOfLast);
 
   // Load products
   useEffect(() => {
@@ -93,6 +96,19 @@ export default function AllProducts() {
     console.log(cartItem);
   };
 
+  const handleCategory = (category) => {       // <-- new
+    setSelectedCategory(category);             // highlight selected
+    setCurrentPage(1);                         // reset pagination
+    if (category === "All") {
+      setFiltered(products);                   // show all
+    } else {
+      const filteredItems = products.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      );
+      setFiltered(filteredItems);             // filtered products
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
 
@@ -107,6 +123,20 @@ export default function AllProducts() {
           placeholder="Search products..."
           className="w-full sm:w-1/2 md:w-1/3 border border-gray-300 rounded px-4 py-2 mt-4 focus:outline-none focus:ring-1 focus:ring-blue-600"
         />
+        <div className="flex flex-wrap justify-center gap-3 mt-6">
+          {["All", "Electronics", "Fashion", "Grocery", "Sports", "Home", "Toys"].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => handleCategory(cat)}           // <-- onClick filter
+              className={`px-4 py-2 rounded cursor-pointer ${selectedCategory === cat                     // <-- highlight selected
+                ? "bg-secondary text-white"
+                : "border border-blue-400 text-blue-500 hover:bg-blue-100"
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Products Grid */}
@@ -158,9 +188,6 @@ export default function AllProducts() {
                   <button onClick={() => handleAddToCart(product)}>
                     <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
                   </button>
-                  <button>
-                    <FaRegHeart className="w-6 h-6 text-secondary hover:cursor-pointer" />
-                  </button>
                 </div>
                 <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-secondary text-white rounded">
                   Buy Now
@@ -174,7 +201,7 @@ export default function AllProducts() {
 
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex flex-wrap justify-center mt-6 gap-2">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
