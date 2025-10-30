@@ -81,6 +81,7 @@ export default function CheckoutPage() {
       orderDate: new Date(),
       items,
       orderUser: user?.email,
+      status:"pending"
     };
 
     console.log(orderData);

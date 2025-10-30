@@ -1,48 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function DeliveryHistory() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Dummy data
-  const dummyData = [
-    {
-      _id: "1",
-      orderId: "ORD002",
-      customerName: "Jane Smith",
-      address: "45 Park Road, Chittagong",
-      status: "completed",
-      deliveredAt: "2025-10-28 14:30",
-    },
-    {
-      _id: "2",
-      orderId: "ORD005",
-      customerName: "Sadia Rahman",
-      address: "88 Green Street, Dhaka",
-      status: "completed",
-      deliveredAt: "2025-10-27 11:15",
-    },
-    {
-      _id: "3",
-      orderId: "ORD007",
-      customerName: "Imran Hossain",
-      address: "12 Lake Road, Khulna",
-      status: "completed",
-      deliveredAt: "2025-10-26 16:45",
-    },
-  ];
-
+  // 🧠 Fetch all deliveries from backend
   useEffect(() => {
-    // Simulate API call delay
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setHistory(dummyData);
-      setLoading(false);
-    }, 1000);
+    const fetchHistory = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:5000/orders"); // fetch all orders
+        // ✅ Filter only completed deliveries
+        const completed = res.data.filter(order => order.status === "completed");
+        setHistory(completed);
+      } catch (error) {
+        console.error("Error fetching delivery history:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchHistory();
   }, []);
 
   if (loading) {
@@ -56,7 +37,7 @@ export default function DeliveryHistory() {
   if (history.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-gray-500">No delivery history found.</p>
+        <p className="text-gray-500">No completed delivery history found.</p>
       </div>
     );
   }
@@ -71,20 +52,28 @@ export default function DeliveryHistory() {
             className="border p-4 rounded-xl shadow-sm hover:shadow-md transition"
           >
             <p>
-              <span className="font-semibold">Order ID:</span> {delivery.orderId}
+              <span className="font-semibold">Order ID:</span>{" "}
+              {delivery._id?.slice(-6).toUpperCase()}
             </p>
             <p>
-              <span className="font-semibold">Customer:</span> {delivery.customerName}
+              <span className="font-semibold">Customer:</span>{" "}
+              {delivery.customerName || delivery.name || "Unknown"}
             </p>
             <p>
-              <span className="font-semibold">Address:</span> {delivery.address}
+              <span className="font-semibold">Address:</span>{" "}
+              {delivery.address || "Not provided"}
             </p>
             <p>
-              <span className="font-semibold">Delivered At:</span> {delivery.deliveredAt}
+              <span className="font-semibold">Delivered At:</span>{" "}
+              {delivery.deliveredAt
+                ? new Date(delivery.deliveredAt).toLocaleString()
+                : "Not available"}
             </p>
             <p>
               <span className="font-semibold">Status:</span>{" "}
-              <span className="text-green-600 font-semibold">{delivery.status}</span>
+              <span className="text-green-600 font-semibold">
+                {delivery.status}
+              </span>
             </p>
           </div>
         ))}
