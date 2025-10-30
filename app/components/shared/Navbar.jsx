@@ -14,10 +14,16 @@ import DropDown from "./DropDown";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   // const { cartItems } = useCart(); // for real-time cart count
   const pathname = usePathname();
   const router = useRouter();
+    const dashboardPath =
+    role === "admin"
+      ? "/dashboard/admin"
+      : role === "seller"
+      ? "/dashboard/seller"
+      : "/dashboard/user";
 
   const links = [
     { name: "Home", path: "/", icon: <Home className="w-4 h-4" /> },
@@ -25,21 +31,26 @@ export default function Navbar() {
     { name: "About", path: "/about", icon: <Info className="w-4 h-4" /> },
     { name: "Contact", path: "/contact", icon: <Phone className="w-4 h-4" /> },
   ];
-  if (user?.email) links.push({ name: "Dashboard", path: "/dashboard/user", icon: <LayoutDashboard className="w-4 h-4" /> });
-
+  if (user?.email) {
+    links.push({
+      name: "Dashboard",
+      path: dashboardPath,
+      icon: <LayoutDashboard className="w-4 h-4" />,
+    });
+  }
   const linkClass = (path) =>
     pathname === path ? "text-primary font-semibold underline" : "text-gray-600 hover:text-primary hover:underline";
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`https://smart-shop-server-three.vercel.app/products?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
+  // const handleSearchSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (searchQuery.trim()) {
+  //     router.push(`https://smart-shop-server-three.vercel.app/products?search=${encodeURIComponent(searchQuery.trim())}`);
+  //   }
+  // };
 
   return (
     <nav className="bg-base-100 shadow-md sticky top-0 z-50">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex justify-between items-center h-16">
           {/* Left: Hamburger + Logo */}
           <div className="flex items-center gap-3">
@@ -67,7 +78,7 @@ export default function Navbar() {
           {/* Right side */}
           <div className="hidden md:flex items-center space-x-4 text-gray-300">
             <ThemeToggler />
-            <form onSubmit={handleSearchSubmit}>
+            {/* <form onSubmit={handleSearchSubmit}>
               <input
                 type="text"
                 value={searchQuery}
@@ -75,7 +86,7 @@ export default function Navbar() {
                 placeholder="Search..."
                 className="pl-3 pr-3 py-1 border rounded-lg w-44 text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
               />
-            </form>
+            </form> */}
             <Gems />
             <Link href="/cartPage" className="relative">
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-primary" />

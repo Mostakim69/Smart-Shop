@@ -28,6 +28,13 @@ import {
   Menu,
   Settings,
   ChartPieIcon,
+  LifeBuoyIcon,
+  UserCircle2Icon,
+  BellIcon,
+  Package2,
+  LayoutDashboardIcon,
+  ClipboardPenIcon,
+  UserRoundPen,
 } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
@@ -112,6 +119,11 @@ export default function Sidebar() {
         link: "/dashboard/admin",
         icon: <ChartBarIcon className="h-5 w-5" />,
       },
+        {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
+      },
       {
         name: "Manage Products",
         link: "/dashboard/admin/manage-products",
@@ -142,11 +154,7 @@ export default function Sidebar() {
         link: "/dashboard/admin/settings",
         icon: <Settings className="h-5 w-5" />,
       },
-      {
-        name: "Profile",
-        link: "/dashboard/profile",
-        icon: <ChartBarIcon className="h-5 w-5" />,
-      },
+    
     ],
     seller: [
       { name: "Home", link: "/", icon: <Home className="h-5 w-5" /> },
@@ -154,6 +162,11 @@ export default function Sidebar() {
         name: "Seller Dashboard",
         link: "/dashboard/seller",
         icon: <LayoutDashboard className="h-5 w-5" />,
+      },
+         {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
       },
       {
         name: "My Products",
@@ -181,75 +194,79 @@ export default function Sidebar() {
         icon: <Settings className="h-5 w-5" />,
       },
     ],
-    // user: [
-    //   { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
-    //   {
-    //     name: "Overview",
-    //     link: "/dashboard/user",
-    //     icon: <ChartBarIcon className="h-5 w-5" />,
-    //   },
-    //   {
-    //     name: "My Orders",
-    //     link: "/dashboard/user/orders",
-    //     icon: <ShoppingBagIcon className="h-5 w-5" />,
-    //   },
-
-    //   {
-    //     name: "Cart",
-    //     link: "/dashboard/user/cart",
-    //     icon: <ShoppingCartIcon className="h-5 w-5" />,
-    //   },
-    //   {
-    //     name: "My Reviews",
-    //     link: "/dashboard/user/reviews",
-    //     icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
-    //   },
-    //   {
-    //     name: "Support",
-    //     link: "/dashboard/user/support",
-    //     icon: <LifebuoyIcon className="h-5 w-5" />,
-    //   }
-    //   },
-    //   {
-    //     name: "Profile",
-    //     link: "/dashboard/profile",
-    //     icon: <ChartBarIcon className="h-5 w-5" />,
-    //   },
-    // ],
     user: [
-  { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
-  {
-    name: "Overview",
-    link: "/dashboard/user",
-    icon: <ChartBarIcon className="h-5 w-5" />,
-  },
-  {
-    name: "My Orders",
-    link: "/dashboard/user/orders",
-    icon: <ShoppingBagIcon className="h-5 w-5" />,
-  },
-  {
-    name: "Cart",
-    link: "/dashboard/user/cart",
-    icon: <ShoppingCartIcon className="h-5 w-5" />,
-  },
-  {
-    name: "My Reviews",
-    link: "/dashboard/user/reviews",
-    icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
-  },
-  {
-    name: "Support",
-    link: "/dashboard/user/support",
-    icon: <LifebuoyIcon className="h-5 w-5" />,
-  },
-  {
-    name: "Profile",
-    link: "/dashboard/profile",
-    icon: <ChartBarIcon className="h-5 w-5" />,
-  },
-],
+      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+      {
+        name: "Overview",
+        link: "/dashboard/user",
+        icon: <ChartBarIcon className="h-5 w-5" />,
+      },
+       {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserRoundPen className="h-5 w-5" />,
+      },
+      {
+        name: "My Orders",
+        link: "/dashboard/user/orders",
+        icon: <ShoppingBagIcon className="h-5 w-5" />,
+      },
 
+      {
+        name: "Cart",
+        link: "/dashboard/user/cart",
+        icon: <ShoppingCartIcon className="h-5 w-5" />,
+      },
+      {
+        name: "My Reviews",
+        link: "/dashboard/user/reviews",
+        icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Support",
+        link: "/dashboard/user/support",
+        icon: <LifebuoyIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Join Seller",
+        link: "/dashboard/user/joinasseller",
+        icon: <LifebuoyIcon className="h-5 w-5" />,
+      },
+     
+    ],
+     deliveryMan: [
+      { name: "Home", link: "/", icon: <HomeIcon className="h-5 w-5" /> },
+      {
+        name: "Dashboard",
+        link: "/dashboard/deliveryMan",
+        icon: <LayoutDashboardIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Profile",
+        link: "/dashboard/profile",
+        icon: <UserCircle2Icon className="h-5 w-5" />,
+      },
+      {
+        name: "My Deliveries",
+        link: "/dashboard/deliveryMan/delivery",
+        icon: <Package2 className="h-5 w-5" />,
+      },
+      {
+        name: "Delivery History",
+        link: "/dashboard/deliveryMan/history",
+        icon: <ClipboardPenIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Notifications",
+        link: "/dashboard/deliveryMan/notifications",
+        icon: <BellIcon className="h-5 w-5" />,
+      },
+      {
+        name: "Support",
+        link: "/dashboard/deliveryMan/support",
+        icon: <LifeBuoyIcon className="h-5 w-5" />,
+      },
+    ],
   };
 
   const menuList = menuItems[role] || menuItems.user;

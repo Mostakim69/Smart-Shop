@@ -10,6 +10,9 @@ export default function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth(); // ✅ current logged-in user
 
+  console.log(orders);
+  
+
   // 🔄 Fetch orders from backend
   useEffect(() => {
     if (!user?.email) return;
@@ -17,7 +20,7 @@ export default function OrdersPage() {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          `https://smart-shop-server-three.vercel.app/orders?orderedBy=${user.email}`
+          `http://localhost:5000/orders/seller/${user.email}`
         );
         setOrders(res.data);
       } catch (error) {

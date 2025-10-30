@@ -12,18 +12,21 @@ import Image from "next/image";
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const [filtered, setFiltered] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const productsPerPage = 12;
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
 
+
   const router = useRouter();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const category = searchParams.get("category");
-  
+
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
-  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+  const currentProducts = filtered.slice(indexOfFirst, indexOfLast);
 
   // Load products
   useEffect(() => {
@@ -44,13 +47,13 @@ const searchParams = useSearchParams();
       });
   }, [category]);
 
-   const sectionTitle = category
+  const sectionTitle = category
     ? `Products of ${category}`
     : "All Products";
-  
+
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-40"> 
+      <div className="flex justify-center items-center h-40">
         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -79,6 +82,8 @@ const searchParams = useSearchParams();
       price: product.price,
       image: product.image,
       quantity: 1,
+      sellerEmail: product.sellerEmail,
+      sellerName: product.sellerName,
     };
 
     axios.post("https://smart-shop-server-three.vercel.app/addToCart", cartItem)
@@ -89,6 +94,19 @@ const searchParams = useSearchParams();
       })
       .catch(err => console.log(err));
     console.log(cartItem);
+  };
+
+  const handleCategory = (category) => {       // <-- new
+    setSelectedCategory(category);             // highlight selected
+    setCurrentPage(1);                         // reset pagination
+    if (category === "All") {
+      setFiltered(products);                   // show all
+    } else {
+      const filteredItems = products.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      );
+      setFiltered(filteredItems);             // filtered products
+    }
   };
 
   return (
@@ -105,6 +123,20 @@ const searchParams = useSearchParams();
           placeholder="Search products..."
           className="w-full sm:w-1/2 md:w-1/3 border border-gray-300 rounded px-4 py-2 mt-4 focus:outline-none focus:ring-1 focus:ring-blue-600"
         />
+        <div className="flex flex-wrap justify-center gap-3 mt-6">
+          {["All", "Electronics", "Fashion", "Grocery", "Sports", "Home", "Toys"].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => handleCategory(cat)}           // <-- onClick filter
+              className={`px-4 py-2 rounded cursor-pointer ${selectedCategory === cat                     // <-- highlight selected
+                ? "bg-secondary text-white"
+                : "border border-blue-400 text-blue-500 hover:bg-blue-100"
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Products Grid */}
@@ -116,17 +148,17 @@ const searchParams = useSearchParams();
             className="border border-gray-300 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
           >
             {/* Image  */}
-       <Link href={`/products/${product._id}`}>
-  <div className="w-full h-48 flex items-center justify-center bg-gray-50">
-    <Image
-      src={product.image || "/placeholder.jpg"}
-      alt={product.name || "Product image"}
-      width={300}
-      height={300}
-      className="w-full h-48 object-cover"
-    />
-  </div>
-</Link>
+            <Link href={`/products/${product._id}`}>
+              <div className="w-full h-48 flex items-center justify-center bg-gray-50">
+                <Image
+                  src={product.image || "/placeholder.jpg"}
+                  alt={product.name || "Product image"}
+                  width={300}
+                  height={300}
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+            </Link>
 
             {/* Product Info */}
             <div className="p-4">
@@ -156,9 +188,6 @@ const searchParams = useSearchParams();
                   <button onClick={() => handleAddToCart(product)}>
                     <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
                   </button>
-                  <button>
-                    <FaRegHeart className="w-6 h-6 text-secondary hover:cursor-pointer" />
-                  </button>
                 </div>
                 <Link href={`/checkout?type=single&id=${product._id}`} className="text-md py-1 px-3 bg-secondary text-white rounded">
                   Buy Now
@@ -172,7 +201,7 @@ const searchParams = useSearchParams();
 
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex flex-wrap justify-center mt-6 gap-2">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
