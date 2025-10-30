@@ -121,7 +121,7 @@ export default function Ai() {
 
   return (
     <div
-      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%] cursor-pointer z-50"
+      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[26px] right-[8%] cursor-pointer z-50"
       onClick={handleClick}
       aria-label="Voice Assistant"
     >
@@ -129,8 +129,8 @@ export default function Ai() {
         src="/voice-control.jpg"
         alt="Voice Assistant"
         title="Tap to speak"
-        width={55}
-        height={55}
+        width={60}
+        height={60}
         className="rounded-full hover:scale-110 transition-all shadow-xl border"
       />
     </div>
