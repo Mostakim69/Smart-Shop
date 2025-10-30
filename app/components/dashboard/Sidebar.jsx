@@ -224,7 +224,7 @@ export default function Sidebar() {
       },
       {
         name: "Join Seller",
-        link: "/dashboard/user/components/joinseller",
+        link: "/dashboard/user/joinasseller",
         icon: <LifebuoyIcon className="h-5 w-5" />,
       },
      
