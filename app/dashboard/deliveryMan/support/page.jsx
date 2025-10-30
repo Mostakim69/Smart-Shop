@@ -1,81 +1,96 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
 
 export default function DeliverySupport() {
-  // Dummy support tickets
-  const [tickets, setTickets] = useState([
-    {
-      id: 1,
-      orderId: "ORD123",
-      issueType: "Delivery Delay",
-      message: "Customer not at home, need reschedule",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      orderId: "ORD124",
-      issueType: "Wrong Address",
-      message: "Address incomplete, cannot deliver",
-      status: "Resolved",
-    },
-  ]);
-
+  const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [newTicket, setNewTicket] = useState({
-    orderId: "",
-    issueType: "",
+    name: "",
+    email: "",
     message: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const ticket = {
-      id: tickets.length + 1,
-      ...newTicket,
-      status: "Pending",
+  // ✅ Fetch all support issues
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:5000/issue");
+        const formattedTickets = res.data.map((t) => ({
+          ...t,
+          _id: t._id.toString(), // ensure unique key
+        }));
+        setTickets(formattedTickets);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
-    setTickets([ticket, ...tickets]);
-    setNewTicket({ orderId: "", issueType: "", message: "" });
-    alert("Support ticket submitted successfully!");
+    fetchTickets();
+  }, []);
+
+  // ✅ Submit a new support issue
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/issue", newTicket);
+      const ticketWithId = { ...newTicket, _id: res.data.insertedId.toString(), status: "Pending" };
+      setTickets([ticketWithId, ...tickets]);
+      setNewTicket({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit issue");
+    }
   };
+
+  // ✅ Update issue status
+  const handleStatusUpdate = async (id, status) => {
+    try {
+      await axios.patch(`http://localhost:5000/issue/${id}`, { status });
+      setTickets((prev) =>
+        prev.map((t) => (t._id === id ? { ...t, status } : t))
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading) return <p className="p-5 text-gray-500">Loading issues...</p>;
 
   return (
     <div className="p-5">
-      <h2 className="text-xl font-semibold mb-4">Support Tickets</h2>
+      <h2 className="text-xl font-semibold mb-4">Support Issues</h2>
 
-      {/* Submit New Ticket */}
+      {/* Submit New Issue */}
       <form
         onSubmit={handleSubmit}
         className="mb-6 border p-4 rounded-xl shadow-sm space-y-3"
       >
-        <h3 className="font-semibold">Submit New Ticket</h3>
+        <h3 className="font-semibold">Submit New Issue</h3>
         <input
           type="text"
-          placeholder="Order ID"
-          value={newTicket.orderId}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, orderId: e.target.value })
-          }
+          placeholder="Your Name"
+          value={newTicket.name}
+          onChange={(e) => setNewTicket({ ...newTicket, name: e.target.value })}
           className="w-full border px-3 py-2 rounded-lg"
           required
         />
         <input
-          type="text"
-          placeholder="Issue Type"
-          value={newTicket.issueType}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, issueType: e.target.value })
-          }
+          type="email"
+          placeholder="Your Email"
+          value={newTicket.email}
+          onChange={(e) => setNewTicket({ ...newTicket, email: e.target.value })}
           className="w-full border px-3 py-2 rounded-lg"
           required
         />
         <textarea
           placeholder="Describe your issue"
           value={newTicket.message}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, message: e.target.value })
-          }
+          onChange={(e) => setNewTicket({ ...newTicket, message: e.target.value })}
           className="w-full border px-3 py-2 rounded-lg"
           required
         />
@@ -83,31 +98,28 @@ export default function DeliverySupport() {
           type="submit"
           className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
         >
-          <PlusCircleIcon className="h-5 w-5" /> Submit Ticket
+          <PlusCircleIcon className="h-5 w-5" /> Submit Issue
         </button>
       </form>
 
-      {/* Tickets List */}
+      {/* Issues List */}
       {tickets.length === 0 ? (
-        <p className="text-gray-500">No support tickets yet.</p>
+        <p className="text-gray-500">No issues reported yet.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {tickets.map((ticket) => (
             <div
-              key={ticket.id}
+              key={ticket._id} // ✅ Unique key
               className="border p-4 rounded-xl shadow-sm hover:shadow-md transition"
             >
               <p>
-                <span className="font-semibold">Order ID:</span>{" "}
-                {ticket.orderId}
+                <span className="font-semibold">Name:</span> {ticket.name}
               </p>
               <p>
-                <span className="font-semibold">Issue Type:</span>{" "}
-                {ticket.issueType}
+                <span className="font-semibold">Email:</span> {ticket.email}
               </p>
               <p>
-                <span className="font-semibold">Message:</span>{" "}
-                {ticket.message}
+                <span className="font-semibold">Message:</span> {ticket.message}
               </p>
               <p>
                 <span className="font-semibold">Status:</span>{" "}
@@ -123,6 +135,14 @@ export default function DeliverySupport() {
                   {ticket.status}
                 </span>
               </p>
+              {ticket.status === "Pending" && (
+                <button
+                  onClick={() => handleStatusUpdate(ticket._id, "Resolved")}
+                  className="mt-2 bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700"
+                >
+                  Mark as Resolved
+                </button>
+              )}
             </div>
           ))}
         </div>
