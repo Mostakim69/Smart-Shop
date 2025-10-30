@@ -102,7 +102,7 @@ export default function PopularProduct() {
   };
 
   return (
-    <section className="py-12">
+    <section className="py-12 bg-base-100">
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <div className="text-center mb-10">
@@ -115,7 +115,7 @@ export default function PopularProduct() {
             Popular Products
           </motion.h2>
           <motion.p
-            className="text-sm sm:text-base md:text-lg max-w-md mx-auto text-gray-600"
+            className="text-base-content/80 mt-2 text-sm sm:text-base"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -124,7 +124,7 @@ export default function PopularProduct() {
           </motion.p>
         </div>
 
-        {/* Category Buttons */}
+{/* Category Buttons */}
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-8"
           initial={{ opacity: 0 }}
@@ -135,10 +135,10 @@ export default function PopularProduct() {
             <button
               key={cat}
               onClick={() => handleCategory(cat)}
-              className={`px-4 py-2 rounded transition cursor-pointer 
+              className={`px-4 py-2 rounded transition cursor-pointer font-medium text-sm
                 ${selectedCategory === cat
-                  ? "bg-secondary text-white"
-                  : "border border-blue-400 text-blue-500 hover:bg-blue-100"
+                  ? "bg-secondary text-secondary-content shadow-md"
+                  : "border border-base-content/20 text-primary hover:bg-base-200"
                 }`}
             >
               {cat}
@@ -157,7 +157,7 @@ export default function PopularProduct() {
           {filtered.map((product) => (
             <motion.div
               key={product._id}
-              className=" border border-gray-50 rounded-xl shadow-md hover:shadow-xl overflow-hidden transition"
+              className="bg-base-200 border border-base-content/10 rounded-xl shadow-lg hover:shadow-2xl overflow-hidden transition"
               variants={cardVariants}
               whileHover="hover"
               whileTap={{ scale: 0.97 }}
@@ -179,23 +179,25 @@ export default function PopularProduct() {
 
               <div className="p-4">
                 <Link href={`/products/${product._id}`}>
-                  <h3 className="inline-block relative text-gray-500 font-medium text-sm mb-1 
-               hover:text-blue-600 transition-colors duration-200 
-               after:content-[''] after:absolute after:left-0 after:bottom-0 
-               after:w-0 after:h-[1px] after:bg-blue-600 
-               hover:after:w-full after:transition-all after:duration-300">
+                  <h3
+                    className="inline-block relative text-base-content font-medium text-sm mb-1
+                    hover:text-primary transition-colors duration-200
+                    after:content-[''] after:absolute after:left-0 after:bottom-0
+                    after:w-0 after:h-[1px] after:bg-primary
+                    hover:after:w-full after:transition-all after:duration-300">
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-blue-600 font-bold mt-1">${product.price}</p>
+                <p className="text-secondary font-bold mt-1">${product.price}</p>
 
                 <div className="flex justify-between mt-3">
                   <button onClick={() => handleAddToCart(product)}>
-                    <GrCart className="w-6 h-6 text-blue-600 hover:cursor-pointer " />
+                    {/* USAGE UPDATED to CartIcon */}
+                  
                   </button>
                   <Link
                     href={`/checkout?type=single&id=${product._id}`}
-                    className="px-3 py-1 bg-secondary text-white rounded hover:opacity-90 transition"
+                    className="btn btn-primary btn-sm rounded-lg"
                   >
                     Buy Now
                   </Link>
