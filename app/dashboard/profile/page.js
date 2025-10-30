@@ -15,12 +15,10 @@ import PageIntro from "@/utils/PageIntro";
 dayjs.extend(relativeTime);
 
 const Profile = () => {
-    const { user, setUser, setRole, role } = useAuth();
+    const { user, setUser, role } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-    // const [role, setRole] = useState(null);
-
+    const [imgError, setImgError] = useState(false);
 
     const {
         register,
@@ -36,9 +34,9 @@ const Profile = () => {
     });
 
     useEffect(() => {
-        if (user?.name || user?.photoURL) {
+        if (user) {
             reset({
-                name: user.name || "",
+                name: user.name || user.displayName || "",
                 photoURL: user.photoURL || "",
             });
         }
@@ -46,7 +44,7 @@ const Profile = () => {
 
     const openModal = () => {
         reset({
-            name: user?.name || "",
+            name: user?.name || user?.displayName || "",
             photoURL: user?.photoURL || "",
         });
         setShowModal(true);
@@ -56,8 +54,8 @@ const Profile = () => {
 
     const onSubmit = async (data) => {
         try {
-            setLoading(true);
-            const res = await axiosSecure.put(`/users/${user?._id}`, data);
+            const res = await axiosSecure.put(`http://localhost:5000/users/${user?.email}`, data);
+            console.log("Response:", res.data);
             if (res.data?.modifiedCount > 0) {
                 Swal.fire({
                     icon: "success",
@@ -80,13 +78,11 @@ const Profile = () => {
                 title: "Update Failed",
                 text: "Something went wrong while updating your profile.",
             });
-        } finally {
-            setLoading(false);
         }
     };
 
-    const { name, email, photoURL, createdAt, last_loggedIn,} = user || {};
-    const completeness = ([name, email, photoURL].filter(Boolean).length / 3) * 100;
+    const { name, displayName, email, photoURL, createdAt, last_loggedIn } = user || {};
+    const completeness = ([name || displayName, email, photoURL].filter(Boolean).length / 3) * 100;
 
     return (
         <motion.div
@@ -97,7 +93,7 @@ const Profile = () => {
         >
             {/* Header */}
             <PageIntro
-                h1={`👋 Welcome  me, ${name || "Explorer"}`}
+                h1={`👋 Welcome, ${displayName || name || "Explorer"}`}
                 p="You can update your profile details and manage your account."
             />
 
@@ -107,7 +103,7 @@ const Profile = () => {
                 <div className="relative">
                     <img
                         src={photoURL || "https://avatar.iran.liara.run/public"}
-                        alt="User"
+                        alt={name || displayName || "User avatar"}
                         className="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-cyan-400 shadow-lg hover:scale-105 transition-transform duration-300"
                     />
                 </div>
@@ -151,9 +147,8 @@ const Profile = () => {
                 <button
                     className="btn border border-cyan-500 text-cyan-600 hover:bg-cyan-600 hover:text-white rounded-full"
                     onClick={openModal}
-                    disabled={loading || isSubmitting}
                 >
-                    {loading || isSubmitting ? (
+                    {isSubmitting ? (
                         <>
                             <span className="loading loading-spinner loading-sm"></span> Updating...
                         </>
@@ -172,17 +167,17 @@ const Profile = () => {
                 )}
                 {role === "user" && (
                     <Link
-                        href="/dashboard/user/joinasseller"
+                        href="/dashboard/user/joinasdelivery"
                         className="btn border border-emerald-500 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-full"
                     >
-                        ✨ Join as Delivary Man
+                        ✨ Join as Delivery Man
                     </Link>
                 )}
             </div>
 
             {/* Modal */}
             {showModal && (
-                <dialog className="modal modal-open">
+                <div className="modal modal-open">
                     <div className="modal-box border border-cyan-600 rounded-xl p-6 md:p-8 shadow-xl backdrop-blur-md bg-white text-gray-900">
                         <h3 className="font-bold text-2xl text-cyan-600 mb-6">Update Profile</h3>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -215,7 +210,7 @@ const Profile = () => {
                                         }`}
                                     {...register("photoURL", {
                                         pattern: {
-                                            value: /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i,
+                                            value: /^https?:\/\/.+$/i,
                                             message: "Invalid image URL",
                                         },
                                     })}
@@ -229,10 +224,11 @@ const Profile = () => {
                             {watch("photoURL") && (
                                 <div className="flex justify-center">
                                     <img
-                                        src={watch("photoURL")}
+                                        src={imgError ? "https://via.placeholder.com/150" : watch("photoURL")}
                                         alt="Preview"
                                         className="w-24 h-24 md:w-28 md:h-28 rounded-full border-2 border-cyan-500 shadow-lg"
-                                        onError={(e) => (e.target.style.display = "none")}
+                                        onError={() => setImgError(true)}
+                                        onLoad={() => setImgError(false)}
                                     />
                                 </div>
                             )}
@@ -242,9 +238,9 @@ const Profile = () => {
                                 <button
                                     type="submit"
                                     className="btn bg-cyan-600 text-white hover:bg-cyan-700 transition-all"
-                                    disabled={isSubmitting || loading}
+                                    disabled={isSubmitting}
                                 >
-                                    {isSubmitting || loading ? (
+                                    {isSubmitting ? (
                                         <>
                                             <span className="loading loading-spinner loading-sm"></span> Saving...
                                         </>
@@ -256,14 +252,14 @@ const Profile = () => {
                                     type="button"
                                     className="btn btn-ghost text-gray-600 hover:bg-gray-100 transition-all"
                                     onClick={closeModal}
-                                    disabled={isSubmitting || loading}
+                                    disabled={isSubmitting}
                                 >
                                     Cancel
                                 </button>
                             </div>
                         </form>
                     </div>
-                </dialog>
+                </div>
             )}
         </motion.div>
     );
