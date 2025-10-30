@@ -87,12 +87,12 @@ function Ai() {
     >
       <Link href="/">
         <Image
-          src="/logo_3.webp"
+          src="/voice-control.jpg"
           alt="AI Voice Assistant Button"
           title="Click to talk with AI Assistant"
-          width={60}
-          height={60}
-          className="rounded-xl hover:scale-110 transition-transform shadow-xl"
+          width={50}
+          height={50}
+          className="rounded-full hover:scale-110 transition-transform shadow-xl"
         />
       </Link>
     </div>
