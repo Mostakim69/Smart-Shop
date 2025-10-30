@@ -175,7 +175,7 @@ const Profile = () => {
                         href="/dashboard/user/joinasseller"
                         className="btn border border-emerald-500 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-full"
                     >
-                        ✨ Join as Delivariman
+                        ✨ Join as Delivary Man
                     </Link>
                 )}
             </div>

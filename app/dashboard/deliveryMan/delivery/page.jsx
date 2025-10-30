@@ -1,46 +1,58 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function MyDeliveries() {
   const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(null); // track which order is updating
 
-  // ✅ Dummy data
-  const dummyData = [
-    {
-      _id: "1",
-      orderId: "ORD001",
-      customerName: "John Doe",
-      address: "123 Main Street, Dhaka",
-      status: "pending",
-    },
-    {
-      _id: "2",
-      orderId: "ORD002",
-      customerName: "Jane Smith",
-      address: "45 Park Road, Chittagong",
-      status: "completed",
-    },
-    {
-      _id: "3",
-      orderId: "ORD003",
-      customerName: "Ali Khan",
-      address: "67 Lake Avenue, Sylhet",
-      status: "pending",
-    },
-  ];
-
+  // 🧠 Fetch all deliveries
   useEffect(() => {
-    // Simulate API call delay
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setDeliveries(dummyData);
-      setLoading(false);
-    }, 1000);
+    const fetchDeliveries = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:5000/orders");
+        setDeliveries(res.data);
+      } catch (error) {
+        console.error("Error fetching deliveries:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchDeliveries();
   }, []);
+
+  // 🔁 Update delivery status
+  const handleStatusUpdate = async (id, newStatus) => {
+    const confirmUpdate = window.confirm(
+      `Are you sure you want to mark this order as "${newStatus}"?`
+    );
+    if (!confirmUpdate) return;
+
+    try {
+      setUpdating(id);
+      const res = await axios.patch(`http://localhost:5000/orders/${id}`, {
+        status: newStatus,
+      });
+
+      if (res.data.modifiedCount > 0) {
+        setDeliveries((prev) =>
+          prev.map((delivery) =>
+            delivery._id === id
+              ? { ...delivery, status: newStatus }
+              : delivery
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setUpdating(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -61,6 +73,7 @@ export default function MyDeliveries() {
   return (
     <div className="p-5">
       <h2 className="text-xl font-semibold mb-4">My Deliveries</h2>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {deliveries.map((delivery) => (
           <div
@@ -68,13 +81,16 @@ export default function MyDeliveries() {
             className="border p-4 rounded-xl shadow-sm hover:shadow-md transition"
           >
             <p>
-              <span className="font-semibold">Order ID:</span> {delivery.orderId}
+              <span className="font-semibold">Order ID:</span>{" "}
+              {delivery._id.slice(-6).toUpperCase()}
             </p>
             <p>
-              <span className="font-semibold">Customer:</span> {delivery.customerName}
+              <span className="font-semibold">Customer:</span>{" "}
+              {delivery.customerName || delivery.name || "Unknown"}
             </p>
             <p>
-              <span className="font-semibold">Address:</span> {delivery.address}
+              <span className="font-semibold">Address:</span>{" "}
+              {delivery.address || "Not provided"}
             </p>
             <p>
               <span className="font-semibold">Status:</span>{" "}
@@ -84,12 +100,39 @@ export default function MyDeliveries() {
                     ? "text-yellow-600"
                     : delivery.status === "completed"
                     ? "text-green-600"
+                    : delivery.status === "failed"
+                    ? "text-red-600"
                     : "text-gray-600"
                 } font-semibold`}
               >
                 {delivery.status}
               </span>
             </p>
+
+            {/* ✅ Always show both buttons */}
+            <div className="mt-3 flex gap-2">
+              <button
+                onClick={() =>
+                  handleStatusUpdate(delivery._id, "completed")
+                }
+                disabled={updating === delivery._id}
+                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition disabled:opacity-50"
+              >
+                {updating === delivery._id
+                  ? "Updating..."
+                  : "Mark as Completed"}
+              </button>
+
+              <button
+                onClick={() => handleStatusUpdate(delivery._id, "failed")}
+                disabled={updating === delivery._id}
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition disabled:opacity-50"
+              >
+                {updating === delivery._id
+                  ? "Updating..."
+                  : "Mark as Failed"}
+              </button>
+            </div>
           </div>
         ))}
       </div>
