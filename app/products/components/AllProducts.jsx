@@ -12,9 +12,12 @@ import Image from "next/image";
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const [filtered, setFiltered] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const productsPerPage = 12;
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,7 +26,7 @@ export default function AllProducts() {
   // Pagination logic
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
-  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+  const currentProducts = filtered.slice(indexOfFirst, indexOfLast);
 
   // Load products
   useEffect(() => {
@@ -36,6 +39,7 @@ export default function AllProducts() {
       .get(url)
       .then((res) => {
         setProducts(res.data);
+        setFiltered(res.data); 
         setLoading(false);
       })
       .catch((err) => {
@@ -90,6 +94,19 @@ export default function AllProducts() {
       })
       .catch((err) => console.log(err));
     console.log(cartItem);
+  };
+
+  const handleCategory = (category) => {       // <-- new
+    setSelectedCategory(category);             // highlight selected
+    setCurrentPage(1);                         // reset pagination
+    if (category === "All") {
+      setFiltered(products);                   // show all
+    } else {
+      const filteredItems = products.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      );
+      setFiltered(filteredItems);             // filtered products
+    }
   };
 
   return (

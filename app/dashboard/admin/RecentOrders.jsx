@@ -39,8 +39,8 @@ export default function RecentOrders() {
                 {/* <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
                    Customer Name
                 </th> */}
-                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
-                   Email
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Email
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
                   Amount
@@ -58,28 +58,26 @@ export default function RecentOrders() {
               {recentOrders?.length > 0 ? (
                 recentOrders.slice(-6).map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3 text-gray-700">{order._id}</td>
+                    <td className="px-4 py-3 text-gray-700">{order.email}</td>
                     <td className="px-4 py-3 text-gray-700">
-                      {order._id}
+                      {order.totalAmount?.toLocaleString("en-BD")} ৳
                     </td>
-                    <td className="px-4 py-3 text-gray-700">
-                      {order.email}
-                    </td>
-                    <td className="px-4 py-3 text-gray-700">
-                      {order.totalAmount?.toLocaleString("en-BD") } ৳
-                    </td>
-                   
+
                     <td
                       className={`px-4 py-3 font-semibold ${
-                        order.status === "Completed"
+                        order.status?.toLowerCase() === "completed"
                           ? "text-green-500"
-                          : order.status === "Pending"
+                          : order.status?.toLowerCase() === "pending"
                           ? "text-yellow-500"
-                          : order.status === "Cancelled"
+                          : order.status?.toLowerCase() === "failed"
                           ? "text-red-500"
+                          : order.status?.toLowerCase() === "in-progress"
+                          ? "text-blue-500"
                           : "text-gray-500"
                       }`}
                     >
-                      {order.status}
+                      {order.status ?? "undefined"}
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-sm">
                       {new Date(order.orderDate).toLocaleDateString("en-BD")}

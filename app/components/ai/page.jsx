@@ -1,19 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
-function Ai() {
+export default function Ai() {
   const router = useRouter();
-  const [recognition, setRecognition] = useState(null);
+  const recognitionRef = useRef(null);
+  const [listening, setListening] = useState(false);
+  const { user, role } = useAuth();
 
+  const dashboardPath =
+    role === "admin"
+      ? "/dashboard/admin"
+      : role === "seller"
+      ? "/dashboard/seller"
+      : "/dashboard/user";
+
+  // Function to speak text
   function speak(message) {
-    window.speechSynthesis.cancel();
+    if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(message);
-    utterance.rate = 1; 
+    utterance.rate = 1;
     utterance.pitch = 1;
     window.speechSynthesis.speak(utterance);
   }
@@ -25,78 +35,104 @@ function Ai() {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      toast.error("Your browser does not support voice commands.");
+      toast.error("Voice commands not supported in this browser");
       return;
     }
 
     const recog = new SpeechRecognition();
     recog.lang = "en-US";
     recog.continuous = false;
+    recog.interimResults = false;
 
-    recog.onstart = () => toast.success("🎤 Listening...");
-    recog.onend = () => toast("🛑 Stopped listening");
-    recog.onerror = () => toast.error("Something went wrong. Try again!");
+    recog.onstart = () => {
+      setListening(true);
+      toast.success("🎤 Listening...");
+    };
+
+    recog.onend = () => {
+      setListening(false);
+      toast.dismiss(); // Remove previous toast
+    };
+
+    recog.onerror = (e) => {
+      setListening(false);
+      console.error("Voice recognition error:", e);
+      toast.error("Voice error, try again");
+    };
 
     recog.onresult = (e) => {
       const transcript = e.results[0][0].transcript.trim().toLowerCase();
-      console.log("Voice Command:", transcript);
+      console.log("VOICE:", transcript);
 
-      if (transcript.includes("home")) {
-        speak("Navigating to Home Page");
-        router.push("/");
-      } else if (transcript.includes("about")) {
-        speak("Navigating to About Page");
-        router.push("/about");
-      } else if (
-        transcript.includes("collection") ||
-        transcript.includes("product") ||
-        transcript.includes("products")
-      ) {
-        speak("Navigating to Product Collection");
-        router.push("/collection");
-      } else if (transcript.includes("cart")) {
-        speak("Navigating to Cart Page");
-        router.push("/cart");
-      } else if (transcript.includes("contact")) {
-        speak("Navigating to Contact Page");
-        router.push("/contact");
-      } else if (
-        transcript.includes("order") ||
-        transcript.includes("orders") ||
-        transcript.includes("my order")
-      ) {
-        speak("Navigating to Orders Page");
-        router.push("/orders");
+      // Command matching function
+      const goTo = (path, msg) => {
+        speak(msg);
+        router.push(path);
+      };
+
+      // Commands
+      if (transcript === "home") goTo("/", "Going to Home");
+      else if (["products", "product", "shop"].includes(transcript))
+        goTo("/products", "Opening Products");
+      else if (transcript === "about") goTo("/about", "Opening About Page");
+      else if (["contact", "support"].includes(transcript))
+        goTo("/contact", "Opening Contact Page");
+      else if (transcript === "cart") goTo("/cartPage", "Opening Cart");
+      else if (transcript === "dashboard" && user)
+        goTo(dashboardPath, "Opening Dashboard");
+      else if (["login", "sign in"].includes(transcript))
+        goTo("/login", "Opening Login Page");
+      else if (transcript === "scroll down") {
+        speak("Scrolling down");
+        window.scrollBy({ top: 600, behavior: "smooth" });
+      } else if (transcript === "scroll up") {
+        speak("Scrolling up");
+        window.scrollBy({ top: -600, behavior: "smooth" });
+      } else if (transcript === "back") {
+        speak("Going back");
+        router.back();
       } else {
-        toast.error("Command not recognized. Please try again.");
-        speak("Sorry, I didn't understand that.");
+        toast.error("Command not recognized");
+        speak("Sorry, I didn't understand that. Please try again.");
       }
     };
 
-    setRecognition(recog);
-  }, [router]);
+    recognitionRef.current = recog;
+  }, [router, user, role]);
 
-  // 🎯 Render button
+  // Handle click to start listening
+  const handleClick = () => {
+    if (!recognitionRef.current) {
+      toast.error("Voice engine not ready");
+      return;
+    }
+
+    if (listening) {
+      toast("Already listening...");
+      return;
+    }
+
+    try {
+      recognitionRef.current.start();
+    } catch (err) {
+      console.error("Recognition start error:", err);
+    }
+  };
+
   return (
     <div
-      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%] cursor-pointer z-50"
-      onClick={() => {
-        if (recognition) recognition.start();
-        else toast.error("Voice recognition not ready yet!");
-      }}
+      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[26px] right-[8%] cursor-pointer z-50"
+      onClick={handleClick}
+      aria-label="Voice Assistant"
     >
-      <Link href="/">
-        <Image
-          src="/voice-control.jpg"
-          alt="AI Voice Assistant Button"
-          title="Click to talk with AI Assistant"
-          width={50}
-          height={50}
-          className="rounded-full hover:scale-110 transition-transform shadow-xl"
-        />
-      </Link>
+      <Image
+        src="/voice-control.jpg"
+        alt="Voice Assistant"
+        title="Tap to speak"
+        width={60}
+        height={60}
+        className="rounded-full hover:scale-110 transition-all shadow-xl border"
+      />
     </div>
   );
 }
-
-export default Ai;

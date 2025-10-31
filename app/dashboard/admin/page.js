@@ -65,14 +65,14 @@ export default function AdminDashboard() {
               Reports
             </a>
           </li>
-            <li>
+            {/* <li>
             <a
               href="/dashboard/admin/settings"
               className="block p-4 bg-green-50 hover:bg-green-100 rounded-lg text-center font-medium text-green-700"
             >
               Settings
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

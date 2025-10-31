@@ -46,12 +46,12 @@ export default function Navbar() {
       ? "text-primary font-semibold underline" 
       : "text-base-content/80 hover:text-primary hover:underline";
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`https://smart-shop-server-three.vercel.app/products?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
+  // const handleSearchSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (searchQuery.trim()) {
+  //     router.push(`https://smart-shop-server-three.vercel.app/products?search=${encodeURIComponent(searchQuery.trim())}`);
+  //   }
+  // };
 
   return (
     // FIX: Added text-base-content to ensure all text inherits the theme color
@@ -91,7 +91,7 @@ export default function Navbar() {
           {/* FIX: Removed text-gray-300 from parent div */}
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggler />
-            <form onSubmit={handleSearchSubmit}>
+            {/* <form onSubmit={handleSearchSubmit}>
               <input
                 type="text"
                 value={searchQuery}
@@ -101,7 +101,7 @@ export default function Navbar() {
                 className="pl-3 pr-3 py-1 border border-base-content/30 rounded-lg w-44 
                            text-base-content bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary"
               />
-            </form>
+            </form> */}
             <Gems />
             <Link href="/cartPage" className="relative">
               {/* FIX: Replaced fixed text-gray-700 with theme-aware text-base-content */}

@@ -144,15 +144,15 @@ export default function Sidebar() {
         icon: <UserCircleIcon className="h-5 w-5" />,
       },
       {
-        name: "Report",
+        name: "Reports",
         link: "/dashboard/admin/reports",
         icon: <ChartPieIcon className="h-5 w-5" />,
       },
-      {
-        name: "Settings",
-        link: "/dashboard/admin/settings",
-        icon: <Settings className="h-5 w-5" />,
-      },
+      // {
+      //   name: "Settings",
+      //   link: "/dashboard/admin/settings",
+      //   icon: <Settings className="h-5 w-5" />,
+      // },
     
     ],
     seller: [
@@ -181,6 +181,11 @@ export default function Sidebar() {
         name: "Add Product",
         link: "/dashboard/addproduct",
         icon: <PlusCircle className="h-5 w-5" />,
+      },
+      {
+        name: "Chat With Users",
+        link: "/dashboard/seller/chatWithUser",
+        icon: <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />,
       },
       {
         name: "Settings",
