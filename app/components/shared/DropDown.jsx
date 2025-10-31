@@ -4,17 +4,27 @@ import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { LogOut, User, Mail, Lock, LayoutDashboard } from "lucide-react"; // Import useful icons
 
 const DropDown = ({ children }) => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
+  // Determine the correct dashboard path based on role, using a placeholder if role is undefined
+  const userRole = user?.role || 'user'; 
+  const dashboardPath = userRole === "admin"
+    ? "/dashboard/admin"
+    : userRole === "seller"
+    ? "/dashboard/seller"
+    : "/dashboard/user";
+
   const links = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: user?.displayName || "Unknown User", path: "#" },
-    { name: user?.email || "No Email", path: "#" },
-    { name: "Change Password", path: "/login/passwordReset" },
+    { name: "Dashboard", path: dashboardPath, icon: <LayoutDashboard className="w-4 h-4" /> },
+    // These items are for display/info only, using path: "#" is fine for non-navigable text
+    { name: user?.displayName || "Profile", path: "#", icon: <User className="w-4 h-4" /> },
+    { name: user?.email || "Email Info", path: "#", icon: <Mail className="w-4 h-4" /> },
+    { name: "Change Password", path: "/login/passwordReset", icon: <Lock className="w-4 h-4" /> },
   ];
 
   const itemVariants = {
@@ -41,6 +51,10 @@ const DropDown = ({ children }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Filter links to prevent non-navigable links from being styled like buttons
+  const infoLinks = links.filter(link => link.path === '#');
+  const actionLinks = links.filter(link => link.path !== '#');
+
   return (
     <div ref={dropdownRef} className="relative inline-block text-left">
       {/* Dropdown Trigger */}
@@ -61,42 +75,56 @@ const DropDown = ({ children }) => {
           variants={{
             visible: { transition: { staggerChildren: 0.05 } },
           }}
-          className="absolute right-0 mt-3 w-56 bg-base-100/80 backdrop-blur-md border border-indigo-500/30 rounded-xl shadow-lg z-50 p-2"
+          // FIX: The background will now be theme-aware (bg-base-100) and the border uses primary color
+          className="absolute right-0 mt-3 w-60 bg-base-100/95 backdrop-blur-sm border border-primary/30 rounded-xl shadow-2xl z-50 p-2"
         >
-          <div className="px-4 py-2 border-b border-indigo-500/20">
-            <h3 className="text-sm font-medium text-indigo-600">User Menu</h3>
+          {/* User Info Header Section */}
+          <div className="px-4 py-2 border-b border-base-content/10 flex flex-col items-start space-y-1">
+            {/* FIX: Use text-base-content for theme visibility */}
+            <h3 className="text-base font-semibold text-base-content">{user?.displayName || "User Profile"}</h3>
+            <p className="text-xs text-base-content/70 truncate w-full">{user?.email || "No Email Provided"}</p>
           </div>
 
-          {links.map((link, i) => (
-            <motion.li
-              key={i}
-              variants={itemVariants}
-              custom={i}
-              whileHover={{
-                scale: 1.03,
-                background: "rgba(99,102,241,0.1)",
-              }}
-              className="rounded-lg"
-            >
-              <Link
-                href={link.path}
-                className="block px-4 py-2 text-sm text-gray-700 hover:text-indigo-600"
+          {/* Action Links */}
+          <div className="py-1">
+            {actionLinks.map((link, i) => (
+              <motion.li
+                key={i}
+                variants={itemVariants}
+                custom={i}
+                // FIX: Use theme-aware hover background (hover:bg-neutral/10)
+                whileHover={{
+                  scale: 1.02,
+                  background: 'var(--fallback-nd,oklch(var(--n)/0.1))', // DaisyUI way to use neutral/10
+                }}
+                className="rounded-lg"
               >
-                {link.name}
-              </Link>
-            </motion.li>
-          ))}
+                <Link
+                  href={link.path}
+                  // FIX: Use theme-aware text color (text-base-content)
+                  className="block px-4 py-2 text-sm text-base-content hover:text-primary transition-colors flex items-center gap-2"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.icon}
+                  {link.name}
+                </Link>
+              </motion.li>
+            ))}
+          </div>
 
-          <div className="px-4 py-2 border-t border-indigo-500/20">
-            <button
+          {/* Logout Button */}
+          <div className="px-1 pt-2 border-t border-base-content/10">
+            <motion.button
               onClick={() => {
                 logout();
                 setOpen(false);
               }}
-              className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              className="w-full text-left px-4 py-2 text-sm text-error hover:bg-error/10 rounded-lg transition-colors flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
             >
+              <LogOut className="w-4 h-4" />
               Logout
-            </button>
+            </motion.button>
           </div>
         </motion.ul>
       )}

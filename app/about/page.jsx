@@ -10,7 +10,7 @@ import Count from "./components/Count";
 
 export default function AboutPage() {
   return (
-    <div className=" text-gray-80">
+    <div className=" bg-base-100">
       <Navbar />
       <Hero />
       <Count />
