@@ -10,100 +10,151 @@ export default function Ai() {
   const router = useRouter();
   const recognitionRef = useRef(null);
   const [listening, setListening] = useState(false);
-  const { user, role } = useAuth();
+  const { user, role, loading } = useAuth();
 
   const dashboardPath =
     role === "admin"
       ? "/dashboard/admin"
       : role === "seller"
-      ? "/dashboard/seller"
-      : "/dashboard/user";
+        ? "/dashboard/seller"
+        : "/dashboard/user";
 
-  // Function to speak text
+  // Function to make the assistant speak
   function speak(message) {
-    if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    window.speechSynthesis.speak(utterance);
+    try {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        setTimeout(() => {
+          const utterance = new SpeechSynthesisUtterance(message);
+          utterance.rate = 1;
+          utterance.pitch = 1;
+          window.speechSynthesis.speak(utterance);
+        }, 150);
+      } else {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      }
+    } catch (err) {
+      console.error("Speech error:", err);
+    }
   }
 
+  // Setup SpeechRecognition
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const isEdge = navigator.userAgent.includes("Edg");
+    if (isEdge) {
+      toast.error(
+        "Voice commands may be unreliable in Microsoft Edge. Please use Chrome for best experience."
+      );
+      return;
+    }
+
+    // Define SpeechRecognition
     const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition ||
+      window.mozSpeechRecognition ||
+      window.msSpeechRecognition;
 
     if (!SpeechRecognition) {
       toast.error("Voice commands not supported in this browser");
       return;
     }
 
+    // Create recognition instance
     const recog = new SpeechRecognition();
     recog.lang = "en-US";
     recog.continuous = false;
     recog.interimResults = false;
 
+    // Event: start listening
     recog.onstart = () => {
       setListening(true);
       toast.success("🎤 Listening...");
     };
 
+    // Event: stop listening
     recog.onend = () => {
       setListening(false);
-      toast.dismiss(); // Remove previous toast
+      toast.dismiss();
     };
 
+    //  Event: error handling
     recog.onerror = (e) => {
-      setListening(false);
       console.error("Voice recognition error:", e);
-      toast.error("Voice error, try again");
+      setListening(false);
+      toast.error("Voice recognition failed. Please try again.");
     };
 
+    // Event: process voice command
     recog.onresult = (e) => {
       const transcript = e.results[0][0].transcript.trim().toLowerCase();
-      console.log("VOICE:", transcript);
+      console.log("VOICE COMMAND:", transcript);
 
-      // Command matching function
+      // Helper function for navigation
       const goTo = (path, msg) => {
         speak(msg);
         router.push(path);
       };
 
-      // Commands
-      if (transcript === "home") goTo("/", "Going to Home");
-      else if (["products", "product", "shop"].includes(transcript))
-        goTo("/products", "Opening Products");
-      else if (transcript === "about") goTo("/about", "Opening About Page");
-      else if (["contact", "support"].includes(transcript))
-        goTo("/contact", "Opening Contact Page");
-      else if (transcript === "cart") goTo("/cartPage", "Opening Cart");
-      else if (transcript === "dashboard" && user)
-        goTo(dashboardPath, "Opening Dashboard");
-      else if (["login", "sign in"].includes(transcript))
-        goTo("/login", "Opening Login Page");
-      else if (transcript === "scroll down") {
-        speak("Scrolling down");
-        window.scrollBy({ top: 600, behavior: "smooth" });
-      } else if (transcript === "scroll up") {
-        speak("Scrolling up");
-        window.scrollBy({ top: -600, behavior: "smooth" });
-      } else if (transcript === "back") {
-        speak("Going back");
-        router.back();
-      } else {
-        toast.error("Command not recognized");
-        speak("Sorry, I didn't understand that. Please try again.");
+      switch (true) {
+        case transcript === "open home":
+          goTo("/", "Please wait a second. Going to Home");
+          break;
+        case ["open products", "open product", "open shop"].includes(transcript):
+          goTo("/products", "Please wait a second. Opening Products Page");
+          break;
+        case transcript === "open about":
+          goTo("/about", "Please wait a second. Opening About Page");
+          break;
+        case ["open contact", "support"].includes(transcript):
+          goTo("/contact", "Please wait a second. Opening Contact Page");
+          break;
+        case transcript === "open cart":
+          goTo("/cart", "Please wait a second. Opening Cart");
+          break;
+        case transcript === "dashboard":
+          if (loading) {
+            speak("Please wait, checking login");
+          } else if (user) {
+            goTo(dashboardPath, "Please wait a second. Opening Dashboard");
+          } else {
+            speak("Please log in first");
+          }
+          break;
+
+        case ["login", "sign in"].includes(transcript):
+          goTo("/login", "Please wait a second. Opening Login Page");
+          break;
+        case transcript === "scroll down":
+          speak("Scrolling down");
+          window.scrollBy({ top: 600, behavior: "smooth" });
+          break;
+        case transcript === "scroll up":
+          speak("Scrolling up");
+          window.scrollBy({ top: -600, behavior: "smooth" });
+          break;
+        case transcript === "back":
+          speak("Please wait a second. Going back");
+          router.back();
+          break;
+        default:
+          toast.error("Command not recognized");
+          speak("Sorry, I didn't understand that. Please try again.");
       }
     };
 
     recognitionRef.current = recog;
-  }, [router, user, role]);
+  }, []);
 
-  // Handle click to start listening
+  // Handle click event
   const handleClick = () => {
     if (!recognitionRef.current) {
-      toast.error("Voice engine not ready");
+      toast.error("Voice engine not ready yet");
       return;
     }
 
@@ -119,16 +170,17 @@ export default function Ai() {
     }
   };
 
+  // Floating voice button
   return (
     <div
-      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[26px] right-[8%] cursor-pointer z-50"
+      className="fixed bottom-[26px] right-[10px] md:right-[6%] lg:bottom-[20px] md:bottom-[40px] cursor-pointer z-50"
       onClick={handleClick}
       aria-label="Voice Assistant"
+      title="Tap to speak"
     >
       <Image
         src="/voice-control.jpg"
         alt="Voice Assistant"
-        title="Tap to speak"
         width={60}
         height={60}
         className="rounded-full hover:scale-110 transition-all shadow-xl border"
